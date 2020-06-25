@@ -1,0 +1,15 @@
+@startuml
+Client -> AbstractFactory
+Client -> AbstractProductA
+Client -> AbstractProductB
+ConcreteFactory1 ..|> AbstractFactory
+ConcreteFactory1 -> ProductA1
+ConcreteFactory1 -> ProductB1
+ConcreteFactory2 ..|> AbstractFactory
+ConcreteFactory2 -> ProductA2
+ConcreteFactory2 -> ProductB2
+ProductA1 ..|> AbstractProductA
+ProductA2 ..|> AbstractProductA
+ProductB1 ..|> AbstractProductB
+ProductB2 ..|> AbstractProductB
+@enduml
