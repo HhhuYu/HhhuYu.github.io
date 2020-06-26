@@ -17,25 +17,25 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.charstal.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"blog.charstal.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="设计模式之一：命令模式定义：将“请求”封装成对象，以便使用不同的请求、队列或者日志来参数话其他对象。命令模式也支持可撤销的操作。 主要解决：在软件系统中，行为请求者与行为实现者通常是一种紧耦合的关系，但某些场合，比如需要对行为进行记录、撤销或重做、事务等处理时，这种无法抵御变化的紧耦合的设计就不太合适。 何时使用：在某些场合，比如要对行为进行”记录、撤销&#x2F;重做、事务”等处理，这种无法抵御变化的紧耦">
 <meta property="og:type" content="article">
 <meta property="og:title" content="命令模式">
 <meta property="og:url" content="https://blog.charstal.com/2020/01/10/command-pattern/index.html">
-<meta property="og:site_name" content="CodeStar">
+<meta property="og:site_name" content="Codebucks">
 <meta property="og:description" content="设计模式之一：命令模式定义：将“请求”封装成对象，以便使用不同的请求、队列或者日志来参数话其他对象。命令模式也支持可撤销的操作。 主要解决：在软件系统中，行为请求者与行为实现者通常是一种紧耦合的关系，但某些场合，比如需要对行为进行记录、撤销或重做、事务等处理时，这种无法抵御变化的紧耦合的设计就不太合适。 何时使用：在某些场合，比如要对行为进行”记录、撤销&#x2F;重做、事务”等处理，这种无法抵御变化的紧耦">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.charstal.com/.com//command-pattern-class.png">
+<meta property="og:image" content="https://blog.charstal.com/2020/01/10/command-pattern/command-pattern-class.png">
 <meta property="article:published_time" content="2020-01-10T17:28:02.000Z">
-<meta property="article:modified_time" content="2020-06-26T06:49:08.615Z">
+<meta property="article:modified_time" content="2020-06-26T08:37:32.464Z">
 <meta property="article:author" content="charstal">
 <meta property="article:tag" content="设计模式">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="命令模式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.charstal.com/.com//command-pattern-class.png">
+<meta name="twitter:image" content="https://blog.charstal.com/2020/01/10/command-pattern/command-pattern-class.png">
 
 <link rel="canonical" href="https://blog.charstal.com/2020/01/10/command-pattern/">
 
@@ -50,7 +50,7 @@
   };
 </script>
 
-  <title>命令模式 | CodeStar</title>
+  <title>命令模式 | Codebucks</title>
   
 
 
@@ -101,13 +101,14 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">CodeStar</h1>
+      <h1 class="site-title">Codebucks</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -142,11 +143,38 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
@@ -179,7 +207,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CodeStar">
+      <meta itemprop="name" content="Codebucks">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -200,7 +228,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-26 06:49:08" itemprop="dateModified" datetime="2020-06-26T06:49:08+00:00">2020-06-26</time>
+                <time title="修改时间：2020-06-26 08:37:32" itemprop="dateModified" datetime="2020-06-26T08:37:32+00:00">2020-06-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -233,7 +261,21 @@
     </a>
   </span>
   
-  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>597</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -244,7 +286,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="设计模式之一：命令模式"><a href="#设计模式之一：命令模式" class="headerlink" title="设计模式之一：命令模式"></a>设计模式之一：命令模式</h2><p><strong>定义</strong>：将“请求”封装成对象，以便使用不同的请求、队列或者日志来参数话其他对象。命令模式也支持可撤销的操作。</p>
+        <html><head></head><body><h2 id="设计模式之一：命令模式"><a href="#设计模式之一：命令模式" class="headerlink" title="设计模式之一：命令模式"></a>设计模式之一：命令模式</h2><p><strong>定义</strong>：将“请求”封装成对象，以便使用不同的请求、队列或者日志来参数话其他对象。命令模式也支持可撤销的操作。</p>
 <p><strong>主要解决</strong>：在软件系统中，行为请求者与行为实现者通常是一种紧耦合的关系，但某些场合，比如需要对行为进行记录、撤销或重做、事务等处理时，这种无法抵御变化的紧耦合的设计就不太合适。</p>
 <p><strong>何时使用</strong>：在某些场合，比如要对行为进行”记录、撤销/重做、事务”等处理，这种无法抵御变化的紧耦合是不合适的。在这种情况下，如何将”行为请求者”与”行为实现者”解耦？将一组行为抽象为对象，可以实现二者之间的松耦合。</p>
 <p><strong>如何解决</strong>：通过调用者调用接受者执行命令，顺序：调用者→接受者→命令。</p>
@@ -268,8 +310,8 @@
 <li>模拟 CMD。</li>
 </ol>
 <p><strong>注意事项</strong>：系统需要支持命令的撤销(Undo)操作和恢复(Redo)操作，也可以考虑使用命令模式，见命令模式的扩展。</p>
-<h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p><img src="/.com//command-pattern-class.png" alt></p>
-
+<h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p><img src="/2020/01/10/command-pattern/command-pattern-class.png" alt></p>
+</body></html>
     </div>
 
     
@@ -371,7 +413,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -427,6 +469,16 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">charstal</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">30k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">27 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
@@ -485,6 +537,10 @@
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
