@@ -66,7 +66,7 @@ tags:
 
 我七月开始，pat也没考，后面花了比较多的时间复习pat，这部分其实可以提早结束。
 
-我也写了一个[pat攻略](https://charstal.com/DS/strategy-pat/)，有兴趣的可以看看
+我也写了一个{% post_link strategy-pat PAT攻略 %}，有兴趣的可以看看
 
 
 其他就没什么好说的了
