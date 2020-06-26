@@ -1,5 +1,5 @@
 ---
-title: octopath-traveler
+title: 八方旅人完结
 tags:
   - 八方旅人
   - SE
