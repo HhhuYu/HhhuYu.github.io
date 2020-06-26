@@ -106,11 +106,6 @@ search:
   format: html
   limit: 10000
 
-sitemap:
-  path: sitemap.xml
-  template: ./sitemap_template.xml
-  rel: false
-
 symbols_count_time:
   # 文章内是否显示
   symbols: true
