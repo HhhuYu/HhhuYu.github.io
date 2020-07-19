@@ -275,7 +275,7 @@ export WSLIP=$(ip addr show eth0 | grep 'inet ' | cut -f 6 -d ' ' | cut -f 1 -d 
 echo HOSTIP $HOSTIP
 echo WSLIP $WSLIP
 
-echo <Your password> | sudo -S sed -i "/http/c http\t$HOSTIP 1080" /etc/proxychains.conf
+echo Your password | sudo -S sed -i "/http/c http\t$HOSTIP 1080" /etc/proxychains.conf
 ```
 保存退出后
 
