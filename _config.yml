@@ -131,3 +131,17 @@ markdown_it_plus:
     permalinkClass: header-anchor
     permalinkSide: 'left'
     permalinkSymbol: ¶
+
+douban:
+  user: 227426821
+  builtin: true
+  book:
+    title: 'Books'
+    quote: '没看过却想看一次的书'
+  movie:
+    title: 'Video'
+    quote: '看过一次还想看下一次的动漫'
+  game:
+    title: 'Games'
+    quote: '玩过一次可能不会玩下一次的游戏'
+  timeout: 10000 
