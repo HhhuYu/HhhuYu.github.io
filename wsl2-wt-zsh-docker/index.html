@@ -1,317 +1,183 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang=en>
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.charstal.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"mac","style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
-  <meta name="description" content="序言最近新换的电脑又坏了，拿回来还得重新配置环境，还得挨个找教程进行配置。这次就简单地全写一起吧。 作为wsl的忠实爱好者，我已经使用了wsl两年了，相比虚拟机来说，实在是不要方便太多了，而且配置要求也没这么高。 之前windows 商店也发布了wt(windows terminal)，相比cmd和powershell以及原本bash漂亮太多了，而且集成了多个窗口，切换很方便。 这是我现在的界面，">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="序言最近新换的电脑又坏了，拿回来还得重新配置环境，还得挨个找教程进行配置。这次就简单地全写一起吧。 作为wsl的忠实爱好者，我已经使用了wsl两年了，相比虚拟机来说，实在是不要方便太多了，而且配置要求也没这么高。 之前windows 商店也发布了wt(windows terminal)，相比cmd和powershell以及原本bash漂亮太多了，而且集成了多个窗口，切换很方便。 这是我现在的界面，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="wsl2环境配置+docker+wt+vscode">
-<meta property="og:url" content="https://blog.charstal.com/wsl2-wt-zsh-docker/index.html">
+<meta property="og:url" content="https://www.charstal.com/wsl2-wt-zsh-docker/index.html">
 <meta property="og:site_name" content="Codebucks">
 <meta property="og:description" content="序言最近新换的电脑又坏了，拿回来还得重新配置环境，还得挨个找教程进行配置。这次就简单地全写一起吧。 作为wsl的忠实爱好者，我已经使用了wsl两年了，相比虚拟机来说，实在是不要方便太多了，而且配置要求也没这么高。 之前windows 商店也发布了wt(windows terminal)，相比cmd和powershell以及原本bash漂亮太多了，而且集成了多个窗口，切换很方便。 这是我现在的界面，">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/overview.png">
-<meta property="og:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/winver.png">
-<meta property="og:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/preview.png">
-<meta property="og:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/windows-terminal.png">
-<meta property="og:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/disto.png">
-<meta property="og:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/docker-desktop.png">
-<meta property="og:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/remote-wsl.png">
-<meta property="og:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/terminal-plugin.png">
-<meta property="og:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/connection.png">
-<meta property="og:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/vscode-shell.png">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/overview.png">
+<meta property="og:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/winver.png">
+<meta property="og:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/preview.png">
+<meta property="og:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/windows-terminal.png">
+<meta property="og:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/disto.png">
+<meta property="og:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/docker-desktop.png">
+<meta property="og:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/remote-wsl.png">
+<meta property="og:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/terminal-plugin.png">
+<meta property="og:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/connection.png">
+<meta property="og:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/vscode-shell.png">
 <meta property="article:published_time" content="2020-07-19T15:28:28.000Z">
-<meta property="article:modified_time" content="2020-11-28T02:06:59.068Z">
+<meta property="article:modified_time" content="2021-01-27T12:27:46.872Z">
 <meta property="article:author" content="charstal">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="wsl2">
 <meta property="article:tag" content="zsh">
 <meta property="article:tag" content="wt">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.charstal.com/wsl2-wt-zsh-docker/overview.png">
+<meta name="twitter:image" content="https://www.charstal.com/wsl2-wt-zsh-docker/overview.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>wsl2环境配置+docker+wt+vscode</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
 
-<link rel="canonical" href="https://blog.charstal.com/wsl2-wt-zsh-docker/">
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
 
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
 
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/graduation/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://www.charstal.com/wsl2-wt-zsh-docker/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://www.charstal.com/wsl2-wt-zsh-docker/&text=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://www.charstal.com/wsl2-wt-zsh-docker/&title=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.charstal.com/wsl2-wt-zsh-docker/&is_video=false&description=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=wsl2环境配置+docker+wt+vscode&body=Check out this article: https://www.charstal.com/wsl2-wt-zsh-docker/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://www.charstal.com/wsl2-wt-zsh-docker/&title=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://www.charstal.com/wsl2-wt-zsh-docker/&title=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://www.charstal.com/wsl2-wt-zsh-docker/&title=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://www.charstal.com/wsl2-wt-zsh-docker/&title=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/wsl2-wt-zsh-docker/&name=wsl2环境配置+docker+wt+vscode&description=&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;h2 id=&#34;序言&#34;&gt;&lt;a href=&#34;#序言&#34; class=&#34;headerlink&#34; title=&#34;序言&#34;&gt;&lt;/a&gt;序言&lt;/h2&gt;&lt;p&gt;最近新换的电脑又坏了，拿回来还得重新配置环境，还得挨个找教程进行配置。这次就简单地全写一起吧。&lt;/p&gt;
+&lt;p&gt;作为&lt;code&gt;wsl&lt;/code&gt;的忠实爱好者，我已经使用了&lt;code&gt;wsl&lt;/code&gt;两年了，相比虚拟机来说，实在是不要方便太多了，而且配置要求也没这么高。&lt;/p&gt;
+&lt;p&gt;之前&lt;code&gt;windows&lt;/code&gt; 商店也发布了&lt;code&gt;wt&lt;/code&gt;(&lt;code&gt;windows terminal&lt;/code&gt;)，相比&lt;code&gt;cmd&lt;/code&gt;和&lt;code&gt;powershell&lt;/code&gt;以及原本&lt;code&gt;bash&lt;/code&gt;漂亮太多了，而且集成了多个窗口，切换很方便。&lt;/p&gt;
+&lt;p&gt;这是我现在的界面，大家可以自己定义其他的外观等等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/wsl2-wt-zsh-docker/overview.png&#34; alt=&#34;overview&#34;&gt;&lt;/p&gt;
+&lt;p&gt;最近看了一下，居然&lt;code&gt;wsl2&lt;/code&gt;已经出好久了，还支持&lt;code&gt;docker&lt;/code&gt;。我居然才知道，我想了想那时我应该在准备考研，emmm 。好了，废话不多说我们开始配置。&lt;/p&gt;
+&lt;p&gt;另外说一句，&lt;code&gt;wsl2&lt;/code&gt;还没有推送到正式版的&lt;code&gt;windows 10&lt;/code&gt;中，目前还是在&lt;code&gt;windows&lt;/code&gt;的测试版中。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://www.charstal.com/wsl2-wt-zsh-docker/&t=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
 
-  <title>wsl2环境配置+docker+wt+vscode | Codebucks</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
     </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Codebucks</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#序言"><span class="toc-number">1.</span> <span class="toc-text">序言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对比"><span class="toc-number">1.1.</span> <span class="toc-text">对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始配置"><span class="toc-number">2.</span> <span class="toc-text">开始配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#更新windows-10"><span class="toc-number">2.1.</span> <span class="toc-text">更新windows 10</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统设置"><span class="toc-number">2.2.</span> <span class="toc-text">系统设置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如果你没有安装过wsl"><span class="toc-number">2.2.1.</span> <span class="toc-text">如果你没有安装过wsl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如果你安装过wsl"><span class="toc-number">2.2.2.</span> <span class="toc-text">如果你安装过wsl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将wsl2设置为默认版本"><span class="toc-number">2.2.3.</span> <span class="toc-text">将wsl2设置为默认版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wsl1-to-wsl2"><span class="toc-number">2.2.4.</span> <span class="toc-text">wsl1 to wsl2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-linux-发行版与-windows-terminal"><span class="toc-number">2.3.</span> <span class="toc-text">安装 linux 发行版与 windows terminal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux环境配置"><span class="toc-number">2.4.</span> <span class="toc-text">linux环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#换源"><span class="toc-number">2.4.1.</span> <span class="toc-text">换源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#zsh"><span class="toc-number">2.4.2.</span> <span class="toc-text">zsh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Oh-My-ZSH"><span class="toc-number">2.4.3.</span> <span class="toc-text">Oh My ZSH</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proxychains"><span class="toc-number">2.4.4.</span> <span class="toc-text">proxychains</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Nodejs"><span class="toc-number">2.4.5.</span> <span class="toc-text">Nodejs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker"><span class="toc-number">2.4.6.</span> <span class="toc-text">Docker</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Compose"><span class="toc-number">2.4.7.</span> <span class="toc-text">Docker Compose</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Desktop"><span class="toc-number">2.4.8.</span> <span class="toc-text">Docker Desktop</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#连接vscode"><span class="toc-number">2.5.</span> <span class="toc-text">连接vscode</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#字体问题"><span class="toc-number">2.5.1.</span> <span class="toc-text">字体问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windows-terminal"><span class="toc-number">2.6.</span> <span class="toc-text">windows terminal</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
     </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-books">
-
-    <a href="/books" rel="section"><i class="fa fa-book fa-fw"></i>阅读</a>
-
-  </li>
-        <li class="menu-item menu-item-movies">
-
-    <a href="/movies" rel="section"><i class="fa fa-camera fa-fw"></i>影视</a>
-
-  </li>
-        <li class="menu-item menu-item-games">
-
-    <a href="/games" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-</div>
-    </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
     
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.charstal.com/wsl2-wt-zsh-docker/">
+    <h1 class="posttitle" itemprop="name headline">
+        wsl2环境配置+docker+wt+vscode
+    </h1>
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="charstal">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Codebucks">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          wsl2环境配置+docker+wt+vscode
-        </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-19 15:28:28" itemprop="dateCreated datePublished" datetime="2020-07-19T15:28:28+00:00">2020-07-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-28 02:06:59" itemprop="dateModified" datetime="2020-11-28T02:06:59+00:00">2020-11-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">charstal</span>
       </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/wsl2-wt-zsh-docker/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/wsl2-wt-zsh-docker/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>11k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
-            </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-07-19T15:28:28.000Z" itemprop="datePublished">2020-07-19</time>
+        
+      
+    </div>
 
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
 
       
-        <html><head></head><body><h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>最近新换的电脑又坏了，拿回来还得重新配置环境，还得挨个找教程进行配置。这次就简单地全写一起吧。</p>
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/docker/" rel="tag">docker</a>, <a class="tag-link" href="/tags/wsl2/" rel="tag">wsl2</a>, <a class="tag-link" href="/tags/wt/" rel="tag">wt</a>, <a class="tag-link" href="/tags/zsh/" rel="tag">zsh</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <html><head></head><body><h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>最近新换的电脑又坏了，拿回来还得重新配置环境，还得挨个找教程进行配置。这次就简单地全写一起吧。</p>
 <p>作为<code>wsl</code>的忠实爱好者，我已经使用了<code>wsl</code>两年了，相比虚拟机来说，实在是不要方便太多了，而且配置要求也没这么高。</p>
 <p>之前<code>windows</code> 商店也发布了<code>wt</code>(<code>windows terminal</code>)，相比<code>cmd</code>和<code>powershell</code>以及原本<code>bash</code>漂亮太多了，而且集成了多个窗口，切换很方便。</p>
 <p>这是我现在的界面，大家可以自己定义其他的外观等等。</p>
@@ -423,280 +289,170 @@
 <h3 id="windows-terminal"><a href="#windows-terminal" class="headerlink" title="windows terminal"></a>windows terminal</h3><p>这个是我的配置，不做过多介绍了<br></p><figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This file was initially generated by Windows Terminal 1.0.1401.0</span></span><br><span class="line"><span class="comment">// It should still be usable in newer versions, but newer versions might have additional</span></span><br><span class="line"><span class="comment">// settings, help text, or changes that you will not see unless you clear this file</span></span><br><span class="line"><span class="comment">// and let us generate a new one for you.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// To view the default settings, hold "alt" while clicking on the "Settings" button.</span></span><br><span class="line"><span class="comment">// For documentation on these settings, see: https://aka.ms/terminal-documentation</span></span><br><span class="line">{</span><br><span class="line">    <span class="attr">"$schema"</span>: <span class="string">"https://aka.ms/terminal-profiles-schema"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="attr">"defaultProfile"</span>: <span class="string">"{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// You can add more global application settings here.</span></span><br><span class="line">    <span class="comment">// To learn more about global settings, visit https://aka.ms/terminal-global-settings</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// If enabled, selections are automatically copied to your clipboard.</span></span><br><span class="line">    <span class="attr">"copyOnSelect"</span>: <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If enabled, formatted data is also copied to your clipboard</span></span><br><span class="line">    <span class="attr">"copyFormatting"</span>: <span class="literal">false</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// A profile specifies a command to execute paired with information about how it should look and feel.</span></span><br><span class="line">    <span class="comment">// Each one of them will appear in the 'New Tab' dropdown,</span></span><br><span class="line">    <span class="comment">//   and can be invoked from the commandline with `wt.exe -p xxx`</span></span><br><span class="line">    <span class="comment">// To learn more about profiles, visit https://aka.ms/terminal-profile-settings</span></span><br><span class="line">    <span class="attr">"profiles"</span>:</span><br><span class="line">    {</span><br><span class="line">        <span class="attr">"defaults"</span>:</span><br><span class="line">        {</span><br><span class="line">            <span class="attr">"fontFace"</span>: <span class="string">"DejaVu Sans Mono for Powerline"</span>,</span><br><span class="line">            <span class="attr">"acrylicOpacity"</span>: <span class="number">0.8</span>, <span class="comment">//背景透明度</span></span><br><span class="line">            <span class="attr">"useAcrylic"</span>: <span class="literal">true</span>, <span class="comment">// 启用毛玻璃</span></span><br><span class="line">            <span class="comment">// "backgroundImage": "D:\\OneDrive\\图片\\stack.jpg", //背景图片</span></span><br><span class="line">            <span class="comment">// "backgroundImageOpacity": 0.5, //图片透明度</span></span><br><span class="line">            <span class="comment">// "backgroundImageStretchMode": "fill", //填充模式</span></span><br><span class="line">            <span class="comment">// "icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png", //图标</span></span><br><span class="line">            <span class="attr">"fontSize"</span>: <span class="number">10</span>, <span class="comment">//文字大小</span></span><br><span class="line">            <span class="attr">"colorScheme"</span>: <span class="string">"Solarized Dark"</span>, <span class="comment">//主题</span></span><br><span class="line">            <span class="attr">"cursorColor"</span>: <span class="string">"#FFFFFF"</span>, <span class="comment">//光标颜色</span></span><br><span class="line">            <span class="attr">"cursorShape"</span>: <span class="string">"bar"</span> <span class="comment">//光标形状</span></span><br><span class="line">            <span class="comment">// "startingDirectory":"D://Projects//" //起始目录</span></span><br><span class="line">            <span class="comment">// Put settings here that you want to apply to all profiles.</span></span><br><span class="line">        },</span><br><span class="line">        <span class="attr">"list"</span>:</span><br><span class="line">        [</span><br><span class="line">            {</span><br><span class="line">                <span class="comment">// Make changes here to the powershell.exe profile.</span></span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"{61c54bbd-c2c6-5271-96e7-009a87ff44bf}"</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Windows PowerShell"</span>,</span><br><span class="line">                <span class="attr">"commandline"</span>: <span class="string">"powershell.exe"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span></span><br><span class="line">            },</span><br><span class="line">            {</span><br><span class="line">                <span class="comment">// Make changes here to the cmd.exe profile.</span></span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"{0caa0dad-35be-5f56-a8ff-afceeeaa6101}"</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"命令提示符"</span>,</span><br><span class="line">                <span class="attr">"commandline"</span>: <span class="string">"cmd.exe"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span></span><br><span class="line">            },</span><br><span class="line">            {</span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Ubuntu-18.04"</span>,</span><br><span class="line">                <span class="attr">"source"</span>: <span class="string">"Windows.Terminal.Wsl"</span></span><br><span class="line">            },</span><br><span class="line">            {</span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"{b453ae62-4e3d-5e58-b989-0a998ec441b8}"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Azure Cloud Shell"</span>,</span><br><span class="line">                <span class="attr">"source"</span>: <span class="string">"Windows.Terminal.Azure"</span></span><br><span class="line">            },</span><br><span class="line">            {</span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"{07b52e3e-de2c-5db4-bd2d-ba144ed6c273}"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Ubuntu-20.04"</span>,</span><br><span class="line">                <span class="attr">"source"</span>: <span class="string">"Windows.Terminal.Wsl"</span></span><br><span class="line">            }</span><br><span class="line">        ]</span><br><span class="line">    },</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add custom color schemes to this array.</span></span><br><span class="line">    <span class="comment">// To learn more about color schemes, visit https://aka.ms/terminal-color-schemes</span></span><br><span class="line">    <span class="attr">"schemes"</span>: [</span><br><span class="line">        {</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Solarized Dark"</span>,</span><br><span class="line">            <span class="attr">"black"</span>: <span class="string">"#002831"</span>,</span><br><span class="line">            <span class="attr">"red"</span>: <span class="string">"#d11c24"</span>,</span><br><span class="line">            <span class="attr">"green"</span>: <span class="string">"#738a05"</span>,</span><br><span class="line">            <span class="attr">"yellow"</span>: <span class="string">"#a57706"</span>,</span><br><span class="line">            <span class="attr">"blue"</span>: <span class="string">"#2176c7"</span>,</span><br><span class="line">            <span class="attr">"purple"</span>: <span class="string">"#c61c6f"</span>,</span><br><span class="line">            <span class="attr">"cyan"</span>: <span class="string">"#259286"</span>,</span><br><span class="line">            <span class="attr">"white"</span>: <span class="string">"#eae3cb"</span>,</span><br><span class="line">            <span class="attr">"brightBlack"</span>: <span class="string">"#475b62"</span>,</span><br><span class="line">            <span class="attr">"brightRed"</span>: <span class="string">"#bd3613"</span>,</span><br><span class="line">            <span class="attr">"brightGreen"</span>: <span class="string">"#475b62"</span>,</span><br><span class="line">            <span class="attr">"brightYellow"</span>: <span class="string">"#536870"</span>,</span><br><span class="line">            <span class="attr">"brightBlue"</span>: <span class="string">"#708284"</span>,</span><br><span class="line">            <span class="attr">"brightPurple"</span>: <span class="string">"#5956ba"</span>,</span><br><span class="line">            <span class="attr">"brightCyan"</span>: <span class="string">"#819090"</span>,</span><br><span class="line">            <span class="attr">"brightWhite"</span>: <span class="string">"#fcf4dc"</span>,</span><br><span class="line">            <span class="attr">"background"</span>: <span class="string">"#001e27"</span>,</span><br><span class="line">            <span class="attr">"foreground"</span>: <span class="string">"#708284"</span></span><br><span class="line">          },</span><br><span class="line">          {</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Solarized Darcula"</span>,</span><br><span class="line">            <span class="attr">"black"</span>: <span class="string">"#25292a"</span>,</span><br><span class="line">            <span class="attr">"red"</span>: <span class="string">"#f24840"</span>,</span><br><span class="line">            <span class="attr">"green"</span>: <span class="string">"#629655"</span>,</span><br><span class="line">            <span class="attr">"yellow"</span>: <span class="string">"#b68800"</span>,</span><br><span class="line">            <span class="attr">"blue"</span>: <span class="string">"#2075c7"</span>,</span><br><span class="line">            <span class="attr">"purple"</span>: <span class="string">"#797fd4"</span>,</span><br><span class="line">            <span class="attr">"cyan"</span>: <span class="string">"#15968d"</span>,</span><br><span class="line">            <span class="attr">"white"</span>: <span class="string">"#d2d8d9"</span>,</span><br><span class="line">            <span class="attr">"brightBlack"</span>: <span class="string">"#25292a"</span>,</span><br><span class="line">            <span class="attr">"brightRed"</span>: <span class="string">"#f24840"</span>,</span><br><span class="line">            <span class="attr">"brightGreen"</span>: <span class="string">"#629655"</span>,</span><br><span class="line">            <span class="attr">"brightYellow"</span>: <span class="string">"#b68800"</span>,</span><br><span class="line">            <span class="attr">"brightBlue"</span>: <span class="string">"#2075c7"</span>,</span><br><span class="line">            <span class="attr">"brightPurple"</span>: <span class="string">"#797fd4"</span>,</span><br><span class="line">            <span class="attr">"brightCyan"</span>: <span class="string">"#15968d"</span>,</span><br><span class="line">            <span class="attr">"brightWhite"</span>: <span class="string">"#d2d8d9"</span>,</span><br><span class="line">            <span class="attr">"background"</span>: <span class="string">"#3d3f41"</span>,</span><br><span class="line">            <span class="attr">"foreground"</span>: <span class="string">"#d2d8d9"</span></span><br><span class="line">          }        </span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add custom keybindings to this array.</span></span><br><span class="line">    <span class="comment">// To unbind a key combination from your defaults.json, set the command to "unbound".</span></span><br><span class="line">    <span class="comment">// To learn more about keybindings, visit https://aka.ms/terminal-keybindings</span></span><br><span class="line">    <span class="attr">"keybindings"</span>:</span><br><span class="line">    [</span><br><span class="line">        <span class="comment">// Copy and paste are bound to Ctrl+Shift+C and Ctrl+Shift+V in your defaults.json.</span></span><br><span class="line">        <span class="comment">// These two lines additionally bind them to Ctrl+C and Ctrl+V.</span></span><br><span class="line">        <span class="comment">// To learn more about selection, visit https://aka.ms/terminal-selection</span></span><br><span class="line">        { <span class="attr">"command"</span>: {<span class="attr">"action"</span>: <span class="string">"copy"</span>, <span class="attr">"singleLine"</span>: <span class="literal">false</span> }, <span class="attr">"keys"</span>: <span class="string">"ctrl+c"</span> },</span><br><span class="line">        { <span class="attr">"command"</span>: <span class="string">"paste"</span>, <span class="attr">"keys"</span>: <span class="string">"ctrl+v"</span> },</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Press Ctrl+Shift+F to open the search box</span></span><br><span class="line">        { <span class="attr">"command"</span>: <span class="string">"find"</span>, <span class="attr">"keys"</span>: <span class="string">"ctrl+shift+f"</span> },</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Press Alt+Shift+D to open a new pane.</span></span><br><span class="line">        <span class="comment">// - "split": "auto" makes this pane open in the direction that provides the most surface area.</span></span><br><span class="line">        <span class="comment">// - "splitMode": "duplicate" makes the new pane use the focused pane's profile.</span></span><br><span class="line">        <span class="comment">// To learn more about panes, visit https://aka.ms/terminal-panes</span></span><br><span class="line">        { <span class="attr">"command"</span>: { <span class="attr">"action"</span>: <span class="string">"splitPane"</span>, <span class="attr">"split"</span>: <span class="string">"auto"</span>, <span class="attr">"splitMode"</span>: <span class="string">"duplicate"</span> }, <span class="attr">"keys"</span>: <span class="string">"alt+shift+d"</span> }</span><br><span class="line">    ]</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure><p></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://nickymeuleman.netlify.app/blog/linux-on-windows-wsl2-zsh-docker#powerline-fonts" target="_blank" rel="noopener">WSL2, zsh, and docker. Linux through Windows.</a><br><a href="https://www.oyohyee.com/post/note_wsl2_net" target="_blank" rel="noopener">WSL2中自动配置Windows IP地址</a><br><a href="https://docs.microsoft.com/zh-cn/windows/wsl/install-win10#update-to-wsl-2" target="_blank" rel="noopener">适用于 Linux 的 Windows 子系统安装指南 (Windows 10)</a></p>
 </body></html>
-    </div>
+  </div>
+</article>
 
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/docker/" rel="tag"># docker</a>
-              <a href="/tags/wsl2/" rel="tag"># wsl2</a>
-              <a href="/tags/zsh/" rel="tag"># zsh</a>
-              <a href="/tags/wt/" rel="tag"># wt</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/graduation/" rel="prev" title="2020年考研感想&一些其他的">
-      <i class="fa fa-chevron-left"></i> 2020年考研感想&一些其他的
-    </a></div>
-      <div class="post-nav-item"></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-    <div class="comments" id="valine-comments"></div>
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
         </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
+    </div>
 
-  <aside class="sidebar">
-    <div class="sidebar-inner">
 
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
 
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序言"><span class="nav-number">1.</span> <span class="nav-text">序言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对比"><span class="nav-number">1.1.</span> <span class="nav-text">对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始配置"><span class="nav-number">2.</span> <span class="nav-text">开始配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新windows-10"><span class="nav-number">2.1.</span> <span class="nav-text">更新windows 10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统设置"><span class="nav-number">2.2.</span> <span class="nav-text">系统设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如果你没有安装过wsl"><span class="nav-number">2.2.1.</span> <span class="nav-text">如果你没有安装过wsl</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果你安装过wsl"><span class="nav-number">2.2.2.</span> <span class="nav-text">如果你安装过wsl</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将wsl2设置为默认版本"><span class="nav-number">2.2.3.</span> <span class="nav-text">将wsl2设置为默认版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wsl1-to-wsl2"><span class="nav-number">2.2.4.</span> <span class="nav-text">wsl1 to wsl2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-linux-发行版与-windows-terminal"><span class="nav-number">2.3.</span> <span class="nav-text">安装 linux 发行版与 windows terminal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux环境配置"><span class="nav-number">2.4.</span> <span class="nav-text">linux环境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#换源"><span class="nav-number">2.4.1.</span> <span class="nav-text">换源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zsh"><span class="nav-number">2.4.2.</span> <span class="nav-text">zsh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Oh-My-ZSH"><span class="nav-number">2.4.3.</span> <span class="nav-text">Oh My ZSH</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#proxychains"><span class="nav-number">2.4.4.</span> <span class="nav-text">proxychains</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nodejs"><span class="nav-number">2.4.5.</span> <span class="nav-text">Nodejs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Docker"><span class="nav-number">2.4.6.</span> <span class="nav-text">Docker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Docker-Compose"><span class="nav-number">2.4.7.</span> <span class="nav-text">Docker Compose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Docker-Desktop"><span class="nav-number">2.4.8.</span> <span class="nav-text">Docker Desktop</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接vscode"><span class="nav-number">2.5.</span> <span class="nav-text">连接vscode</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字体问题"><span class="nav-number">2.5.1.</span> <span class="nav-text">字体问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows-terminal"><span class="nav-number">2.6.</span> <span class="nav-text">windows terminal</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="charstal"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">charstal</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
         
-          <span class="site-state-item-count">19</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">18</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/HhhuYu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HhhuYu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:charstal_h@outlook.com" title="E-Mail → mailto:charstal_h@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
+          <div id="footer-post-container">
+  <div id="footer-post">
 
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
 
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#序言"><span class="toc-number">1.</span> <span class="toc-text">序言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对比"><span class="toc-number">1.1.</span> <span class="toc-text">对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始配置"><span class="toc-number">2.</span> <span class="toc-text">开始配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#更新windows-10"><span class="toc-number">2.1.</span> <span class="toc-text">更新windows 10</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统设置"><span class="toc-number">2.2.</span> <span class="toc-text">系统设置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#如果你没有安装过wsl"><span class="toc-number">2.2.1.</span> <span class="toc-text">如果你没有安装过wsl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如果你安装过wsl"><span class="toc-number">2.2.2.</span> <span class="toc-text">如果你安装过wsl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将wsl2设置为默认版本"><span class="toc-number">2.2.3.</span> <span class="toc-text">将wsl2设置为默认版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wsl1-to-wsl2"><span class="toc-number">2.2.4.</span> <span class="toc-text">wsl1 to wsl2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-linux-发行版与-windows-terminal"><span class="toc-number">2.3.</span> <span class="toc-text">安装 linux 发行版与 windows terminal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux环境配置"><span class="toc-number">2.4.</span> <span class="toc-text">linux环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#换源"><span class="toc-number">2.4.1.</span> <span class="toc-text">换源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#zsh"><span class="toc-number">2.4.2.</span> <span class="toc-text">zsh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Oh-My-ZSH"><span class="toc-number">2.4.3.</span> <span class="toc-text">Oh My ZSH</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proxychains"><span class="toc-number">2.4.4.</span> <span class="toc-text">proxychains</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Nodejs"><span class="toc-number">2.4.5.</span> <span class="toc-text">Nodejs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker"><span class="toc-number">2.4.6.</span> <span class="toc-text">Docker</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Compose"><span class="toc-number">2.4.7.</span> <span class="toc-text">Docker Compose</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Desktop"><span class="toc-number">2.4.8.</span> <span class="toc-text">Docker Desktop</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#连接vscode"><span class="toc-number">2.5.</span> <span class="toc-text">连接vscode</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#字体问题"><span class="toc-number">2.5.1.</span> <span class="toc-text">字体问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windows-terminal"><span class="toc-number">2.6.</span> <span class="toc-text">windows terminal</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
 
-      </div>
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://www.charstal.com/wsl2-wt-zsh-docker/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://www.charstal.com/wsl2-wt-zsh-docker/&text=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://www.charstal.com/wsl2-wt-zsh-docker/&title=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.charstal.com/wsl2-wt-zsh-docker/&is_video=false&description=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=wsl2环境配置+docker+wt+vscode&body=Check out this article: https://www.charstal.com/wsl2-wt-zsh-docker/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://www.charstal.com/wsl2-wt-zsh-docker/&title=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://www.charstal.com/wsl2-wt-zsh-docker/&title=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://www.charstal.com/wsl2-wt-zsh-docker/&title=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://www.charstal.com/wsl2-wt-zsh-docker/&title=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/wsl2-wt-zsh-docker/&name=wsl2环境配置+docker+wt+vscode&description=&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;h2 id=&#34;序言&#34;&gt;&lt;a href=&#34;#序言&#34; class=&#34;headerlink&#34; title=&#34;序言&#34;&gt;&lt;/a&gt;序言&lt;/h2&gt;&lt;p&gt;最近新换的电脑又坏了，拿回来还得重新配置环境，还得挨个找教程进行配置。这次就简单地全写一起吧。&lt;/p&gt;
+&lt;p&gt;作为&lt;code&gt;wsl&lt;/code&gt;的忠实爱好者，我已经使用了&lt;code&gt;wsl&lt;/code&gt;两年了，相比虚拟机来说，实在是不要方便太多了，而且配置要求也没这么高。&lt;/p&gt;
+&lt;p&gt;之前&lt;code&gt;windows&lt;/code&gt; 商店也发布了&lt;code&gt;wt&lt;/code&gt;(&lt;code&gt;windows terminal&lt;/code&gt;)，相比&lt;code&gt;cmd&lt;/code&gt;和&lt;code&gt;powershell&lt;/code&gt;以及原本&lt;code&gt;bash&lt;/code&gt;漂亮太多了，而且集成了多个窗口，切换很方便。&lt;/p&gt;
+&lt;p&gt;这是我现在的界面，大家可以自己定义其他的外观等等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/wsl2-wt-zsh-docker/overview.png&#34; alt=&#34;overview&#34;&gt;&lt;/p&gt;
+&lt;p&gt;最近看了一下，居然&lt;code&gt;wsl2&lt;/code&gt;已经出好久了，还支持&lt;code&gt;docker&lt;/code&gt;。我居然才知道，我想了想那时我应该在准备考研，emmm 。好了，废话不多说我们开始配置。&lt;/p&gt;
+&lt;p&gt;另外说一句，&lt;code&gt;wsl2&lt;/code&gt;还没有推送到正式版的&lt;code&gt;windows 10&lt;/code&gt;中，目前还是在&lt;code&gt;windows&lt;/code&gt;的测试版中。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://www.charstal.com/wsl2-wt-zsh-docker/&t=wsl2环境配置+docker+wt+vscode" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
 
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
 
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
 
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备20001291号 </a>
-      <img src="http://www.beian.gov.cn/portal/download" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010502005867" rel="noopener" target="_blank">浙公网安备 33010502005867号 </a>
   </div>
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">charstal</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-area"></i>
-    </span>
-    <span title="站点总字数">43k</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">39 分钟</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
 </div>
 
-
-
-
-
-
-
-
-      </div>
-    </footer>
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2019-2021
+    charstal
   </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
 
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/lib/clipboard/clipboard.min.js"></script>
 
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-
-<script>
-NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-    var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail,link';
-    guest = guest.split(',').filter(item => {
-      return GUEST.includes(item);
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
     });
-    new Valine({
-      el         : '#valine-comments',
-      verify     : false,
-      notify     : false,
-      appId      : 'rxSpI1jQF7SpbyjRmgVPdXB8-gzGzoHsz',
-      appKey     : 'kaybyNIvyWMaqRdCx30t9qkY',
-      placeholder: "Just go go",
-      avatar     : 'mm',
-      meta       : guest,
-      pageSize   : '10' || 10,
-      visitor    : false,
-      lang       : '' || 'zh-cn',
-      path       : location.pathname,
-      recordIP   : false,
-      serverURLs : ''
-    });
-  }, window.Valine);
-});
-</script>
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'codebucks.disqus.com';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
 
 </body>
 </html>
