@@ -8,12 +8,12 @@ subtitle: ''
 description: ''
 keywords:
 author: charstal
-language: zh-CN
+language: en-us
 timezone: ''
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://blog.charstal.com
+url: https://www.charstal.com
 root: /
 permalink: :title/
 permalink_defaults:
@@ -93,7 +93,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+theme: cactus
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -106,42 +106,43 @@ search:
   format: html
   limit: 10000
 
-symbols_count_time:
-  # 文章内是否显示
-  symbols: true
-  time: true
-  # 网页底部是否显示
-  total_symbols: true
-  total_time: true
+# symbols_count_time:
+#   # 文章内是否显示
+#   symbols: true
+#   time: true
+#   # 网页底部是否显示
+#   total_symbols: true
+#   total_time: true
 
 # Markdown config
-markdown_it_plus:
-  render:
-    html: true						
-    xhtmlOut: false
-    breaks: true
-    linkify: true
-    typographer: true
-    quotes: '“”‘’'
-  plugins:
-  anchors:	
-    level: 2
-    collisionSuffix: 'v'
-    permalink: true
-    permalinkClass: header-anchor
-    permalinkSide: 'left'
-    permalinkSymbol: ¶
+# markdown_it_plus:
+#   render:
+#     html: true						
+#     xhtmlOut: false
+#     breaks: true
+#     linkify: true
+#     typographer: true
+#     quotes: '“”‘’'
+#   plugins:
+#   anchors:	
+#     level: 2
+#     collisionSuffix: 'v'
+#     permalink: true
+#     permalinkClass: header-anchor
+#     permalinkSide: 'left'
+#     permalinkSymbol: ¶
 
-douban:
-  user: 227426821
-  builtin: true
-  book:
-    title: 'Books'
-    quote: '没看过却想看一次的书'
-  movie:
-    title: 'Video'
-    quote: '看过一次还想看下一次的动漫'
-  game:
-    title: 'Games'
-    quote: '玩过一次可能不会玩下一次的游戏'
-  timeout: 10000 
+# douban:
+#   user: 227426821
+#   builtin: true
+#   book:
+#     title: 'Books'
+#     quote: '没看过却想看一次的书'
+#   movie:
+#     title: 'Video'
+#     quote: '看过一次还想看下一次的动漫'
+#   game:
+#     title: 'Games'
+#     quote: '玩过一次可能不会玩下一次的游戏'
+#   timeout: 10000 
+
