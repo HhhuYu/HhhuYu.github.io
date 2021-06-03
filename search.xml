@@ -403,6 +403,28 @@
 </body></html>]]></content>
   </entry>
   <entry>
+    <title>PAT攻略</title>
+    <url>/strategy-pat/</url>
+    <content><![CDATA[<html><head></head><body><p>其实我pat准备得很迟，七月中旬才开始准备PAT。</p>
+<p>就刷了甲级100来道题，就去考场了，其他都ac了。可能太过于紧张，第一题就留了半小时，没做出来，拿了80 …… </p>
+<p>第二次把乙级题都刷了一遍，甲级中的20分题以及对照刷题目录把甲级中的经典题型也都重新刷一遍。</p>
+<p>其实pat不需要全刷，有些题是真的恶心，早期各种各样恶心的模拟题，比如臭名昭著的<code>Table tennis</code>。</p>
+<p>我就刷了120多题。<br><a id="more"></a><br>我感觉我这个路线应该可以2个月速成PAT甲级。我的路线：PAT乙级全刷-><a href="/pat-advanced-recommend/" title="真题目录">真题目录</a>->甲级1101题往后所有题->还有有时间的话把甲级20分题都做一下(第一题有时候挺难的)</p>
+<p>IDE： DEV C++(一般这个都有，刷题最好用c++)</p>
+<p>书籍：《算法笔记》俗称晴神宝典</p>
+<p>代码参考：<a href="https://www.liuchuo.net/" target="_blank" rel="noopener">柳神博客</a></p>
+<p>PAT乙级，是帮助你熟悉C++/C，掌握字符串的处理的开始</p>
+<p><a href="/pat-advanced-recommend/" title="真题目录">真题目录</a>：题型分类，里面的题都是非常经典的，值得多做几次。可以从易到难，二点论结合：STL(熟悉stl)->链表->排序->树->图->广度、深度->最短路径->搜索树、平衡树->堆->并查集。其他就不用怎么用看了，基本不考。</p>
+<p>差不多这样就行了吧，一天三个小时，两个月90分没有问题，100分还是需要点实力和运气的。</p>
+</body></html>]]></content>
+      <categories>
+        <category>DS</category>
+      </categories>
+      <tags>
+        <tag>PAT</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>单例模式</title>
     <url>/singleton/</url>
     <content><![CDATA[<html><head></head><body><h2 id="设计模式之一：单例模式"><a href="#设计模式之一：单例模式" class="headerlink" title="设计模式之一：单例模式"></a>设计模式之一：单例模式</h2><p><strong>定义</strong>：确保一个类只有一个实例，并提供一个全局访问点。</p>
@@ -441,25 +463,28 @@
       </tags>
   </entry>
   <entry>
-    <title>PAT攻略</title>
-    <url>/strategy-pat/</url>
-    <content><![CDATA[<html><head></head><body><p>其实我pat准备得很迟，七月中旬才开始准备PAT。</p>
-<p>就刷了甲级100来道题，就去考场了，其他都ac了。可能太过于紧张，第一题就留了半小时，没做出来，拿了80 …… </p>
-<p>第二次把乙级题都刷了一遍，甲级中的20分题以及对照刷题目录把甲级中的经典题型也都重新刷一遍。</p>
-<p>其实pat不需要全刷，有些题是真的恶心，早期各种各样恶心的模拟题，比如臭名昭著的<code>Table tennis</code>。</p>
-<p>我就刷了120多题。<br><a id="more"></a><br>我感觉我这个路线应该可以2个月速成PAT甲级。我的路线：PAT乙级全刷-><a href="/pat-advanced-recommend/" title="真题目录">真题目录</a>->甲级1101题往后所有题->还有有时间的话把甲级20分题都做一下(第一题有时候挺难的)</p>
-<p>IDE： DEV C++(一般这个都有，刷题最好用c++)</p>
-<p>书籍：《算法笔记》俗称晴神宝典</p>
-<p>代码参考：<a href="https://www.liuchuo.net/" target="_blank" rel="noopener">柳神博客</a></p>
-<p>PAT乙级，是帮助你熟悉C++/C，掌握字符串的处理的开始</p>
-<p><a href="/pat-advanced-recommend/" title="真题目录">真题目录</a>：题型分类，里面的题都是非常经典的，值得多做几次。可以从易到难，二点论结合：STL(熟悉stl)->链表->排序->树->图->广度、深度->最短路径->搜索树、平衡树->堆->并查集。其他就不用怎么用看了，基本不考。</p>
-<p>差不多这样就行了吧，一天三个小时，两个月90分没有问题，100分还是需要点实力和运气的。</p>
+    <title>virtualenvwarpper安装与配置</title>
+    <url>/virtualenvwrapper/</url>
+    <content><![CDATA[<html><head></head><body><h1 id="Virtualenvwrapper"><a href="#Virtualenvwrapper" class="headerlink" title="Virtualenvwrapper"></a>Virtualenvwrapper</h1><p><code>virtualenvwarpper</code>一般用作<code>python</code>管理不同的env。把<code>virtualenv</code>拓展之后，用起来更加简单方便</p>
+<ol>
+<li>可以将所有虚拟环境环境放在一个目录下，方便管理</li>
+<li>切换虚拟环境较为方便</li>
+<li>管理虚拟环境比较方便</li>
+</ol>
+<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">pip3 install virtualenvwrapper</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录用来存放虚拟环境</span></span><br><span class="line">mkdir ~/.virtualenvs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在.bashrc中添加</span></span><br><span class="line"><span class="comment">## 指定PYTHON 版本</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3</span><br><span class="line"><span class="built_in">export</span> WORKON_HOME=~/.virtualenvs</span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/bin/virtualenvwrapper.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>workon [虚拟环境名称]:切换虚拟环境</li>
+<li>lsvirtualenv:列出已有的虚拟环境列表</li>
+<li>mkvirtualenv :新建虚拟环境</li>
+<li>rmvirtualenv :删除虚拟环境</li>
+<li>deactivate: 离开已进入的虚拟环境</li>
+</ul>
 </body></html>]]></content>
       <categories>
-        <category>DS</category>
+        <category>python</category>
       </categories>
       <tags>
-        <tag>PAT</tag>
+        <tag>virtualenv</tag>
       </tags>
   </entry>
   <entry>
