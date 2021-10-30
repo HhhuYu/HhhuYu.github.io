@@ -6,13 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="article">
+    <meta name="description" content="Virtualenvwrappervirtualenvwarpper一般用作python管理不同的env。把virtualenv拓展之后，用起来更加简单方便  可以将所有虚拟环境环境放在一个目录下，方便管理 切换虚拟环境较为方便 管理虚拟环境比较方便  Installation12345678910111213pip3 install virtualenvwrapper# 创建目录用来存放虚拟环境">
+<meta property="og:type" content="article">
 <meta property="og:title" content="virtualenvwarpper安装与配置">
 <meta property="og:url" content="https://www.charstal.com/virtualenvwrapper/index.html">
 <meta property="og:site_name" content="Codebucks">
+<meta property="og:description" content="Virtualenvwrappervirtualenvwarpper一般用作python管理不同的env。把virtualenv拓展之后，用起来更加简单方便  可以将所有虚拟环境环境放在一个目录下，方便管理 切换虚拟环境较为方便 管理虚拟环境比较方便  Installation12345678910111213pip3 install virtualenvwrapper# 创建目录用来存放虚拟环境">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-06-03T11:00:50.000Z">
-<meta property="article:modified_time" content="2021-10-29T11:32:39.128Z">
+<meta property="article:modified_time" content="2021-10-30T09:07:26.166Z">
 <meta property="article:author" content="charstal">
 <meta property="article:tag" content="virtualenv">
 <meta name="twitter:card" content="summary">
@@ -67,7 +69,7 @@
          
           <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="https://github.com/charstal" target="_blank" rel="noopener">Projects</a></li>
          
           <li><a href="/search/">Search</a></li>
         
@@ -102,7 +104,7 @@
   <li><a class="icon" href="http://reddit.com/submit?url=https://www.charstal.com/virtualenvwrapper/&title=virtualenvwarpper安装与配置" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://www.charstal.com/virtualenvwrapper/&title=virtualenvwarpper安装与配置" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://digg.com/submit?url=https://www.charstal.com/virtualenvwrapper/&title=virtualenvwarpper安装与配置" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/virtualenvwrapper/&name=virtualenvwarpper安装与配置&description=&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/virtualenvwrapper/&name=virtualenvwarpper安装与配置&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
   <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://www.charstal.com/virtualenvwrapper/&t=virtualenvwarpper安装与配置" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
@@ -134,6 +136,8 @@
       
         <time datetime="2021-06-03T11:00:50.000Z" itemprop="datePublished">2021-06-03</time>
         
+        (Updated: <time datetime="2021-10-30T09:07:26.166Z" itemprop="dateModified">2021-10-30</time>)
+        
       
     </div>
 
@@ -157,13 +161,13 @@
   
 
   <div class="content" itemprop="articleBody">
-    <html><head></head><body><h1 id="Virtualenvwrapper"><a href="#Virtualenvwrapper" class="headerlink" title="Virtualenvwrapper"></a>Virtualenvwrapper</h1><p><code>virtualenvwarpper</code>一般用作<code>python</code>管理不同的env。把<code>virtualenv</code>拓展之后，用起来更加简单方便</p>
+    <h1 id="Virtualenvwrapper"><a href="#Virtualenvwrapper" class="headerlink" title="Virtualenvwrapper"></a>Virtualenvwrapper</h1><p><code>virtualenvwarpper</code>一般用作<code>python</code>管理不同的env。把<code>virtualenv</code>拓展之后，用起来更加简单方便</p>
 <ol>
 <li>可以将所有虚拟环境环境放在一个目录下，方便管理</li>
 <li>切换虚拟环境较为方便</li>
 <li>管理虚拟环境比较方便</li>
 </ol>
-<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pip3 install virtualenvwrapper</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录用来存放虚拟环境</span></span><br><span class="line">mkdir ~/.virtualenvs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在.bashrc中添加</span></span><br><span class="line"><span class="comment">## 指定PYTHON 版本</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3</span><br><span class="line"><span class="built_in">export</span> WORKON_HOME=~/.virtualenvs</span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/bin/virtualenvwrapper.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pip3 install virtualenvwrapper</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录用来存放虚拟环境</span></span><br><span class="line">mkdir ~/.virtualenvs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在.bashrc中添加</span></span><br><span class="line"><span class="comment">## 指定PYTHON 版本</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3</span><br><span class="line"><span class="built_in">export</span> WORKON_HOME=~/.virtualenvs</span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/bin/virtualenvwrapper.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
 <ul>
 <li>workon [虚拟环境名称]:切换虚拟环境</li>
 <li>lsvirtualenv:列出已有的虚拟环境列表</li>
@@ -171,7 +175,7 @@
 <li>rmvirtualenv :删除虚拟环境</li>
 <li>deactivate: 离开已进入的虚拟环境</li>
 </ul>
-</body></html>
+
   </div>
 </article>
 
@@ -196,7 +200,7 @@
          
           <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="https://github.com/charstal" target="_blank" rel="noopener">Projects</a></li>
          
           <li><a href="/search/">Search</a></li>
         
@@ -218,7 +222,7 @@
   <li><a class="icon" href="http://reddit.com/submit?url=https://www.charstal.com/virtualenvwrapper/&title=virtualenvwarpper安装与配置" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://www.charstal.com/virtualenvwrapper/&title=virtualenvwarpper安装与配置" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://digg.com/submit?url=https://www.charstal.com/virtualenvwrapper/&title=virtualenvwarpper安装与配置" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/virtualenvwrapper/&name=virtualenvwarpper安装与配置&description=&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/virtualenvwrapper/&name=virtualenvwarpper安装与配置&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://www.charstal.com/virtualenvwrapper/&t=virtualenvwarpper安装与配置" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
@@ -253,7 +257,7 @@
          
           <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="https://github.com/charstal" target="_blank" rel="noopener">Projects</a></li>
          
           <li><a href="/search/">Search</a></li>
         

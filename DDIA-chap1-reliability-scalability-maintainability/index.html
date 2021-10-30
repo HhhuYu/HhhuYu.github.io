@@ -6,21 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="article">
+    <meta name="description" content="前言久仰DDIA大名，刚把MIT 6.824做完，之后应该会把DDIA的内容做一个摘录，其中也会夹杂着6.824的论文翻译和lab记录的整理 原书链接: Designing Data-Intensive Application 第一章数据系统现今很多应用属于数据密集型 （data-intensive），而非计算密集型（compute-intensive）。主要的问题来自数据量、数据的复杂性以及数据">
+<meta property="og:type" content="article">
 <meta property="og:title" content="[DDIA][第一章]: 可靠性、可拓展性、可维护性">
 <meta property="og:url" content="https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/index.html">
 <meta property="og:site_name" content="Codebucks">
+<meta property="og:description" content="前言久仰DDIA大名，刚把MIT 6.824做完，之后应该会把DDIA的内容做一个摘录，其中也会夹杂着6.824的论文翻译和lab记录的整理 原书链接: Designing Data-Intensive Application 第一章数据系统现今很多应用属于数据密集型 （data-intensive），而非计算密集型（compute-intensive）。主要的问题来自数据量、数据的复杂性以及数据">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/fig1-5.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-chap1-reliability-scalability-maintainability-fig1-5.png">
 <meta property="article:published_time" content="2021-10-28T23:44:26.000Z">
-<meta property="article:modified_time" content="2021-10-29T11:32:39.116Z">
+<meta property="article:modified_time" content="2021-10-30T09:07:26.166Z">
 <meta property="article:author" content="charstal">
 <meta property="article:tag" content="分布式">
 <meta property="article:tag" content="可靠性">
 <meta property="article:tag" content="可拓展性">
 <meta property="article:tag" content="可维护性">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/fig1-5.png">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-chap1-reliability-scalability-maintainability-fig1-5.png">
     
     
       
@@ -72,7 +74,7 @@
          
           <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="https://github.com/charstal" target="_blank" rel="noopener">Projects</a></li>
          
           <li><a href="/search/">Search</a></li>
         
@@ -105,7 +107,7 @@
   <li><a class="icon" href="http://reddit.com/submit?url=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&title=[DDIA][第一章]: 可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&title=[DDIA][第一章]: 可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://digg.com/submit?url=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&title=[DDIA][第一章]: 可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&name=[DDIA][第一章]: 可靠性、可拓展性、可维护性&description=&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&name=[DDIA][第一章]: 可靠性、可拓展性、可维护性&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
   <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&t=[DDIA][第一章]: 可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
@@ -137,6 +139,8 @@
       
         <time datetime="2021-10-28T23:44:26.000Z" itemprop="datePublished">2021-10-28</time>
         
+        (Updated: <time datetime="2021-10-30T09:07:26.166Z" itemprop="dateModified">2021-10-30</time>)
+        
       
     </div>
 
@@ -160,7 +164,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <html><head></head><body><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>久仰DDIA大名，刚把<code>MIT 6.824</code>做完，之后应该会把DDIA的内容做一个摘录，其中也会夹杂着<code>6.824</code>的论文翻译和<code>lab</code>记录的整理</p>
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>久仰DDIA大名，刚把<code>MIT 6.824</code>做完，之后应该会把DDIA的内容做一个摘录，其中也会夹杂着<code>6.824</code>的论文翻译和<code>lab</code>记录的整理</p>
 <p>原书链接: <a href="https://vonng.gitbooks.io/ddia-cn/content/ch1.html" target="_blank" rel="noopener">Designing Data-Intensive Application</a></p>
 <h1 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h1><h2 id="数据系统"><a href="#数据系统" class="headerlink" title="数据系统"></a>数据系统</h2><p>现今很多应用属于数据密集型 （data-intensive），而非计算密集型（compute-intensive）。主要的问题来自数据量、数据的复杂性以及数据的变更速度。</p>
 <p>数据密集型应用通常都需要：</p>
@@ -234,7 +238,7 @@
 <p>百分位点：<br>如果想知道典型场景下用户需要等待多长时间，那么中位数是一个好的度量标准：一半用户请求的响应时间少于响应时间的中位数，另一半服务时间比中位数长。中位数也被称为第50百分位点，有时缩写为p50。注意中位数是关于单个请求的；如果用户同时发出几个请求（在一个会话过程中，或者由于一个页面中包含了多个资源），则至少一个请求比中位数慢的概率远大于50％。</p>
 <p>​ 百分位点通常用于<code>服务级别目标（SLO, service level objectives）</code>和<code>服务级别协议（SLA, service level agreements）</code>，即定义服务预期性能和可用性的合同。 SLA可能会声明，如果服务响应时间的中位数小于200毫秒，且99.9百分位点低于1秒，则认为服务工作正常（如果响应时间更长，就认为服务不达标）。这些指标为客户设定了期望值，并允许客户在SLA未达标的情况下要求退款。</p>
 <p>在多重调用的后端服务里，高百分位数变得特别重要。即使并行调用，最终用户请求仍然需要等待最慢的并行调用完成。只需要一个缓慢的调用就可以使整个最终用户请求变慢。即使只有一小部分后端调用速度较慢，如果最终用户请求需要多个后端调用，则获得较慢调用的机会也会增加，因此较高比例的最终用户请求速度会变慢（效果称为尾部延迟放大）。  </p>
-<p><img src="/DDIA-chap1-reliability-scalability-maintainability/fig1-5.png" alt="fig1-5"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-chap1-reliability-scalability-maintainability-fig1-5.png" alt="fig1-5"></p>
 <h3 id="应对负载的方法"><a href="#应对负载的方法" class="headerlink" title="应对负载的方法"></a>应对负载的方法</h3><p><code>纵向扩展（scaling up）</code>（<code>垂直扩展（vertical scaling）</code>): 转向更强大的机器</p>
 <p><code>横向扩展（scaling out）</code> （<code>水平扩展（horizontal scaling）</code>):将负载分布到多台小机器上之间的对立</p>
 <p><code>弹性（elastic）</code> 意味着可以在检测到负载增加时自动增加计算资源，而其他系统则是手动扩展（人工分析容量并决定向系统添加更多的机器）。如果负载极难预测（highly unpredictable），则弹性系统可能很有用，但手动扩展系统更简单，并且意外操作可能会更少</p>
@@ -258,7 +262,7 @@
 <p>用于消除额外复杂度的最好工具之一是抽象（abstraction）。</p>
 <h3 id="可演化性：拥抱变化"><a href="#可演化性：拥抱变化" class="headerlink" title="可演化性：拥抱变化"></a>可演化性：拥抱变化</h3><p>敏捷（agile） 工作模式为适应变化提供了一个框架</p>
 <p>敏捷社区还开发了对在频繁变化的环境中开发软件很有帮助的技术工具和模式，如 测试驱动开发（TDD, test-driven development） 和 重构（refactoring） 。</p>
-</body></html>
+
   </div>
 </article>
 
@@ -283,7 +287,7 @@
          
           <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="https://github.com/charstal" target="_blank" rel="noopener">Projects</a></li>
          
           <li><a href="/search/">Search</a></li>
         
@@ -305,7 +309,7 @@
   <li><a class="icon" href="http://reddit.com/submit?url=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&title=[DDIA][第一章]: 可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&title=[DDIA][第一章]: 可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://digg.com/submit?url=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&title=[DDIA][第一章]: 可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&name=[DDIA][第一章]: 可靠性、可拓展性、可维护性&description=&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&name=[DDIA][第一章]: 可靠性、可拓展性、可维护性&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://www.charstal.com/DDIA-chap1-reliability-scalability-maintainability/&t=[DDIA][第一章]: 可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
@@ -340,7 +344,7 @@
          
           <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/projects_url">Projects</a></li>
+          <li><a href="https://github.com/charstal" target="_blank" rel="noopener">Projects</a></li>
          
           <li><a href="/search/">Search</a></li>
         
