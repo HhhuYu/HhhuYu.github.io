@@ -21,7 +21,7 @@ mathjax: true
 
 When your interviewer asks you to write "Hello World" using C, can you do as the following figure shows?
 
-![HWC.jpg](2019-winter-PAT-advanced/HWC.jpg)
+![HWC.jpg](https://cdn.jsdelivr.net/gh/charstal/images/hexo/2019-winter-PAT-advanced-HWC.jpg)
 #### Input Specification:
 Each input file contains one test case. For each case, the first part gives the 26 capital English letters A-Z, each in a 7×5 matrix of C's and .'s. Then a sentence is given in a line, ended by a return. The sentence is formed by several words (no more than 10 continuous capital English letters each), and the words are separated by any characters other than capital English letters.
 
@@ -535,7 +535,7 @@ int main() {
 
 A Cartesian tree is a binary tree constructed from a sequence of distinct numbers. The tree is heap-ordered, and an inorder traversal returns the original sequence. For example, given the sequence { 8, 15, 3, 4, 1, 5, 12, 10, 18, 6 }, the min-heap Cartesian tree is shown by the figure.
 
-![CTree.jpg](2019-winter-PAT-advanced/CTree.jpg)
+![CTree.jpg](https://cdn.jsdelivr.net/gh/charstal/images/hexo/2019-winter-PAT-advanced-CTree.jpg)
 
 Your job is to output the level-order traversal sequence of the min-heap Cartesian tree.
 

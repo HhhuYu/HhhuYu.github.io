@@ -125,7 +125,7 @@ date: 2021-10-28 23:44:26
 
 
 
-![fig1-5](DDIA-chap1-reliability-scalability-maintainability/fig1-5.png)
+![fig1-5](https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-chap1-reliability-scalability-maintainability-fig1-5.png)
 ### 应对负载的方法
 
 `纵向扩展（scaling up）`（`垂直扩展（vertical scaling）`): 转向更强大的机器

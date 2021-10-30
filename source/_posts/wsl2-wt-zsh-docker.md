@@ -22,7 +22,7 @@ date: 2020-07-19 15:28:28
 
 这是我现在的界面，大家可以自己定义其他的外观等等。
 
-![overview](./wsl2-wt-zsh-docker/overview.png)
+![overview](https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-overview.png)
 
 
 最近看了一下，居然`wsl2`已经出好久了，还支持`docker`。我居然才知道，我想了想那时我应该在准备考研，emmm 。好了，废话不多说我们开始配置。
@@ -45,11 +45,11 @@ date: 2020-07-19 15:28:28
 `wsl2`只有在`windows 10`版本2004的内部版本19041或者更高的版本中有提供 
 
 - 你可以`win+R`中输入`winver`中查看windows的版本
-  - ![winver](wsl2-wt-zsh-docker/winver.png)
+  - ![winver](https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-winver.png)
 - 如果你的版本没有达到要求的话，你可以先试图通过windows 10的系统更新。
 - 如果依旧没达到版本要求的话：
   - 加入微软的`windows 预览体院计划`，并选择Beta渠道
-  - ![preview](wsl2-wt-zsh-docker/preview.png)
+  - ![preview](https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-preview.png)
   - 进行windows 10的系统更新
 
 
@@ -113,11 +113,11 @@ wsl --set-version Ubuntu 2
 在`Microsoft Store`搜索`windows terminal`与想要的`linux` 发行版
 
 
-![windows-ternimal](wsl2-wt-zsh-docker/windows-terminal.png)
+![windows-ternimal](https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-windows-terminal.png)
 
 
 你可以搜索你想要的 linux 发行版，基本上都有
-![](wsl2-wt-zsh-docker/disto.png)
+![disto](https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-disto.png)
 
 - Ubuntu 16.04 LTS
 - Ubuntu 18.04 LTS
@@ -379,7 +379,7 @@ docker-compose --version
 
 提供了docker的gui
 
-![docker-desktop](wsl2-wt-zsh-docker/docker-desktop.png)
+![docker-desktop](https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-docker-desktop.png)
 
 
 
@@ -387,13 +387,13 @@ docker-compose --version
 
 请先下载vscode安装插件：`remote-wsl`和`terminal`。
 
-![remote-wsl](wsl2-wt-zsh-docker/remote-wsl.png)
-![terminal-plugin](wsl2-wt-zsh-docker/terminal-plugin.png)
+![remote-wsl](https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-remote-wsl.png)
+![terminal-plugin](https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-terminal-plugin.png)
 
-这样你就可以通过点击![](wsl2-wt-zsh-docker/connection.png)连接wsl
+这样你就可以通过点击![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-connection.png)连接wsl
 
 通过`ctrl+p`输入terminal，选择打开一个内部的teriminal。就可以了。
-![](wsl2-wt-zsh-docker/vscode-shell.png)
+![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-vscode-shell.png)
 
 修改默认的shell为zsh。
 

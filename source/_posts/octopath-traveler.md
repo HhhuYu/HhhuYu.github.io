@@ -27,20 +27,20 @@ date: 2020-02-29 17:07:01
 
 最后收藏了一些图：
 
-![](octopath-traveler/alfyn.jpg)
+![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/octopath-traveler-alfyn.jpg)
 
-![](octopath-traveler/cyrus.jpg)
+![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/octopath-traveler-cyrus.jpg)
 
-![](octopath-traveler/haannit.jpg)
+![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/octopath-traveler-haannit.jpg)
 
-![](octopath-traveler/olberic.jpg)
+![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/octopath-traveler-olberic.jpg)
 
-![](octopath-traveler/ophilia.jpg)
+![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/octopath-traveler-ophilia.jpg)
 
-![](octopath-traveler/primrose.jpg)
+![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/octopath-traveler-primrose.jpg)
 
-![](octopath-traveler/therion.jpg)
+![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/octopath-traveler-therion.jpg)
 
-![](octopath-traveler/tressa.jpg)
+![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/octopath-traveler-tressa.jpg)
 
-![](octopath-traveler/boss.jpg)
+![](https://cdn.jsdelivr.net/gh/charstal/images/hexo/octopath-traveler-boss.jpg)
