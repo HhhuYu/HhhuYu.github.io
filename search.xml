@@ -383,7 +383,7 @@
 <li>原始数据类型中的值，例如字符串或数字。在这种情况下，三元组的谓语和宾语相当于主语顶点上的属性的键和值。例如，(lucy, age, 33)就像属性{“age”：33}的顶点lucy。</li>
 <li>图中的另一个顶点。在这种情况下，谓语是图中的一条边，主语是其尾部顶点，而宾语是其头部顶点。例如，在(lucy, marriedTo, alain)中主语和宾语lucy和alain都是顶点，并且谓语marriedTo是连接他们的边的标签。</li>
 </ul>
-<h3 id="RDF数据模型"><a href="#RDF数据模型" class="headerlink" title="　RDF数据模型"></a>　RDF数据模型</h3><h3 id="SPARQL查询语言"><a href="#SPARQL查询语言" class="headerlink" title="SPARQL查询语言"></a>SPARQL查询语言</h3><p>SPARQL是一种用于三元组存储的面向RDF数据模型的查询语言。</p>
+<h3 id="RDF数据模型"><a href="#RDF数据模型" class="headerlink" title="RDF数据模型"></a>RDF数据模型</h3><h3 id="SPARQL查询语言"><a href="#SPARQL查询语言" class="headerlink" title="SPARQL查询语言"></a>SPARQL查询语言</h3><p>SPARQL是一种用于三元组存储的面向RDF数据模型的查询语言。</p>
 <h3 id="Datalog"><a href="#Datalog" class="headerlink" title="Datalog"></a>Datalog</h3><p>Datalog是比SPARQL或Cypher更古老的语言</p>
 <p>Datalog的数据模型类似于三元组模式，但进行了一点泛化。把三元组写成谓语（主语，宾语），而不是写三元语（主语，谓语，宾语）</p>
 ]]></content>
