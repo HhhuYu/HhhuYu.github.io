@@ -182,7 +182,7 @@ RETURN person.name
 - 图中的另一个顶点。在这种情况下，谓语是图中的一条边，主语是其尾部顶点，而宾语是其头部顶点。例如，在(lucy, marriedTo, alain)中主语和宾语lucy和alain都是顶点，并且谓语marriedTo是连接他们的边的标签。
 
 
-###　RDF数据模型
+### RDF数据模型
 
 ### SPARQL查询语言
 
