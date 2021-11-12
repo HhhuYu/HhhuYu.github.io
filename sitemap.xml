@@ -2,76 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.charstal.com/2019-12-28/</loc>
-    
-    <lastmod>2021-11-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2019-12-29/</loc>
-    
-    <lastmod>2021-11-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2019-winter-PAT-advanced/</loc>
-    
-    <lastmod>2021-11-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2020-01-14/</loc>
-    
-    <lastmod>2021-11-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2020-01-24/</loc>
-    
-    <lastmod>2021-11-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2020-02-26/</loc>
-    
-    <lastmod>2021-11-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2020-03-29/</loc>
-    
-    <lastmod>2021-11-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2020-new-year-brief-2021/</loc>
-    
-    <lastmod>2021-11-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/DDIA-ch1-reliability-scalability-maintainability/</loc>
-    
-    <lastmod>2021-11-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/DDIA-ch2-data-model-and-search-language/</loc>
-    
-    <lastmod>2021-11-12</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://www.charstal.com/DDIA-ch3-storage-and-retrieval/</loc>
     
     <lastmod>2021-11-12</lastmod>
@@ -157,6 +87,76 @@
   
   <url>
     <loc>https://www.charstal.com/tags/index.html</loc>
+    
+    <lastmod>2021-11-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2019-12-28/</loc>
+    
+    <lastmod>2021-11-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2019-12-29/</loc>
+    
+    <lastmod>2021-11-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2019-winter-PAT-advanced/</loc>
+    
+    <lastmod>2021-11-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2020-01-14/</loc>
+    
+    <lastmod>2021-11-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2020-01-24/</loc>
+    
+    <lastmod>2021-11-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2020-02-26/</loc>
+    
+    <lastmod>2021-11-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2020-03-29/</loc>
+    
+    <lastmod>2021-11-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2020-new-year-brief-2021/</loc>
+    
+    <lastmod>2021-11-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/DDIA-ch1-reliability-scalability-maintainability/</loc>
+    
+    <lastmod>2021-11-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/DDIA-ch2-data-model-and-search-language/</loc>
     
     <lastmod>2021-11-12</lastmod>
     
