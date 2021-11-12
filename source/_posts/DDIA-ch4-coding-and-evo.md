@@ -2,7 +2,7 @@
 title: '[DDIA][第四章]：编码与演化'
 categories:
   - DDIA
-mathjax: false
+mathjax: true
 date: 2021-11-11 16:56:42
 tags:
 ---

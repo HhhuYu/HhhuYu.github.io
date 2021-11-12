@@ -5,7 +5,7 @@ categories:
 tags:
   - 存储
   - 检索
-mathjax: false
+mathjax: true
 date: 2021-11-11 16:56:31
 ---
 
