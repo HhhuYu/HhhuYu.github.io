@@ -175,7 +175,7 @@
       </tags>
   </entry>
   <entry>
-    <title>[DDIA][第一章]: 可靠性、可拓展性、可维护性</title>
+    <title>[DDIA][第一章]：可靠性、可拓展性、可维护性</title>
     <url>/DDIA-ch1-reliability-scalability-maintainability/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>久仰DDIA大名，刚把<code>MIT 6.824</code>做完，之后应该会把DDIA的内容做一个摘录，其中也会夹杂着<code>6.824</code>的论文翻译和<code>lab</code>记录的整理</p>
 <p>原书链接: <a href="https://vonng.gitbooks.io/ddia-cn/content/ch1.html" target="_blank" rel="noopener">Designing Data-Intensive Application</a></p>
@@ -395,6 +395,263 @@
         <tag>数据库</tag>
         <tag>查询语言</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>[DDIA][第三章]：存储与检索</title>
+    <url>/DDIA-ch3-storage-and-retrieval/</url>
+    <content><![CDATA[<h1 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h1><p>这里将会研究两大类存储引擎：<code>日志结构（log-structred）</code>的存储引擎，以及<code>面向页面（page-oriented）</code>的存储引擎（例如B树）。</p>
+<h2 id="驱动数据库的数据结构"><a href="#驱动数据库的数据结构" class="headerlink" title="驱动数据库的数据结构"></a>驱动数据库的数据结构</h2><p>世界上最简单的数据库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="function"><span class="title">db_set</span></span> () &#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"<span class="variable">$1</span>,<span class="variable">$2</span>"</span> &gt;&gt; database</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">db_get</span></span> () &#123;</span><br><span class="line">    grep <span class="string">"^<span class="variable">$1</span>,"</span> database | sed -e <span class="string">"s/^<span class="variable">$1</span>,//"</span> | tail -n 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行<code>db_set key value</code>，会将key和value存储在数据库中。<br>调用<code>db_get key</code>，查询该key关联的value</p>
+<p>在文件尾部追加写入通常是非常高效的</p>
+<p>如果该数据库中有大量的记录，那么<code>db_get</code>的效率会非常低，查找的开销为<code>O(n)</code>。所以为了提高查找效率增加了一个新的数据结构：<code>索引（index）</code>。</p>
+<p>索引的大致思想就是：保存一些额外的元数据作为路标，帮助你找到想要的数据。</p>
+<p>索引是从主数据衍生的<code>附加（additional）</code>结构。许多数据库允许添加与删除索引，这不会影响数据的内容，它只影响查询的性能。任何类型的索引通常都会减慢写入速度，因为每次写入数据时都需要更新索引。</p>
+<p>这是存储系统中一个重要的权衡：<code>精心选择的索引加快了读查询的速度，但是每个索引都会拖慢写入速度</code>。因为这个原因，数据库默认并不会索引所有的内容，而需要你（程序员或DBA）通过对应用查询模式的了解来手动选择索引。</p>
+<h3 id="哈希索引"><a href="#哈希索引" class="headerlink" title="哈希索引"></a>哈希索引</h3><p>最简单的索引策略就是：保留一个内存中的哈希映射，其中每个键都映射到一个数据文件中的字节偏移量，指明了可以找到对应值的位置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-1.png" alt="3-1"></p>
+<p><a href="https://github.com/basho/bitcask" target="_blank" rel="noopener">Bitcask</a>提供高性能的读取和写入操作，但所有键必须能放入可用内存中，因为哈希映射完全保留在内存中。这些值可以使用比可用内存更多的空间，因为可以从磁盘上通过一次seek加载所需部分，如果数据文件的那部分已经在文件系统缓存中，则读取根本不需要任何磁盘I/O。</p>
+<p>避免最终用完磁盘空间：将日志分为特定大小的段，当日志增长到特定尺寸时关闭当前段文件，并开始写入一个新的段文件。然后，就可以对这些段进行<code>压缩（compaction）</code>压缩意味着在日志中丢弃重复的键，只保留每个键的最近更新。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-2.png" alt="3-2"></p>
+<p>而且，由于压缩经常会使得段变得很小（假设在一个段内键被平均重写了好几次），也可以在执行压缩的同时将多个段合并在一起，冻结段的合并和压缩可以在后台线程中完成，在进行时，仍然可以继续使用旧的段文件来正常提供读写请求。合并过程完成后，我们将读取请求转换为使用新的合并段，然后可以删除旧的段文件。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-3.png" alt="3-3"></p>
+<p>每个段现在都有自己的内存散列表，将键映射到文件偏移量。为了找到一个键的值，我们首先检查最近段的哈希映射;如果键不存在，我们检查第二个最近的段，依此类推。不过其中有一些问题：</p>
+<h4 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h4><p>​CSV不是日志的最佳格式。使用二进制格式更快，更简单，首先以字节为单位对字符串的长度进行编码，然后使用原始字符串（不需要转义）。</p>
+<h4 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h4><p>如果要删除一个键及其关联的值，则必须在数据文件（有时称为逻辑删除）中附加一个特殊的删除记录。当日志段被合并时，逻辑删除告诉合并过程放弃删除键的任何以前的值。</p>
+<h4 id="崩溃记录"><a href="#崩溃记录" class="headerlink" title="崩溃记录"></a>崩溃记录</h4><p>如果数据库重新启动，则内存散列映射将丢失。原则上，您可以通过从头到尾读取整个段文件并在每次按键时注意每个键的最近值的偏移量来恢复每个段的哈希映射。但是，如果段文件很大，这可能需要很长时间，这将使服务器重新启动痛苦。 Bitcask通过存储加速恢复磁盘上每个段的哈希映射的快照，可以更快地加载到内存中。</p>
+<h4 id="部分写入记录"><a href="#部分写入记录" class="headerlink" title="部分写入记录"></a>部分写入记录</h4><p>数据库可能随时崩溃，包括将记录附加到日志中途。 Bitcask文件包含校验和，允许检测和忽略日志的这些损坏部分。</p>
+<h4 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h4><p>由于写操作是以严格顺序的顺序附加到日志中的，所以常见的实现选择是只有一个写入器线程。数据文件段是附加的，或者是不可变的，所以它们可以被多个线程同时读取。</p>
+<p>乍一看，只有追加日志看起来很浪费：为什么不更新文件，用新值覆盖旧值？但是只能追加设计的原因有几个：</p>
+<ul>
+<li>追加和分段合并是顺序写入操作，通常比随机写入快得多，尤其是在磁盘旋转硬盘上。在某种程度上，顺序写入在基于闪存的 固态硬盘（SSD） 上也是优选的</li>
+<li>如果段文件是附加的或不可变的，并发和崩溃恢复就简单多了。例如，您不必担心在覆盖值时发生崩溃的情况，而将包含旧值和新值的一部分的文件保留在一起。</li>
+<li>合并旧段可以避免数据文件随着时间的推移而分散的问题。</li>
+</ul>
+<p>但是，哈希表索引也有局限性：</p>
+<ul>
+<li>散列表必须能放进内存</li>
+<li>如果你有非常多的键，那真是倒霉。原则上可以在磁盘上保留一个哈希映射，不幸的是磁盘哈希映射很难表现优秀。它需要大量的随机访问I/O，当它变满时增长是很昂贵的，并且散列冲突需要很多的逻辑。</li>
+<li>范围查询效率不高。例如，无法轻松扫描kitty00000和kitty99999之间的所有键——您必须在散列映射中单独查找每个键。</li>
+</ul>
+<h3 id="SSTables和LSM树"><a href="#SSTables和LSM树" class="headerlink" title="SSTables和LSM树"></a>SSTables和LSM树</h3><p>之前的<code>Bitcask</code>之类的，每个日志结构存储段都是一系列键值对。这些对按照它们写入的顺序出现，日志中稍后的值优先于日志中较早的相同键的值。除此之外，文件中键值对的顺序并不重要。</p>
+<p>SSTable，排序字符串表（Sorted String Table)：键值对的序列按键排序</p>
+<p>LSM树，日志结构合并树（Log-Structured Merge-Tree）</p>
+<p>SSTables优势：</p>
+<ul>
+<li><p>合并段是简单而高效的，即使文件大于可用内存。这种方法就像归并排序算法中使用的方法一样，并排读取输入文件，查看每个文件中的第一个键，复制最低键（根据排序顺序）到输出文件，并重复。这产生一个新的合并段文件，也按键排序。<br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-4.png" alt="3-4"><br>当多个段包含相同的键时，我们可以保留最近段的值，并丢弃旧段中的值。</p>
+</li>
+<li><p>为了在文件中找到一个特定的键，你不再需要保存内存中所有键的索引。假设你正在内存中寻找键 handiwork，但是你不知道段文件中该关键字的确切偏移量。然而，你知道 handbag 和 handsome 的偏移，而且由于排序特性，你知道 handiwork 必须出现在这两者之间。这意味着您可以跳到 handbag 的偏移位置并从那里扫描，直到您找到 handiwork（或没找到，如果该文件中没有该键）。<br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-5.png" alt=""><br>仍然需要一个内存中索引来告诉您一些键的偏移量，但它可能很稀疏：每几千字节的段文件就有一个键就足够了，因为几千字节可以很快被扫描。</p>
+</li>
+<li><p>由于读取请求无论如何都需要扫描所请求范围内的多个键值对，因此可以将这些记录分组到块中，并在将其写入磁盘之前对其进行压缩（如上图阴影）。稀疏内存中索引的每个条目都指向压缩块的开始处。除了节省磁盘空间之外，压缩还可以减少IO带宽的使用。</p>
+</li>
+</ul>
+<h3 id="构建和维护SSTables"><a href="#构建和维护SSTables" class="headerlink" title="构建和维护SSTables"></a>构建和维护SSTables</h3><p>如何让数据首先被按键排序？</p>
+<p>可以使用红黑树或AVL树等，可以以任何顺序插入键，并按照排序顺序读取他们。</p>
+<p>当前存储引擎工作方式：</p>
+<ul>
+<li>写入时，将其添加到内存中的平衡树数据结构（例如，红黑树）。这个内存树有时被称为内存表（memtable）。</li>
+<li>当内存表大于某个阈值（通常为几兆字节）时，将其作为SSTable文件写入磁盘。这可以高效地完成，因为树已经维护了按键排序的键值对。新的SSTable文件成为数据库的最新部分。当SSTable被写入磁盘时，写入可以继续到一个新的内存表实例。</li>
+<li>为了提供读取请求，首先尝试在内存表中找到关键字，然后在最近的磁盘段中，然后在下一个较旧的段中找到该关键字。</li>
+<li>有时会在后台运行合并和压缩过程以组合段文件并丢弃覆盖或删除的值。</li>
+</ul>
+<p>但是，如果数据库崩溃，则最近的写入（在内存表中，但尚未写入磁盘）将丢失。</p>
+<p>我们可以在磁盘上保存一个单独的日志，每个写入都会立即被附加到磁盘上，就像在前一节中一样。该日志不是按排序顺序，但这并不重要，因为它的唯一目的是在崩溃后恢复内存表。每当内存表写出到SSTable时，相应的日志都可以被丢弃。</p>
+<h3 id="使用SSTables生成LSM树"><a href="#使用SSTables生成LSM树" class="headerlink" title="使用SSTables生成LSM树"></a>使用SSTables生成LSM树</h3><p>这里描述的算法本质上是LevelDB和RocksDB中使用的关键值存储引擎库，被设计嵌入到其他应用程序中。除此之外，LevelDB可以在Riak中用作Bitcask的替代品。在Cassandra和HBase中使用了类似的存储引擎，这两种引擎都受到了Google的Bigtable文档（引入了SSTable和memtable）的启发。</p>
+<p>最初这种索引结构是由Patrick O’Neil等人描述的。在日志结构合并树（或LSM树）的基础上，建立在以前的工作上日志结构的文件系统。基于这种合并和压缩排序文件原理的存储引擎通常被称为LSM存储引擎。</p>
+<p>Lucene是Elasticsearch和Solr使用的一种全文搜索的索引引擎，它使用类似的方法来存储它的词典。全文索引比键值索引复杂得多，但是基于类似的想法：在搜索查询中给出一个单词，找到提及单词的所有文档（网页，产品描述等）。这是通过键值结构实现的，其中键是单词（关键词（term）），值是包含单词（文章列表）的所有文档的ID的列表。在Lucene中，从术语到发布列表的这种映射保存在SSTable类的有序文件中，根据需要在后台合并。</p>
+<h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><p>与往常一样，大量的细节使得存储引擎在实践中表现良好。例如，当查找数据库中不存在的键时，LSM树算法可能会很慢：您必须检查内存表，然后将这些段一直回到最老的（可能必须从磁盘读取每一个），然后才能确定键不存在。为了优化这种访问，存储引擎通常使用额外的<code>Bloom过滤器</code>。 （布隆过滤器是用于近似集合内容的内存高效数据结构，它可以告诉您数据库中是否出现键，从而为不存在的键节省许多不必要的磁盘读取操作。</p>
+<p>还有不同的策略来确定SSTables如何被压缩和合并的顺序和时间。最常见的选择是大小分层压实。 LevelDB和RocksDB使用平坦压缩（LevelDB因此得名），HBase使用大小分层，Cassandra同时支持。在规模级别的调整中，更新和更小的SSTables先后被合并到更老的和更大的SSTable中。在水平压实中，关键范围被拆分成更小的SSTables，而较旧的数据被移动到单独的“水平”，这使得压缩能够更加递增地进行，并且使用更少的磁盘空间。</p>
+<p><code>LSM树的基本思想</code>：保存一系列在后台合并的SSTables。即使数据集比可用内存大得多，它仍能继续正常工作。由于数据按排序顺序存储，因此可以高效地执行范围查询（扫描所有高于某些最小值和最高值的所有键），并且因为磁盘写入是连续的，所以LSM树可以支持非常高的写入吞吐量。</p>
+<h2 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h2><p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-6.png" alt=""></p>
+<p>一个页面会被指定为B树的根；在索引中查找一个键时，就从这里开始。该页面包含几个键和对子页面的引用。每个子页面负责一段连续范围的键，引用之间的键，指明了引用子页面的键范围。</p>
+<p>在图3-6的例子中，我们正在寻找关键字 251 ，所以我们知道我们需要遵循边界 200 和 300 之间的页面引用。这将我们带到一个类似的页面，进一步打破了200 - 300到子范围。</p>
+<p>最后，我们可以看到包含单个键（叶页）的页面，该页面包含每个键的内联值，或者包含对可以找到值的页面的引用。</p>
+<p>在B树的一个页面中对子页面的引用的数量称为分支因子。例如，在图3-6中，分支因子是 6 。在实践中，分支因子取决于存储页面参考和范围边界所需的空间量，但通常是几百个。</p>
+<p>如果要更新B树中现有键的值，则搜索包含该键的叶页，更改该页中的值，并将该页写回到磁盘（对该页的任何引用保持有效） 。如果你想添加一个新的键，你需要找到其范围包含新键的页面，并将其添加到该页面。如果页面中没有足够的可用空间容纳新键，则将其分成两个半满页面，并更新父页面以解释键范围的新分区</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-7.png" alt=""></p>
+<p>该算法确保树保持平衡：具有 n 个键的B树总是具有 $O(log n)$ 的深度。大多数数据库可以放入一个三到四层的B树，所以你不需要遵追踪多页面引用来找到你正在查找的页面。 （分支因子为 500 的 4KB 页面的四级树可以存储多达 256TB 。）</p>
+<h3 id="让B树更可靠"><a href="#让B树更可靠" class="headerlink" title="让B树更可靠"></a>让B树更可靠</h3><p>B树的基本底层写操作是用新数据覆盖磁盘上的页面。假定覆盖不改变页面的位置;即，当页面被覆盖时，对该页面的所有引用保持完整。这与日志结构索引（如LSM树）形成鲜明对比，后者只附加到文件（并最终删除过时的文件），但从不修改文件。</p>
+<p>B树实现通常会带有一个额外的磁盘数据结构：<code>预写式日志（WAL, write-ahead-log）</code>（也称为重做日志（redo log））。这是一个仅追加的文件，每个B树修改都可以应用到树本身的页面上。当数据库在崩溃后恢复时，这个日志被用来使B树恢复到一致的状态</p>
+<p>更新页面的一个额外的复杂情况是，如果多个线程要同时访问B树，则需要仔细的并发控制 —— 否则线程可能会看到树处于不一致的状态。这通常通过使用<code>锁存器（latches）</code>（轻量级锁）保护树的数据结构来完成。日志结构化的方法在这方面更简单，因为它们在后台进行所有的合并，而不会干扰传入的查询，并且不时地将旧的分段原子交换为新的分段。</p>
+<h3 id="B树优化"><a href="#B树优化" class="headerlink" title="B树优化"></a>B树优化</h3><ul>
+<li>写时复制</li>
+<li>不存储整个键</li>
+<li>布局树</li>
+<li>队兄弟页面的引用</li>
+<li>分形树</li>
+</ul>
+<h2 id="B树与LSM树优缺点比较"><a href="#B树与LSM树优缺点比较" class="headerlink" title="B树与LSM树优缺点比较"></a>B树与LSM树优缺点比较</h2><h3 id="LSM树优点"><a href="#LSM树优点" class="headerlink" title="LSM树优点"></a>LSM树优点</h3><p>B树索引必须至少两次写入每一段数据：一次写入预先写入日志，一次写入树页面本身（也许再次分页）。即使在该页面中只有几个字节发生了变化，也需要一次编写整个页面的开销。有些存储引擎甚至会覆盖同一个页面两次，以免在电源故障的情况下导致页面部分更新。</p>
+<p>由于反复压缩和合并SSTables，日志结构索引也会重写数据。这种影响在数据库的生命周期中写入数据库导致对磁盘的多次写入被称为写放大（write amplification）。需要特别注意的是固态硬盘，固态硬盘的闪存寿命在覆写有限次数后就会耗尽。</p>
+<p>在写入繁重的应用程序中，性能瓶颈可能是数据库可以写入磁盘的速度。在这种情况下，写放大会导致直接的性能代价：存储引擎写入磁盘的次数越多，可用磁盘带宽内的每秒写入次数越少。</p>
+<p>而且，LSM树通常能够比B树支持更高的写入吞吐量，部分原因是它们有时具有较低的写放大（尽管这取决于存储引擎配置和工作负载），部分是因为它们顺序地写入紧凑的SSTable文件而不是必须覆盖树中的几个页面。这种差异在磁性硬盘驱动器上尤其重要，顺序写入比随机写入快得多。</p>
+<p>LSM树可以被压缩得更好，因此经常比B树在磁盘上产生更小的文件。 B树存储引擎会由于分割而留下一些未使用的磁盘空间：当页面被拆分或某行不能放入现有页面时，页面中的某些空间仍未被使用。由于LSM树不是面向页面的，并且定期重写SSTables以去除碎片，所以它们具有较低的存储开销，特别是当使用平坦压缩时。</p>
+<p>在许多固态硬盘上，固件内部使用日志结构化算法，将随机写入转变为顺序写入底层存储芯片，因此存储引擎写入模式的影响不太明显。但是，较低的写入放大率和减少的碎片对SSD仍然有利：更紧凑地表示数据可在可用的I/O带宽内提供更多的读取和写入请求。</p>
+<h3 id="LSM缺点"><a href="#LSM缺点" class="headerlink" title="LSM缺点"></a>LSM缺点</h3><p>日志结构存储的缺点是压缩过程有时会干扰正在进行的读写操作。尽管存储引擎尝试逐步执行压缩而不影响并发访问，但是磁盘资源有限，所以很容易发生请求需要等待而磁盘完成昂贵的压缩操作。对吞吐量和平均响应时间的影响通常很小，但是在更高百分比的情况下（参阅“描述性能”），对日志结构化存储引擎的查询响应时间有时会相当长，而B树的行为则相对更具可预测性。</p>
+<p>压缩的另一个问题出现在高写入吞吐量：磁盘的有限写入带宽需要在初始写入（记录和刷新内存表到磁盘）和在后台运行的压缩线程之间共享。写入空数据库时，可以使用全磁盘带宽进行初始写入，但数据库越大，压缩所需的磁盘带宽就越多。</p>
+<p>如果写入吞吐量很高，并且压缩没有仔细配置，压缩跟不上写入速率。在这种情况下，磁盘上未合并段的数量不断增加，直到磁盘空间用完，读取速度也会减慢，因为它们需要检查更多段文件。通常情况下，即使压缩无法跟上，基于SSTable的存储引擎也不会限制传入写入的速率，所以您需要进行明确的监控来检测这种情况。</p>
+<p>B树的一个优点是每个键只存在于索引中的一个位置，而日志结构化的存储引擎可能在不同的段中有相同键的多个副本。这个方面使得B树在想要提供强大的事务语义的数据库中很有吸引力：在许多关系数据库中，事务隔离是通过在键范围上使用锁来实现的，在B树索引中，这些锁可以直接连接到树。</p>
+<hr>
+<h2 id="事务处理还是分析？"><a href="#事务处理还是分析？" class="headerlink" title="事务处理还是分析？"></a>事务处理还是分析？</h2><p>在线事务处理（OLTP，Online Transcation Processing)。</p>
+<p>在线分析处理（OLAP，Online Analytice Processing)。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>事务处理 OLTP</th>
+<th>分析系统 OLAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主要读取模式</td>
+<td>查询少量记录，按键读取</td>
+<td>在大批量记录上聚合</td>
+</tr>
+<tr>
+<td>主要写入模式</td>
+<td>随机访问，写入要求低延时</td>
+<td>批量导入（ETL），事件流</td>
+</tr>
+<tr>
+<td>主要用户</td>
+<td>终端用户，通过Web应用</td>
+<td>内部数据分析师，决策支持</td>
+</tr>
+<tr>
+<td>处理的数据</td>
+<td>数据的最新状态（当前时间点）</td>
+<td>随时间推移的历史事件</td>
+</tr>
+<tr>
+<td>数据集尺寸</td>
+<td>GB ~ TB</td>
+<td>TB ~ PB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code>数据仓库</code>：用作数据分析</p>
+<p>从OLTP数据库中提取数据（使用定期的数据转储或连续的更新流），转换成适合分析的模式，清理并加载到数据仓库中。将数据存入仓库的过程称为<code>抽取-转换-加载（ETL）</code><br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-8.png" alt=""></p>
+<h3 id="OLTP数据库和数据仓库之间的分歧"><a href="#OLTP数据库和数据仓库之间的分歧" class="headerlink" title="OLTP数据库和数据仓库之间的分歧"></a>OLTP数据库和数据仓库之间的分歧</h3><p>表面上，一个数据仓库和一个关系OLTP数据库看起来很相似，因为它们都有一个SQL查询接口。然而，系统的内部看起来可能完全不同，因为它们针对非常不同的查询模式进行了优化。现在许多数据库供应商都将重点放在支持事务处理或分析工作负载上，而不是两者都支持。</p>
+<h2 id="列存储"><a href="#列存储" class="headerlink" title="列存储"></a>列存储</h2><p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-10.png" alt=""></p>
+<h2 id="列压缩"><a href="#列压缩" class="headerlink" title="列压缩"></a>列压缩</h2><p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-11.png" alt=""></p>
+<h2 id="数据立方体"><a href="#数据立方体" class="headerlink" title="数据立方体"></a>数据立方体</h2><p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-12.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>DDIA</category>
+      </categories>
+      <tags>
+        <tag>存储</tag>
+        <tag>检索</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[DDIA][第四章]：编码与演化</title>
+    <url>/DDIA-ch4-coding-and-evo/</url>
+    <content><![CDATA[<h1 id="第四章"><a href="#第四章" class="headerlink" title="第四章"></a>第四章</h1><p>当数据格式（format）或模式（schema）发生变化时，通常需要对应用程序代码进行相应的更改（例如，为记录添加新字段，然后修改程序开始读写该字段）。但在大型应用程序中，代码变更通常不会立即完成。</p>
+<p>这意味着，新旧版本的代码，以及新旧数据格式可能会在系统中同时共处。系统想要继续顺利运行，就需要保持<code>双向兼容性</code>：</p>
+<p><em>向后兼容 (backward compatibility)</em></p>
+<p>​ 新代码可以读旧数据。</p>
+<p><em>向前兼容 (forward compatibility)</em></p>
+<p>​ 旧代码可以读新数据。</p>
+<p>本章中将介绍几种编码数据的格式，包括 JSON，XML，Protocol Buffers，Thrift和Avro。然后将讨论如何使用这些格式进行数据存储和通信：在Web服务中,<code>具象状态传输（REST）</code>和<code>远程过程调用（RPC）</code>，以及<code>消息传递系统</code>（如Actor和消息队列）。</p>
+<h2 id="编码数据的格式"><a href="#编码数据的格式" class="headerlink" title="编码数据的格式"></a>编码数据的格式</h2><p>如果要将数据写入文件，或通过网络发送，则必须将其 编码（encode） 为某种自包含的字节序列（例如，JSON文档）</p>
+<p>从内存中表示到字节序列的转换称为 <code>编码（Encoding）</code> （也称为<code>序列化（serialization）</code>或<code>编组（marshalling）</code>），反过来称为<code>解码（Decoding）</code>（解析（Parsing），<code>反序列化（deserialization）</code>，<code>反编组( unmarshalling）</code>）</p>
+<p>许多编程语言都内建了将内存对象编码为字节序列的支持：<br>Java有<code>java.io.Serializable</code> ，Ruby有<code>Marshal</code>，Python有<code>pickle</code>等等。</p>
+<h3 id="JSON，XML和二进制变体"><a href="#JSON，XML和二进制变体" class="headerlink" title="JSON，XML和二进制变体"></a>JSON，XML和二进制变体</h3><ul>
+<li>数字的编码多有歧义之处。XML和CSV不能区分数字和字符串（除非引用外部模式）。 JSON虽然区分字符串和数字，但不区分整数和浮点数，而且不能指定精度。</li>
+<li>当处理大量数据时，这个问题更严重了。例如，大于$2^{53}$的整数不能在IEEE 754双精度浮点数中精确表示，因此在使用浮点数（例如JavaScript）的语言进行分析时，这些数字会变得不准确。 Twitter上有一个大于$2^{53}$的数字的例子，它使用一个64位的数字来标识每条推文。 Twitter API返回的JSON包含了两种推特ID，一个JSON数字，另一个是十进制字符串，以此避免JavaScript程序无法正确解析数字的问题。</li>
+<li>JSON和XML对Unicode字符串（即人类可读的文本）有很好的支持，但是它们不支持二进制数据（不带字符编码(character encoding)的字节序列）。二进制串是很实用的功能，所以人们通过使用Base64将二进制数据编码为文本来绕开这个限制。模式然后用于表示该值应该被解释为Base64编码。这个工作，但它有点hacky，并增加了33％的数据大小。 XML和JSON都有可选的模式支持。这些模式语言相当强大，所以学习和实现起来相当复杂。 XML模式的使用相当普遍，但许多基于JSON的工具嫌麻烦才不会使用模式。由于数据的正确解释（例如数字和二进制字符串）取决于模式中的信息，因此不使用XML/JSON模式的应用程序可能需要对相应的编码/解码逻辑进行硬编码。</li>
+<li>CSV没有任何模式，因此应用程序需要定义每行和每列的含义。如果应用程序更改添加新的行或列，则必须手动处理该变更。 CSV也是一个相当模糊的格式（如果一个值包含逗号或换行符，会发生什么？）。尽管其转义规则已经被正式指定，但并不是所有的解析器都正确的实现了标准。</li>
+</ul>
+<h3 id="二进制编码"><a href="#二进制编码" class="headerlink" title="二进制编码"></a>二进制编码</h3><p>JSON比XML简洁，但与二进制格式一比，还是太占地方。这一事实导致大量二进制编码版本JSON &amp; XML的出现，JSON（MessagePack，BSON，BJSON，UBJSON，BISON和Smile等）（例如WBXML和Fast Infoset）。这些格式已经被各种各样的领域所采用，但是没有一个像JSON和XML的文本版本那样被广泛采用。</p>
+<p>81个字节<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"userName"</span>: <span class="string">"Martin"</span>,</span><br><span class="line">    <span class="attr">"favoriteNumber"</span>: <span class="number">1337</span>,</span><br><span class="line">    <span class="attr">"interests"</span>: [<span class="string">"daydreaming"</span>, <span class="string">"hacking"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>66个字节<br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch4-4-1.png" alt=""></p>
+<ol>
+<li>第一个字节0x83表示接下来是3个字段（低四位=<code>0x03</code>）的对象 object（高四位=<code>0x80</code>）。 （如果想知道如果一个对象有15个以上的字段会发生什么情况，字段的数量塞不进4个bit里，那么它会用另一个不同的类型标识符，字段的数量被编码两个或四个字节）。</li>
+<li>第二个字节<code>0xa8</code>表示接下来是8字节长的字符串（最高四位=<code>0x08</code>）。</li>
+<li>接下来八个字节是ASCII字符串形式的字段名称userName。由于之前已经指明长度，不需要任何标记来标识字符串的结束位置（或者任何转义）。</li>
+<li>接下来的七个字节对前缀为0xa6的六个字母的字符串值Martin进行编码，依此类推。</li>
+</ol>
+<h3 id="Thrift与Protocol-Buffers"><a href="#Thrift与Protocol-Buffers" class="headerlink" title="Thrift与Protocol Buffers"></a>Thrift与Protocol Buffers</h3><p>接口定义语言(IDL)</p>
+<p><em>Thrift</em><br><figure class="highlight thrift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="number">1</span>: <span class="keyword">required</span> <span class="built_in">string</span>       userName,</span><br><span class="line">    <span class="number">2</span>: <span class="keyword">optional</span> <span class="built_in">i64</span>          favoriteNumber,</span><br><span class="line">    <span class="number">3</span>: <span class="keyword">optional</span> list&lt;<span class="keyword">string</span>&gt; interests</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><em>Protocol Buffers</em><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">message Person &#123;</span><br><span class="line">    required string user_name       &#x3D; 1;</span><br><span class="line">    optional int64  favorite_number &#x3D; 2;</span><br><span class="line">    repeated string interests       &#x3D; 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Thrift有两种不同的二进制编码格式，分别称为BinaryProtocol和CompactProtocol</p>
+<p>59个字节<br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch4-4-2.png" alt=""></p>
+<p>与上面相比，最大的区别是没有字段名(userName, favoriteNumber, interest)。相反，编码数据包含字段标签，它们是数字(1, 2和3)。这些是模式定义中出现的数字</p>
+<p>34个字节<br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch4-4-3.png" alt=""></p>
+<p>数字1337不是使用全部八个字节，而是用两个字节编码，每个字节的最高位用来指示是否还有更多的字节来</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch4-4-4.png" alt=""></p>
+<h3 id="字段标签和模式演变"><a href="#字段标签和模式演变" class="headerlink" title="字段标签和模式演变"></a>字段标签和模式演变</h3><p>每个字段由其标签号码（样本模式中的数字1,2,3）标识，并用数据类型（例如字符串或整数）注释。如果没有设置字段值，则简单地从编码记录中省略。从中可以看到，字段标记对编码数据的含义至关重要。可以更改架构中字段的名称，因为编码的数据永远不会引用字段名称，但不能更改字段的标记，因为这会使所有现有的编码数据无效。</p>
+<p>您可以添加新的字段到架构，只要您给每个字段一个新的标签号码。如果旧的代码（不知道你添加的新的标签号码）试图读取新代码写入的数据，包括一个新的字段，其标签号码不能识别，它可以简单地忽略该字段。数据类型注释允许解析器确定需要跳过的字节数。这保持了前向兼容性：旧代码可以读取由新代码编写的记录。</p>
+<p>向后兼容性呢？只要每个字段都有一个唯一的标签号码，新的代码总是可以读取旧的数据，因为标签号码仍然具有相同的含义。唯一的细节是，如果你添加一个新的领域，你不能要求，如果您要添加一个字段并将其设置为必需，那么如果新代码读取旧代码写入的数据，则该检查将失败，因为旧代码不会写入您添加的新字段。因此，为了保持向后兼容性，在模式的初始部署之后 <code>添加的每个字段必须是可选的或具有默认值</code>。</p>
+<h3 id="数据类型和模式演变"><a href="#数据类型和模式演变" class="headerlink" title="数据类型和模式演变"></a>数据类型和模式演变</h3><p>Protobuf的一个奇怪的细节是，它没有列表或数组数据类型，而是有一个字段的重复标记，读取旧数据的新代码会看到一个包含零个或一个元素的列表（取决于该字段是否存在）。读取新数据的旧代码只能看到列表的最后一个元素。</p>
+<p>Thrift有一个专用的列表数据类型，它使用列表元素的数据类型进行参数化。这不允许Protocol Buffers所做的从单值到多值的相同演变，但是它具有支持嵌套列表的优点。</p>
+<h3 id="Avro"><a href="#Avro" class="headerlink" title="Avro"></a>Avro</h3><p>IDL</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">record Person &#123;</span><br><span class="line">    string                userName;</span><br><span class="line">    union &#123; null, long &#125;  favoriteNumber &#x3D; null;</span><br><span class="line">    array&lt;string&gt;         interests;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>等价的JSON</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"record"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"Person"</span>,</span><br><span class="line">    <span class="attr">"fields"</span>: [</span><br><span class="line">        &#123;<span class="attr">"name"</span>: <span class="string">"userName"</span>, <span class="attr">"type"</span>: <span class="string">"string"</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">"name"</span>: <span class="string">"favoriteNumber"</span>, <span class="attr">"type"</span>: [<span class="string">"null"</span>, <span class="string">"long"</span>], <span class="attr">"default"</span>: <span class="literal">null</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">"name"</span>: <span class="string">"interests"</span>, <span class="attr">"type"</span>: &#123;<span class="attr">"type"</span>: <span class="string">"array"</span>, <span class="attr">"items"</span>: <span class="string">"string"</span>&#125;</span><br><span class="line">    ] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>32个字节<br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch4-4-5.png" alt=""></p>
+<p>整数使用可变长度编码（与Thrift的CompactProtocol相同）进行编码。</p>
+<p>为了解析二进制数据，您按照它们出现在架构中的顺序遍历这些字段，并使用架构来告诉每个字段的数据类型。这意味着如果读取数据的代码使用与写入数据的代码完全相同的模式，则只能正确解码二进制数据。读者和作者之间的模式不匹配意味着错误地解码数据。</p>
+<h3 id="作者模式与读者模式"><a href="#作者模式与读者模式" class="headerlink" title="作者模式与读者模式"></a>作者模式与读者模式</h3><p>当应用程序想要编码一些数据（将其写入文件或数据库，通过网络发送等）时，它使用它知道的任何版本的模式编码数据，例如，架构可能被编译到应用程序中。这被称为作者的模式。</p>
+<p>当一个应用程序想要解码一些数据（从一个文件或数据库读取数据，从网络接收数据等）时，它希望数据在某个模式中，这就是读者的模式。</p>
+<p>Avro的关键思想是作者的模式和读者的模式不必是相同的 - 他们只需要兼容。当数据解码（读取）时，Avro库通过并排查看作者的模式和读者的模式并将数据从作者的模式转换到读者的模式来解决差异。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch4-4-6.png" alt=""></p>
+<h3 id="模式演变规则"><a href="#模式演变规则" class="headerlink" title="模式演变规则"></a>模式演变规则</h3><p>为了保持兼容性，您只能添加或删除具有默认值的字段。</p>
+<p>如果要允许一个字段为null，则必须使用联合类型。例如，union {null，long，string}字段;表示该字段可以是数字或字符串，也可以是null。如果它是union的分支之一，那么只能使用null作为默认值。这比默认情况下可以为null是更加冗长的，但是通过明确什么可以和不可以是什么，有助于防止错误的null</p>
+<p>只要Avro可以转换类型，就可以改变字段的数据类型。更改字段的名称是可能的，但有点棘手：读者的模式可以包含字段名称的别名，所以它可以匹配旧作家的模式字段名称与别名。这意味着更改字段名称是向后兼容的，但不能向前兼容。同样，向联合类型添加分支也是向后兼容的，但不能向前兼容。</p>
+<h3 id="动态生成的模式"><a href="#动态生成的模式" class="headerlink" title="动态生成的模式"></a>动态生成的模式</h3><p>Avro方法的一个优点是架构不包含任何标签号码。</p>
+<p>如果数据库模式发生变化（例如，一个表中添加了一列，删除了一列），则可以从更新的数据库模式生成新的Avro模式，并在新的Avro模式中导出数据。数据导出过程不需要注意模式的改变 - 每次运行时都可以简单地进行模式转换。</p>
+<p>使用Thrift或Protocol Buffers，则字段标记可能必须手动分配：每次数据库模式更改时，管理员都必须手动更新从数据库列名到字段标签。</p>
+<h3 id="模式的优点"><a href="#模式的优点" class="headerlink" title="模式的优点"></a>模式的优点</h3><p>Protocol Buffers，Thrift和Avro都使用模式来描述二进制编码格式。他们的模式语言比XML模式或者JSON模式简单得多，它支持更详细的验证规则。</p>
+<p>所以，我们可以看到，尽管JSON，XML和CSV等文本数据格式非常普遍，但基于模式的二进制编码也是一个可行的选择。他们有一些很好的属性：</p>
+<ul>
+<li>它们可以比各种“二进制JSON”变体更紧凑，因为它们可以省略编码数据中的字段名称。</li>
+<li>模式是一种有价值的文档形式，因为模式是解码所必需的，所以可以确定它是最新的（而手动维护的文档可能很容易偏离现实）。</li>
+<li>保留模式数据库允许您在部署任何内容之前检查模式更改的向前和向后兼容性。</li>
+<li>对于静态类型编程语言的用户来说，从模式生成代码的能力是有用的，因为它可以在编译时进行类型检查。<br>总而言之，模式进化允许与JSON数据库提供的无模式/模式读取相同的灵活性，同时还可以更好地保证数据和更好的工具。</li>
+</ul>
+<h2 id="数据流的类型"><a href="#数据流的类型" class="headerlink" title="数据流的类型"></a>数据流的类型</h2><p>如果将数据库值解码为应用程序中的模型对象，稍后重新编码这些模型对象，那么未知字段可能会在该翻译过程中丢失。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch4-4-7.png" alt=""></p>
+<h3 id="REST与RPC"><a href="#REST与RPC" class="headerlink" title="REST与RPC"></a>REST与RPC</h3><p>服务器本身可以是另一个服务的客户端（例如，典型的Web应用服务器充当数据库的客户端）。这种方法通常用于将大型应用程序按照功能区域分解为较小的服务，这样当一个服务需要来自另一个服务的某些功能或数据时，就会向另一个服务发出请求。这种构建应用程序的方式传统上被称为 <code>面向服务的体系结构（service-oriented architecture，SOA）</code> ，最近被改进和更名为 <code>微服务架构</code>。</p>
+<h4 id="Web服务"><a href="#Web服务" class="headerlink" title="Web服务"></a>Web服务</h4><p>当服务使用HTTP作为底层通信协议时，可称之为Web服务。</p>
+<p>有两种流行的Web服务方法：REST和SOAP。他们在哲学方面几乎是截然相反的，往往是各自支持者之间的激烈辩论。</p>
+<p>REST不是一个协议，而是一个基于HTTP原则的设计哲学。它强调简单的数据格式，使用URL来标识资源，并使用HTTP功能进行缓存控制，身份验证和内容类型协商。与SOAP相比，REST已经越来越受欢迎，至少在跨组织服务集成的背景下，并经常与微服务相关。根据REST原则设计的API称为RESTful。</p>
+<p>SOAP是用于制作网络API请求的基于XML的协议（ 尽管首字母缩写词相似，SOAP并不是SOA的要求。 SOAP是一种特殊的技术，而SOA是构建系统的一般方法。）。虽然它最常用于HTTP，但其目的是独立于HTTP，并避免使用大多数HTTP功能。相反，它带有庞大而复杂的多种相关标准（Web服务框架，称为WS-*），它们增加了各种功能。</p>
+<p>SOAP Web服务的API使用称为Web服务描述语言（WSDL）的基于XML的语言来描述。 WSDL支持代码生成，客户端可以使用本地类和方法调用（编码为XML消息并由框架再次解码）访问远程服务。这在静态类型编程语言中非常有用，但在动态类型编程语言中很少。</p>
+<p>由于WSDL的设计不是人类可读的，而且由于SOAP消息通常是手动构建的过于复杂，所以SOAP的用户在很大程度上依赖于工具支持，代码生成和IDE。</p>
+<h4 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h4><p>Enterprise JavaBeans（EJB）和Java的<code>远程方法调用（RMI）</code>仅限于Java。<code>分布式组件对象模型（DCOM）</code>仅限于Microsoft平台。<code>公共对象请求代理体系结构（CORBA）</code>过于复杂，不提供前向或后向兼容性。<br>所有这些都是基于 远程过程调用（RPC） 的思想，网络请求与本地函数调用非常不同：</p>
+<ul>
+<li>本地函数调用是可预测的，并且成功或失败，这仅取决于受您控制的参数。网络请求是不可预知的：由于网络问题，请求或响应可能会丢失，或者远程计算机可能很慢或不可用，这些问题完全不在您的控制范围之内。网络问题是常见的，所以你必须预测他们，例如通过重试失败的请求。</li>
+<li>本地函数调用要么返回结果，要么抛出异常，或者永远不返回（因为进入无限循环或进程崩溃）。网络请求有另一个可能的结果：由于超时，它可能会返回没有结果。在这种情况下，你根本不知道发生了什么：如果你没有得到来自远程服务的响应，你无法知道请求是否通过。 （我们将在第8章更详细地讨论这个问题。）</li>
+<li>如果您重试失败的网络请求，可能会发生请求实际上正在通过，只有响应丢失。在这种情况下，重试将导致该操作被执行多次，除非您在协议中引入除重（ 幂等（idempotence））机制。本地函数调用没有这个问题。 （在第十一章更详细地讨论幂等性）</li>
+<li>每次调用本地功能时，通常需要大致相同的时间来执行。网络请求比函数调用要慢得多，而且其延迟也是非常可变的：在不到一毫秒的时间内它可能会完成，但是当网络拥塞或者远程服务超载时，可能需要几秒钟的时间完全一样的东西。</li>
+<li>调用本地函数时，可以高效地将引用（指针）传递给本地内存中的对象。当你发出一个网络请求时，所有这些参数都需要被编码成可以通过网络发送的一系列字节。没关系，如果参数是像数字或字符串这样的基本类型，但是对于较大的对象很快就会变成问题。</li>
+</ul>
+<h4 id="RPC的当前方向"><a href="#RPC的当前方向" class="headerlink" title="RPC的当前方向"></a>RPC的当前方向</h4><p>使用二进制编码格式的自定义RPC协议可以实现比通用的JSON over REST更好的性能。但是，RESTful API还有其他一些显著的优点：对于实验和调试（只需使用Web浏览器或命令行工具curl，无需任何代码生成或软件安装即可向其请求），它是受支持的所有的主流编程语言和平台，还有大量可用的工具（服务器，缓存，负载平衡器，代理，防火墙，监控，调试工具，测试工具等）的生态系统。由于这些原因，REST似乎是公共API的主要风格。 RPC框架的主要重点在于同一组织拥有的服务之间的请求，通常在同一数据中心内。</p>
+<h3 id="消息传递中的数据流"><a href="#消息传递中的数据流" class="headerlink" title="消息传递中的数据流"></a>消息传递中的数据流</h3><p>简要介绍一下RPC和数据库之间的异步消息传递系统。它们与RPC类似，因为客户端的请求（通常称为消息）以低延迟传送到另一个进程。它们与数据库类似，不是通过直接的网络连接发送消息，而是通过称为消息代理（也称为消息队列或面向消息的中间件）的中介来临时存储消息。</p>
+<p>与直接RPC相比，使用消息代理有几个优点：</p>
+<ul>
+<li>如果收件人不可用或过载，可以充当缓冲区，从而提高系统的可靠性。</li>
+<li>它可以自动将消息重新发送到已经崩溃的进程，从而防止消息丢失。</li>
+<li>避免发件人需要知道收件人的IP地址和端口号（这在虚拟机经常出入的云部署中特别有用）。</li>
+<li>它允许将一条消息发送给多个收件人。</li>
+<li>将发件人与收件人逻辑分离（发件人只是发布邮件，不关心使用者）。<br>然而，与RPC相比，差异在于消息传递通信通常是单向的：发送者通常不期望收到其消息的回复。一个进程可能发送一个响应，但这通常是在一个单独的通道上完成的。这种通信模式是异步的：发送者不会等待消息被传递，而只是发送它，然后忘记它。</li>
+</ul>
+<h4 id="消息掮客"><a href="#消息掮客" class="headerlink" title="消息掮客"></a>消息掮客</h4><p>RabbitMQ，ActiveMQ，HornetQ，NATS和Apache Kafka。</p>
+<p>消息代理的使用方式如下：一个进程将消息发送到指定的队列或主题，代理确保将消息传递给一个或多个消费者或订阅者到那个队列或主题。在同一主题上可以有许多生产者和许多消费者。</p>
+<p>一个主题只提供单向数据流。但是，消费者本身可能会将消息发布到另一个主题上，或者发送给原始消息的发送者使用的回复队列（允许请求/响应数据流，类似于RPC）。</p>
+<p>消息代理通常不会执行任何特定的数据模型 - 消息只是包含一些元数据的字节序列，因此您可以使用任何编码格式。如果编码是向后兼容的，则您可以灵活地更改发行商和消费者的独立编码，并以任意顺序进行部署。</p>
+<h4 id="分布式Actor框架"><a href="#分布式Actor框架" class="headerlink" title="分布式Actor框架"></a>分布式Actor框架</h4><p>Actor模型是单个进程中并发的编程模型。逻辑被封装在角色中，而不是直接处理线程（以及竞争条件，锁定和死锁的相关问题）。每个角色通常代表一个客户或实体，它可能有一些本地状态（不与其他任何角色共享），它通过发送和接收异步消息与其他角色通信。消息传送不保证：在某些错误情况下，消息将丢失。由于每个角色一次只能处理一条消息，因此不需要担心线程，每个角色可以由框架独立调度。</p>
+<p>在分布式的行为者框架中，这个编程模型被用来跨越多个节点来扩展应用程序。不管发送方和接收方是在同一个节点上还是在不同的节点上，都使用相同的消息传递机制。如果它们在不同的节点上，则该消息被透明地编码成字节序列，通过网络发送，并在另一侧解码。</p>
+<p>位置透明在actor模型中比在RPC中效果更好，因为actor模型已经假定消息可能会丢失，即使在单个进程中也是如此。尽管网络上的延迟可能比同一个进程中的延迟更高，但是在使用参与者模型时，本地和远程通信之间的基本不匹配是较少的。</p>
+<p>分布式的Actor框架实质上是将消息代理和角色编程模型集成到一个框架中。但是，如果要执行基于角色的应用程序的滚动升级，则仍然需要担心向前和向后兼容性问题，因为消息可能会从运行新版本的节点发送到运行旧版本的节点，反之亦然。</p>
+]]></content>
+      <categories>
+        <category>DDIA</category>
+      </categories>
   </entry>
   <entry>
     <title>设计原则</title>
