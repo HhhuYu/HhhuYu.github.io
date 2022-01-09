@@ -801,6 +801,328 @@
       </tags>
   </entry>
   <entry>
+    <title>Talent plan Tinykv | project1 | Standalone KV</title>
+    <url>/talent-plan-tinykv-project1/</url>
+    <content><![CDATA[<p><a href="https://asktug.com/t/topic/242996" target="_blank" rel="noopener">Talent Plan 2021 KV 学习营信息总览</a></p>
+<p>前一阵子看见P社在微信群推了这个活动，前一阵子刚学了6.824并写完了lab3，所以兴冲冲想去试试，在群里拉了一个小伙伴去试试。</p>
+<p>总体收获还是挺大的，tinykv也是挺难的，主要难在文档其实描述并没有那么清楚，很多地方都需要自己淌坑。同时debug比较痛苦。但是确实是一个比较好的工程项目。</p>
+<hr>
+<h1 id="Project1"><a href="#Project1" class="headerlink" title="Project1"></a>Project1</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ol>
+<li>实现standaloneKV</li>
+<li>实现raw_api，完成测试</li>
+</ol>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h3 id="standalone-storage"><a href="#standalone-storage" class="headerlink" title="standalone_storage"></a>standalone_storage</h3><p>需要实现的代码放在<code>kv/storage/standalone_storage/standalone_storage.go</code>，需要实现<code>StandAloneStorage</code>结构体，方法都已经定义好了，仅需要实现。这其实是一个简化的<code>raft_storage</code>，只要取其中一部分就行了，其余不懂的api参考<code>engine_util</code>就行了。</p>
+<ul>
+<li>对于<code>StandAloneStorage</code>结构体来说，其实一个<code>engines</code>就足够了，调用一个包装好的<code>badger</code>数据库。</li>
+<li><code>Start</code>方法，没有需要实现的内容</li>
+<li><code>Stop</code>关闭数据库</li>
+<li><code>Write</code>可以参考<code>engine_util.write_batch.go</code>，它其实就是把<code>batch</code>数组转化为一个<code>WriteBatch</code>，可以进行批处理写入数据库</li>
+<li><code>Reader</code>可以参考<code>raft_storage</code>，需要一个<code>badger.txn</code>处理一致性，对于<code>Reader</code>来说需要返回一个对象实现<code>StorageReader</code>，这里新建一个对象文件<code>reader.go</code>可以参考<code>region_reader.go</code>。这里需要产生一个迭代器，我们这个迭代器比较简单直接使用<code>cf_iterator.go</code>就可以了。</li>
+</ul>
+<h3 id="raw-api"><a href="#raw-api" class="headerlink" title="raw_api"></a>raw_api</h3><p>需要实现的代码放在<code>kv/server/raw_api.go</code>，我们需要实现4个api，RawGet/ RawScan/ RawPut/ RawDelete</p>
+<ul>
+<li>RawGet, 比较简单，注意返回类型，空值需要额外标注</li>
+<li>RawPut，比较简单，利用<code>Storage.Modify</code>包装原有request中的（key,value）即可</li>
+<li>RawDelete，和RawPut类似</li>
+<li>RawScan，这个基于我们已经写的<code>reader.go</code>，特别注意，当得到迭代器的时候，需要<code>seek</code>到对应的<code>start_key</code>，不然找不到值。需要注意，limit的大小</li>
+</ul>
+]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>tinykv</tag>
+        <tag>raft</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Talent plan Tinykv | project2 | Raft KV</title>
+    <url>/talent-plan-tinykv-project2/</url>
+    <content><![CDATA[<h1 id="Project2"><a href="#Project2" class="headerlink" title="Project2"></a>Project2</h1><h2 id="Project2a"><a href="#Project2a" class="headerlink" title="Project2a"></a>Project2a</h2><p>实验中整体代码逻辑</p>
+<p>tick 触发事件 -&gt; 发送请求至step（不经过Msgs）-&gt; step采取对应方法，调用sendxx方法发送request至Msgs（RPC) -&gt; 接收端通过step处理request，调用handlexx方法，返回response至Msgs（RPC）-&gt; 发送端通过step处理response，调用handlexx方法处理</p>
+<h3 id="Project2aa"><a href="#Project2aa" class="headerlink" title="Project2aa"></a>Project2aa</h3><h4 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h4><ol>
+<li>完成Raft的领导选举</li>
+<li>通过测试<code>project2aa</code></li>
+</ol>
+<h4 id="实验思路"><a href="#实验思路" class="headerlink" title="实验思路"></a>实验思路</h4><p>实验思路从<code>raft/doc.go</code>中获得。</p>
+<ol>
+<li><p>根据实验手册的简单提示，我们可以从<code>raft.Raft.tick()</code>，它是一个逻辑时钟，由Node推进，不过暂时2aa里用不到，所以我们只需要一开始实现<code>tick()</code>函数即可。不同state的raft，对应时钟有不同的行为：即<code>Follower</code>和<code>Candidate</code>只有选举的行为，而<code>Leader</code>只有心跳的行为，根据doc.go前两个rpc的提示(<code>MessageType_MsgHup</code>, <code>MessageType_MsgBeat</code>)实现<code>tickElection</code>和<code>tickHeartbeat</code>，这两个函数触发触发选举/心跳操作，发送对应的选举(<code>MessageType_MsgHup</code>)/心跳请求(<code>MessageType_MsgBeat</code>)至step，由step具体触发具体的选举和心跳操作。</p>
+</li>
+<li><p>选举，入口<code>startElection</code>，按照论文所述，主要注意<code>lastLogIndex</code>，<code>lastLogTerm</code>的获得，这里需要先修改<code>raftlog</code>。然后对每个peer（不包含自己）发送<code>sendRequestVote</code>。这里注意需要重置选举的时间和超时时间，超时时间的设置可以参考<code>testNonleaderElectionTimeoutRandomized</code>里面写的范围(timeout, 2*timeout)。然后也是由step函数处理<code>RequestVote</code>，对应论文中的选举规则。我们综合了论文和doc.go的思路，最后实现的结果综合了两个。最后返回选举结果给发送者。</p>
+<ul>
+<li>如果选举时,只存在自己一个节点，则直接变成leader。</li>
+<li>follower接受到选举请求，需要检查这条信息是否足够新，它一个term只能有一个vote对象，如果有其他的请求，可以直接回绝，然后需要比对请求的日志是否为最新，重置选举时间，发送结果。</li>
+<li>发送者会统计收到的票数，发送者统计最终的票数，如果超过半数赞成，则变成Leader，如果超过半数拒绝，则变成follower, 同时惩罚其选举时间至2倍，最大4倍的timtout。</li>
+<li>变成leader需要将一个空log加入到日志中</li>
+</ul>
+</li>
+<li><p>心跳，入口<code>startElection</code>，这里与论文不同，本实验将心跳与appendEntries分开了，所以该函数来说十分简单，Leader仅需定时发送自己的心跳请求即可，接收者根据心跳请求是否正确，来重置自己的选举时间、timeout和leader，返回response给发送者。</p>
+</li>
+</ol>
+<h3 id="Project2ab"><a href="#Project2ab" class="headerlink" title="Project2ab"></a>Project2ab</h3><h4 id="实验目的-1"><a href="#实验目的-1" class="headerlink" title="实验目的"></a>实验目的</h4><ol>
+<li>实现日志复制</li>
+<li>通过测试project2ab</li>
+</ol>
+<h4 id="实验思路-1"><a href="#实验思路-1" class="headerlink" title="实验思路"></a>实验思路</h4><ol>
+<li><p>当接收到<code>MessageType_MsgPropose</code>这个local msg，leader首先调用<code>appendEntry</code>添加日志，然后调用<code>bcastAppend</code>方法，向其余节点发送<code>MessageType_MsgAppend</code>消息。</p>
+</li>
+<li><p>当其余节点收到leader的<code>MessageType_MsgAppend</code>消息，状态转为follower，具体处理细节参照raft论文。需要值得注意的是，follower处理此消息时，需要依据leader的commitIndex，本地commitIndex和最新日志索引的状态来更新本地commitIndex。但在判断时，最新日志索引不能调用<code>follower.getLastLogIndex()</code>来获取，而是需要通过<code>MessageType_MsgAppend</code>中<code>Index</code>和<code>Entries</code>的长度计算得出。当节点处理结束后，向leader节点发送<code>MessageType_MsgAppendResponse</code>消息。</p>
+<ul>
+<li>接收者接收到appendEntries 首先要检查消息是否是最新的，检查日志下标是否符合，查找是否包含请求的index，如果在，则查找其term和index是否和本地的相同，不同则发生日志冲突，则找到上一个term的最后一项index，返回冲突的下标；如果不在则将日志按顺序加入到本地日志中，同时删掉与请求日志不相符的日志以及之后所有的日志</li>
+</ul>
+</li>
+<li><p>当leader接收到<code>MessageType_MsgAppendResponse</code>消息，根据其reject，如果接受了，按照消息更新<code>raft.Prs</code>和<code>raft.RaftLog.committed</code>。如果未接受，则需要查找冲突的日志下标，重新修改prs，继续发送日志。当leader处理结束，发现<code>Msg.From</code>节点的commitIndex与leader不一致，则继续发送<code>MessageType_MsgAppend</code>消息，直至达成一致状态。同样的，如果leader在处理<code>MessageType_MsgAppendResponse</code>消息时，commitIndex发生更新，那么leader会给其余所有节点发送<code>MessageType_MsgAppend</code>。</p>
+</li>
+<li><p>当leader发送心跳并收到其余节点的<code>MessageType_MsgHeartbeatResponse</code>消息，leader会判断此follower的lastLogIndex是否与leader的lastLogIndex一致，若不一致，那么leader会给该节点发送<code>MessageType_MsgAppend</code>。</p>
+</li>
+</ol>
+<h3 id="Project2ac"><a href="#Project2ac" class="headerlink" title="Project2ac"></a>Project2ac</h3><h4 id="实验目的-2"><a href="#实验目的-2" class="headerlink" title="实验目的"></a>实验目的</h4><ol>
+<li>实现rawnode中的<code>Ready()</code>、<code>HasReady()</code>、<code>Advance()</code>函数</li>
+<li>通过测试project2ac</li>
+</ol>
+<h4 id="实验思路-2"><a href="#实验思路-2" class="headerlink" title="实验思路"></a>实验思路</h4><p><code>Ready</code>结构体内对它的所有参数解释已经非常全面了</p>
+<p><code>Ready()</code>：返回一个Ready结构体，包含对应的参数</p>
+<p><code>HasReady()</code>：根据Raft判断是否应该生成Ready结构体，当然这里的判断标准有很多。首先要看<code>softState</code>和<code>hardState</code>，这两个结构体详细内容已经在Ready中得到说明，简单说就是这两个结构体如果与上次不同则返回<code>true</code>。同时需要判断<code>CommittedEntries</code>是否为空，如果不为空则返回<code>true</code>，这个属性属于日志中已经提交了但是还没应用到状态机中的日志。同时也需要判断<code>Entries</code>是否为空，如果不为空返回<code>true</code>，这个属性属于日志中需要持久化的日志，即stabled之后的。其他情况返回<code>false</code></p>
+<p><code>Advance(rd Ready)</code>：这个函数接受一个<code>Ready</code>，主要用来处理<code>Ready</code>，在本实验中只需要处理<code>CommittedEntries</code>，并更新raft中的<code>stable</code>就可以了，还有<code>Entries</code>更新<code>applied</code>即可。但是本身需要处理更多内容，这是后面实验的内容了。</p>
+<h2 id="Project2b"><a href="#Project2b" class="headerlink" title="Project2b"></a>Project2b</h2><h3 id="实验目的-3"><a href="#实验目的-3" class="headerlink" title="实验目的"></a>实验目的</h3><ol>
+<li>实现<code>PeerStorage.SaveReadyState</code>和<code>PeerStorage.Append</code>方法</li>
+<li>实现<code>proposeRaftCommand</code>和<code>HandleRaftReady</code>方法</li>
+<li>通过测试project2b</li>
+</ol>
+<h3 id="实验细节"><a href="#实验细节" class="headerlink" title="实验细节"></a>实验细节</h3><p>在tinkv的设计中，一个<code>Store</code>可以拥有多个Raft节点，即<code>Peer</code>，而这些<code>Peer</code>又隶属于不同的<code>Region</code>。对于单个<code>Peer</code>而言，若节点的状态发生改变，即<code>HasReady()</code>返回true，节点需要将State、日志和快照持久化，然后节点处理并回复上层传递的Msg。</p>
+<p>持久化State、日志和快照时，会利用底层的<code>badger</code>创建的两个数据库，raftDB和kvDB，具体存储细节如表所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Key</th>
+<th style="text-align:left">KeyFormat</th>
+<th style="text-align:left">Value</th>
+<th style="text-align:left">DB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">raft_log_key</td>
+<td style="text-align:left">0x01 0x02 region_id 0x01 log_idx</td>
+<td style="text-align:left">Entry</td>
+<td style="text-align:left">raft</td>
+</tr>
+<tr>
+<td style="text-align:left">raft_state_key</td>
+<td style="text-align:left">0x01 0x02 region_id 0x02</td>
+<td style="text-align:left">RaftLocalState</td>
+<td style="text-align:left">raft</td>
+</tr>
+<tr>
+<td style="text-align:left">apply_state_key</td>
+<td style="text-align:left">0x01 0x02 region_id 0x03</td>
+<td style="text-align:left">RaftApplyState</td>
+<td style="text-align:left">kv</td>
+</tr>
+<tr>
+<td style="text-align:left">region_state_key</td>
+<td style="text-align:left">0x01 0x03 region_id 0x01</td>
+<td style="text-align:left">RegionLocalState</td>
+<td style="text-align:left">kv</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>本实验，日志的持久化在<code>PeerStorage.Append</code>方法中完成，在存储时，需要注意一下几个要点：</p>
+<ol>
+<li>仅存储未存储的最新的log</li>
+<li>若raftDB存储的未被commit的log，存在将来永远不会被commit的情况，需要从raftDB中删除</li>
+<li>log存储完成后，需要更新<code>PeerStorage.raftState</code>，因为此时<code>raftState</code>的log索引和term均已发生改变</li>
+</ol>
+<p><code>PeerStorage.SaveReadyState</code>是对持久化State、日志和快照的一个封装。日志的持久化调用<code>PeerStorage.Append</code>方法。持久化State前，需要依据<code>raft.Ready</code>更新<code>PeerStorage.raftState</code>，然后将<code>PeerStorage.raftState</code>写入raftDB中。快照的持久化在后续实验完成。</p>
+<p>来自客户端的请求，主要由<code>peerMsgHandler</code>处理，主要有两个功能：一个是<code>HandleMsgs</code>，另一个是<code>HandleRaftReady</code>。</p>
+<p><code>HandleMsgs</code>处理从 raftCh 接收到的所有消息，本实验我们只需要关注<code>message.MsgTypeRaftCmd</code>，将此类消息由<code>proposeRaftCommand</code>方法处理后，再发送到raft集群内。</p>
+<p>实现<code>proposeRaftCommand</code>时，需要注意以下要点：</p>
+<ol>
+<li>判断消息合法性，如果key不属于当前raftRegion，<code>message.Callback</code>返回<code>ErrResp</code></li>
+<li>对消息所包含的数据序列化</li>
+<li>将此消息的ProposalIndex和Term，以及<code>message.Callback</code>以<code>proposal</code>结构体的形式记录下来</li>
+<li>把序列化后的数据，由<code>propose</code>函数封装为日志</li>
+</ol>
+<p>消息处理完后，Raft节点会有一些状态更新，<code>HandleRaftReady</code><br>从Raft模块准备好并执行相应的操作，主要包括：</p>
+<ol>
+<li>若raft节点状态发生改变，调用<code>PeerStorage.SaveReadyState</code>进行持久化</li>
+<li>将消息转发给raft，然后对raft中已经commit的log，处理并按照log类型，在数据库中执行相应操作</li>
+<li>每一条log都对应一条<code>proposal</code>，进行<code>proposal</code>的消费时，需要对entry.Index, entry.Term与proposal.Index, proposal.Term进行分类情况讨论:</li>
+</ol>
+<p>如果遇到entry.Index &gt; proposal.Index，表面proposal中有被抛弃的消息，因此需要直接对这些消息返回Err，直到index相等</p>
+<p>如果entry.Index == proposal.Index &amp;&amp; entry.Term == proposal.Term,直接回应proposal中的消息;</p>
+<p>如果entry.Index == proposal.Index &amp;&amp; entry.Term != proposal.Term,说明此条proposal对应的消息未能达成同步，但不能直接返回err，而应该继续向后搜索proposal，直到将该Index的消息全部处理或者处理到entry.Index == proposal.Index &amp;&amp; entry.Term == proposal.Term;</p>
+<ol>
+<li>对log在数据库中执行结束后，按照操作类型，callback相应的resp</li>
+<li>在返回<code>get</code>/<code>snap</code>请求时，应该将<code>writebatch</code>写入DB再返回。</li>
+</ol>
+<h2 id="Project2c"><a href="#Project2c" class="headerlink" title="Project2c"></a>Project2c</h2><h3 id="实验目的-4"><a href="#实验目的-4" class="headerlink" title="实验目的"></a>实验目的</h3><ol>
+<li>实现日志压缩，删除过期的日志</li>
+<li>实现快照</li>
+<li>通过测试project2c</li>
+</ol>
+<h3 id="实验细节-1"><a href="#实验细节-1" class="headerlink" title="实验细节"></a>实验细节</h3><p>Raftstore会不时检查日志数量是否超出阈值，如果是，它会提出<code>AdminRequest.CompactLogRequest</code>命令。这个命令的处理方式与2b一致，若节点的状态发生改变，即<code>HasReady()</code>返回true，节点调用<code>HandleRaftReady</code>处理日志，将日志中的命令加以实现。日志压缩处理时，需要注意以下要点：</p>
+<ol>
+<li>更新<code>RaftApplyState.TruncatedState</code></li>
+<li>调用<code>ScheduleCompactLog</code>函数，让raftlog-gc worker异步执行实际的日志删除工作</li>
+<li>对<code>RaftApplyState</code>的保存，要先于日志删除操作。否则当节点宕机，会出现<code>RaftApplyState</code>与DB中日志不一致的状况</li>
+</ol>
+<p>当日志被压缩后，Raft可能需要发送快照。发送成功后，那么快照会反映在下一次 Raft ready中，<code>hasReady()</code>返回true。然后开始<code>SaveReadyState</code>，其中日志的持久化已经在2ab完成，这里我们需要完成对快照的持久化，主要操作有：</p>
+<ol>
+<li>调用<code>clearMeta()</code>和<code>clearExtraData()</code>清除老旧的元数据</li>
+<li>修改相应的<code>raftState</code>和<code>applyState</code></li>
+<li>修改<code>snapState.StateType</code>状态为<code>SnapState_Applying</code></li>
+<li>发送<code>RegionTaskApply</code>任务给<code>regionSched</code></li>
+</ol>
+<p>当节点收到快照后，需要调用handleSnapshot处理，其中包含日志的删除，这里采用论文中的日志删除方法。如果在日志找到一个index和term与snapshot中的最后匹配的，那么删除该日志之前(包含)，否则全部删除。同时更新各类属性。注意接受snapshot的节点，都要调用<code>becameFollower</code>，意味着只有leader能够发送snapshot。同时leader在调用<code>sendAppend</code>时要查看这个peer的NextIndex是否落后log的开始index，落后则需要发送snapshot。</p>
+<h2 id="附加功能："><a href="#附加功能：" class="headerlink" title="附加功能："></a>附加功能：</h2><h3 id="snapshot限速"><a href="#snapshot限速" class="headerlink" title="snapshot限速"></a>snapshot限速</h3><p>snapshot发送比较耗费资源，防止重复发送大量占据系统资源，可以对snapshot的发送做限制。</p>
+<p>所以我在leader出加入一个新的功能</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">haveSendedSnapShot <span class="keyword">map</span>[<span class="keyword">uint64</span>]<span class="keyword">int</span></span><br></pre></td></tr></table></figure>
+<p>这个记录了已发送每一个snapshot对象，以及发送时长。<br>即</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>peer</th>
+<th>ticktime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>ticktime 随逻辑时钟周期增长</p>
+<p>当有新的snapshot时插入它，ticktime超过pendingSnapShotTimeout或者接受到appendEntriesResponse时, 便可以删除这个记录。</p>
+<p>发送snapshot时，就可查这个表。</p>
+<h3 id="失效leader"><a href="#失效leader" class="headerlink" title="失效leader"></a>失效leader</h3><p>当一个leader被分区少数partition时，它虽然不能继续commit和apply，但是它仍然接受client请求，接受大量proposal，所以鉴于此，我们希望leader没收集到足够的heartbeat时，变成follower</p>
+<p>所以选择在Progress加入一个<code>LastHeartBeatElapsed</code>，它记录了上一次heartbeat到现在的逻辑时钟时间。</p>
+<ul>
+<li>利用逻辑时钟机制, 加入 <code>tickLeaderLeaseCheck()</code></li>
+<li>如果超过了一个时间界限 <code>leaderAliveTimeout</code>, 则开始检测 leader 的有效性, 检测方法:<ul>
+<li>遍历一遍所有的 follower, <code>LastHeartBeatElapsed</code> 小于 leaderLeaseTimeout，如果半数以上都满足, 那么该 leader 仍然是有效的。否则转化为follower</li>
+</ul>
+</li>
+<li><code>leaderAliveTimeout</code> 的设置: 可以设置为 <code>electionTimeout</code> 的两倍或者三倍, 建议两倍</li>
+<li><code>leaderLeaseTimeout</code> 的设置: 可以设置为 90% * <code>electionTimeout</code> , 也即在这段时间内, 可以保证 leader 是有效的</li>
+</ul>
+]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>tinykv</tag>
+        <tag>raft</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Talent plan Tinykv | project3 | Multi-raft KV</title>
+    <url>/talent-plan-tinykv-project3/</url>
+    <content><![CDATA[<h1 id="project3"><a href="#project3" class="headerlink" title="project3"></a>project3</h1><h2 id="project3a"><a href="#project3a" class="headerlink" title="project3a"></a>project3a</h2><h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><ol>
+<li>实现leader的转移</li>
+<li>实现conf的切换</li>
+<li>通过project3a</li>
+</ol>
+<h3 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h3><ol>
+<li><p>在<code>stepLeader</code>中实现<code>MsgTransferLeader</code>的类型处理调用<code>handleTransferLeader</code>函数，在该函数中：首先对重复请求进行提前返回；检查目标节点的可用性；重置选举时间，即希望该节点能在选举时间范围内完成选举，否则认为此次选举失败；如果节点的日志不够新，则将日志同步至最新，如果节点日志足够新，则发送<code>MsgTimeoutNow</code>至目标节点，目标节点接收到这个请求，则马上开始选举。<code>leader</code>在处理<code>MsgTransferLeader</code>时，直到选举超时之前，不能处理新的<code>Propose</code>请求。</p>
+</li>
+<li><p>由<code>rawnode</code>的<code>ProposeConfChange</code>函数发起<code>EntryConfChange</code>类型的<code>Propose</code>请求，需要经过raft内达成一致才能启用。其中的<code>PendingConfIndex</code>变量用来标识在log中但还未applied的conf，它需要在发起<code>Propose</code>时进行记录，同时当前日志的applied index需要小于这个日志的index，否则修改类型为<code>EntryType_EntryNormal</code>。同时这里还需要一些简单的函数<code>addNode</code>和<code>deleteNode</code>。其中，当节点不存在时，是不能变成leader，需要做选举判断。</p>
+</li>
+</ol>
+<h2 id="project3b"><a href="#project3b" class="headerlink" title="project3b"></a>project3b</h2><h3 id="目标-1"><a href="#目标-1" class="headerlink" title="目标"></a>目标</h3><ol>
+<li>Leader改变与conf改变</li>
+<li>修改Peer</li>
+<li>region的split</li>
+</ol>
+<h3 id="实现细节-1"><a href="#实现细节-1" class="headerlink" title="实现细节"></a>实现细节</h3><ol>
+<li><p><code>TransferLeader</code>只需要在<code>Propose</code>的直接处理就好了，不需要进入 Raft Group 达到一致性，也就是说改命令只要直接通过<code>RawNode</code>的<code>TransferLeader</code>发给Leader就好了，然后返回callback。</p>
+</li>
+<li><p>对于<code>ChangePeer</code>命令的话首先需要在<code>Propose</code>中产生<code>ConfChange</code>，</p>
+<ul>
+<li>相对于普通的<code>Propose</code>来说，需要判断当前删除的peer是否是leader, 如果为当前leader则需要通过<code>transferleader</code>给region内的任意成员，并直接返回；如果不是，只需要更改最后的<code>Propose</code>为<code>ProposeConfChange</code>，其他和普通propose相同。</li>
+<li><code>AddNode</code>：讲peer加入到region的Peers中，同时加入到peerCache中；</li>
+<li><code>RemoveNode</code>：如果当前的peer就是所删除的peer，可以调用maybedestroy，继续destory，然后返回。如果不是，则需要在region中的peers和PeerCache删除相关数据。</li>
+<li>分别处理之后，需要为regionEpoch中的confver变更其版本，将region持久化，同时还需要修改storeMeta中的regions信息。</li>
+<li>需要在peer applied snapshot的时候更新其storeMeta中的regions和regionRages</li>
+<li>之后再调用<code>ApplyConfChange</code>apply 此次conf change</li>
+<li>因为存在peer的添加，但是peer的create是通过<code>maybeCreatePeer</code>，所以需要通过HeartBeat来触发<code>peer</code>的create</li>
+<li>返回callback</li>
+</ul>
+</li>
+<li><p>对于<code>Split</code>命令，它的Propose和非admin的相同，主要是判断一下SplitKey是否存在当前的region中。它也需要所有的raft达成一致后，在进行处理。它需要将当前的region split掉，维持两个region，一个老region，startKey不变，endKey变成splitKey。一个新region，startKey为splitKey，endKey为原老region的endKey。同时，大量涉及storeMeta的修改：</p>
+<ul>
+<li>如果原region内的peer数量和newPeerIds数量不匹配，则直接返回StaleCommand</li>
+<li>storeMeta删除原有的region和regionRanges相关信息</li>
+<li>构建一个新region：RegionEpoch初始化为(InitEpochConfVer,InitEpochVer), 本身split仅有newPeerId，所以需要和store进行绑定，需要绑定对应store上的db store id</li>
+<li>创建新peer时需要注意，本region的peer可能已经由其他store send的消息激活创建，所以需要判断peer是否存在。若不存在，通过<code>CreatePeer</code>创建新peer,同时注册到router中，初始化Peer</li>
+<li>更新老region的EndKey，RegionEpoch的Version</li>
+<li>将Storemeta中的regions与regionRanges进行更新</li>
+<li>持久化region信息</li>
+<li>返回callback</li>
+</ul>
+</li>
+</ol>
+<h2 id="project3c"><a href="#project3c" class="headerlink" title="project3c"></a>project3c</h2><h3 id="目标-2"><a href="#目标-2" class="headerlink" title="目标"></a>目标</h3><ol>
+<li>通过heartbeat的信息，更新scheduler中的状态</li>
+<li>实现region balance scheduler</li>
+</ol>
+<h3 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h3><ol>
+<li><p>对于能够在cluster找到的region，先查看收到的region信息中的confver和version是否有落后，如果落后直接返回Stale。不是所有的情况都需要更新region信息，当一下5种情况都满足时可以跳过： confver和version没有变化，leader未变化，pendingpeer为空，ApproximateSize没有变化，peer没有变化。对于不能够找到的region，查询其包含其key范围的region，遍历所有的region，如果region信息中的confver和version有落后，则直接返回stale。其他情况正常更新region和store</p>
+</li>
+<li><p>先查找需要且合适的store来移动region，需要store 为<code>up</code>且<code>DonwTime</code>不能超过<code>MaxStoreDownTime</code>；然后根据他们的reigon size 从大到小进行排序；按顺序从store中查找合适的region，按顺序从<code>GetPendingRegionsWithLock</code><br><code>GetFollowersWithLock</code> 和 <code>GetLeadersWithLock</code> 若找到一个直接跳查找；检查region当前的状态是否符合移动；然后从所有未在该region中的store中查找最小region size的store；检查两个store region size是否满足移动；生成新peer,创建op</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>tinykv</tag>
+        <tag>raft</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Talent plan Tinykv | project4 | Transaction</title>
+    <url>/talent-plan-tinykv-project4/</url>
+    <content><![CDATA[<h1 id="Project4"><a href="#Project4" class="headerlink" title="Project4"></a>Project4</h1><h2 id="Project4a"><a href="#Project4a" class="headerlink" title="Project4a"></a>Project4a</h2><h4 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h4><p>实现多版本并发控制</p>
+<h4 id="实验思路"><a href="#实验思路" class="headerlink" title="实验思路"></a>实验思路</h4><p>本部分实现一个多版本并发控制(MVCC)，简单来说，就是在底层DB存储多个版本的KV。</p>
+<p>在本次实验中，底层有三个列族，<code>default</code>保存数据，<code>lock</code>存储锁，<code>write</code>记录更改的操作。<code>lock</code>使用key访问，<code>default</code>利用key和被写入的事务的时间戳访问，<code>write</code>利用key和事务被提交时写入的时间戳访问。</p>
+<p>在本次实验中，我们需要完成get、delete、write数据和锁的函数，以及<code>CurrentWrite()</code>返回当前事务commit的写入，<code>MostRecentWrite()</code>返回给定key的最近一次commit。</p>
+<p>需要注意以下几点;</p>
+<ol>
+<li><p>delete和write操作，需要将操作封装为<code>storage.Modify</code>，然后附加到<code>txn.writes</code>数组中</p>
+</li>
+<li><p><code>GetValue</code>首先从<code>write</code>列族中，寻找出距离此事务最近的版本的commit，然后从DB中读取到此写入的开始时间戳，再从<code>default</code>列族读取数据</p>
+</li>
+</ol>
+<h2 id="Project4b"><a href="#Project4b" class="headerlink" title="Project4b"></a>Project4b</h2><h4 id="实验目的-1"><a href="#实验目的-1" class="headerlink" title="实验目的"></a>实验目的</h4><p>利用project4a实现的mvcc，完成<code>KvGet</code>，<code>KvPrewrite</code>和<code>KvCommit</code>函数。</p>
+<h4 id="实验思路-1"><a href="#实验思路-1" class="headerlink" title="实验思路"></a>实验思路</h4><p><code>KvGet</code>首先利用请求信息，创建一个<code>mvccTxn</code>对象，再判断key有没有上锁，如果检测到key被其他事务锁住，则返回<code>KeyError</code>。然后再利用<code>GetValue</code>获取值。</p>
+<p><code>KvPrewrite</code>时，需要对请求中的key，跳过那些已经被lock和已经被更晚的事务commit的key。然后利用mvcc中的函数，写入数据并上锁。</p>
+<p><code>KvCommit</code>需要判断<code>lock</code>列族的锁时间戳是否与当前事务的写入时间一致，一致的情况下，从DB中删除此锁，并再<code>write</code>列族记录commit。</p>
+<h2 id="Project4c"><a href="#Project4c" class="headerlink" title="Project4c"></a>Project4c</h2><h4 id="实验目的-2"><a href="#实验目的-2" class="headerlink" title="实验目的"></a>实验目的</h4><p>实现<code>KvScan</code>，<code>KvCheckTxnStatus</code>，<code>KvBatchRollback</code>和<code>KvResolveLock</code>，以及<code>scanner.go</code>。</p>
+<h4 id="实验思路-2"><a href="#实验思路-2" class="headerlink" title="实验思路"></a>实验思路</h4><p><code>scanner.go</code>是<code>KvScan</code>的一个底层，它用来迭代DB，返回对应的key和value。<code>KvScan</code>利用<code>scanner</code>对象，从DB中Scan数据。</p>
+<p><code>KvCheckTxnStatus</code> 检查超时，删除过期的锁并回滚，但是如果发现<code>MostRecentWrite</code>的事务为回滚事务或commit时间大于当前lock的时间，那么说明现有的锁为新事务的锁，直接返回。</p>
+<p><code>KvBatchRollback</code>对所有需要回滚的key，如果发现<code>MostRecentWrite</code>的事务为回滚事务或commit时间大于当前时间戳，说明已经回滚。回滚时需要从<code>lock</code>列族删除锁，从<code>default</code>删除key的value，还需要从<code>write</code>列族写入回滚操作。</p>
+<p><code>KvResolveLock</code>首先检查key的lock是否存在，然后按照请求，调用<code>KvBatchRollback</code>或<code>KvCommit</code>函数完成回滚或commit操作。</p>
+]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>tinykv</tag>
+        <tag>raft</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>virtualenvwarpper安装与配置</title>
     <url>/virtualenvwrapper/</url>
     <content><![CDATA[<h1 id="Virtualenvwrapper"><a href="#Virtualenvwrapper" class="headerlink" title="Virtualenvwrapper"></a>Virtualenvwrapper</h1><p><code>virtualenvwarpper</code>一般用作<code>python</code>管理不同的env。把<code>virtualenv</code>拓展之后，用起来更加简单方便</p>

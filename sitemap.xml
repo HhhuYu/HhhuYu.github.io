@@ -2,6 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.charstal.com/2019-12-28/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2019-12-29/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2019-winter-PAT-advanced/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2020-01-14/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2020-01-24/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2020-02-26/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2020-03-29/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/2020-new-year-brief-2021/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.charstal.com/DDIA-ch1-reliability-scalability-maintainability/</loc>
     
     <lastmod>2022-01-09</lastmod>
@@ -65,6 +121,34 @@
   </url>
   
   <url>
+    <loc>https://www.charstal.com/talent-plan-tinykv-project1/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/talent-plan-tinykv-project2/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/talent-plan-tinykv-project3/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/talent-plan-tinykv-project4/</loc>
+    
+    <lastmod>2022-01-09</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.charstal.com/virtualenvwrapper/</loc>
     
     <lastmod>2022-01-09</lastmod>
@@ -101,62 +185,6 @@
   
   <url>
     <loc>https://www.charstal.com/tags/index.html</loc>
-    
-    <lastmod>2022-01-09</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2019-12-28/</loc>
-    
-    <lastmod>2022-01-09</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2019-12-29/</loc>
-    
-    <lastmod>2022-01-09</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2019-winter-PAT-advanced/</loc>
-    
-    <lastmod>2022-01-09</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2020-01-14/</loc>
-    
-    <lastmod>2022-01-09</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2020-01-24/</loc>
-    
-    <lastmod>2022-01-09</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2020-02-26/</loc>
-    
-    <lastmod>2022-01-09</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2020-03-29/</loc>
-    
-    <lastmod>2022-01-09</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/2020-new-year-brief-2021/</loc>
     
     <lastmod>2022-01-09</lastmod>
     
@@ -277,6 +305,20 @@
   </url>
   
   <url>
+    <loc>https://www.charstal.com/tags/tinykv/</loc>
+    <lastmod>2022-01-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/tags/raft/</loc>
+    <lastmod>2022-01-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.charstal.com/tags/virtualenv/</loc>
     <lastmod>2022-01-09</lastmod>
     <changefreq>daily</changefreq>
@@ -343,6 +385,13 @@
   
   <url>
     <loc>https://www.charstal.com/categories/%E6%B8%B8%E6%88%8F/</loc>
+    <lastmod>2022-01-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/categories/%E5%88%86%E5%B8%83%E5%BC%8F/</loc>
     <lastmod>2022-01-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
