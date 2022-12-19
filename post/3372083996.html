@@ -9,13 +9,13 @@
     <meta name="description" content="前言久仰DDIA大名，刚把MIT 6.824做完，之后应该会把DDIA的内容做一个摘录，其中也会夹杂着6.824的论文翻译和lab记录的整理 原书链接: Designing Data-Intensive Application 第一章数据系统现今很多应用属于数据密集型 （data-intensive），而非计算密集型（compute-intensive）。主要的问题来自数据量、数据的复杂性以及数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[DDIA][第一章]：可靠性、可拓展性、可维护性">
-<meta property="og:url" content="https://www.charstal.com/post/202110282344.html">
+<meta property="og:url" content="https://www.charstal.com/post/3372083996.html">
 <meta property="og:site_name" content="Codebucks">
 <meta property="og:description" content="前言久仰DDIA大名，刚把MIT 6.824做完，之后应该会把DDIA的内容做一个摘录，其中也会夹杂着6.824的论文翻译和lab记录的整理 原书链接: Designing Data-Intensive Application 第一章数据系统现今很多应用属于数据密集型 （data-intensive），而非计算密集型（compute-intensive）。主要的问题来自数据量、数据的复杂性以及数据">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-chap1-reliability-scalability-maintainability-fig1-5.png">
 <meta property="article:published_time" content="2021-10-28T23:44:26.000Z">
-<meta property="article:modified_time" content="2022-12-19T02:34:42.089Z">
+<meta property="article:modified_time" content="2022-12-19T03:04:18.384Z">
 <meta property="article:author" content="charstal">
 <meta property="article:tag" content="分布式">
 <meta property="article:tag" content="可靠性">
@@ -92,10 +92,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="Previous post" href="/post/202111030026.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Previous post" href="/post/3286644706.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" aria-label="Next post" href="/post/202106031100.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Next post" href="/post/1999622911.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -108,17 +108,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://www.charstal.com/post/202110282344.html" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://www.charstal.com/post/202110282344.html&text=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://www.charstal.com/post/202110282344.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.charstal.com/post/202110282344.html&is_video=false&description=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=[DDIA][第一章]：可靠性、可拓展性、可维护性&body=Check out this article: https://www.charstal.com/post/202110282344.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://www.charstal.com/post/202110282344.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://www.charstal.com/post/202110282344.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://www.charstal.com/post/202110282344.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://www.charstal.com/post/202110282344.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/post/202110282344.html&name=[DDIA][第一章]：可靠性、可拓展性、可维护性&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://www.charstal.com/post/202110282344.html&t=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://www.charstal.com/post/3372083996.html" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://www.charstal.com/post/3372083996.html&text=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://www.charstal.com/post/3372083996.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.charstal.com/post/3372083996.html&is_video=false&description=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=[DDIA][第一章]：可靠性、可拓展性、可维护性&body=Check out this article: https://www.charstal.com/post/3372083996.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://www.charstal.com/post/3372083996.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://www.charstal.com/post/3372083996.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://www.charstal.com/post/3372083996.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://www.charstal.com/post/3372083996.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/post/3372083996.html&name=[DDIA][第一章]：可靠性、可拓展性、可维护性&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://www.charstal.com/post/3372083996.html&t=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -149,7 +149,7 @@
       
         <time datetime="2021-10-28T23:44:26.000Z" itemprop="datePublished">2021-10-28</time>
         
-        (Updated: <time datetime="2022-12-19T02:34:42.089Z" itemprop="dateModified">2022-12-19</time>)
+        (Updated: <time datetime="2022-12-19T03:04:18.384Z" itemprop="dateModified">2022-12-19</time>)
         
       
     </div>
@@ -310,17 +310,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://www.charstal.com/post/202110282344.html" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://www.charstal.com/post/202110282344.html&text=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://www.charstal.com/post/202110282344.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.charstal.com/post/202110282344.html&is_video=false&description=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=[DDIA][第一章]：可靠性、可拓展性、可维护性&body=Check out this article: https://www.charstal.com/post/202110282344.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://www.charstal.com/post/202110282344.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://www.charstal.com/post/202110282344.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://www.charstal.com/post/202110282344.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://www.charstal.com/post/202110282344.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/post/202110282344.html&name=[DDIA][第一章]：可靠性、可拓展性、可维护性&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://www.charstal.com/post/202110282344.html&t=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://www.charstal.com/post/3372083996.html" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://www.charstal.com/post/3372083996.html&text=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://www.charstal.com/post/3372083996.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.charstal.com/post/3372083996.html&is_video=false&description=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=[DDIA][第一章]：可靠性、可拓展性、可维护性&body=Check out this article: https://www.charstal.com/post/3372083996.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://www.charstal.com/post/3372083996.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://www.charstal.com/post/3372083996.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://www.charstal.com/post/3372083996.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://www.charstal.com/post/3372083996.html&title=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://www.charstal.com/post/3372083996.html&name=[DDIA][第一章]：可靠性、可拓展性、可维护性&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://www.charstal.com/post/3372083996.html&t=[DDIA][第一章]：可靠性、可拓展性、可维护性" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
