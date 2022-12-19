@@ -2,19 +2,19 @@
 <search>
   <entry>
     <title>随笔</title>
-    <url>/2019-12-28/</url>
+    <url>/post/201912281412.html</url>
     <content><![CDATA[<p>刚考研结束，其他三门还行，数学感觉要炸了。</p>
 <p>毕设也懒得做，把以前的网站重新搭建起来，现在差不多就这样吧。</p>
 <p>考研结束真觉得是个废人了。</p>
 <p>最后坐等Switch到。</p>
 ]]></content>
       <categories>
-        <category>随笔</category>
+        <category>diary</category>
       </categories>
   </entry>
   <entry>
     <title>随笔</title>
-    <url>/2019-12-29/</url>
+    <url>/post/201912291718.html</url>
     <content><![CDATA[<p>今天又赖床到10点了，emmm。</p>
 <p>起来看一会视频，吃个饭去拿风扇和我等了七天的switch，开心😊。</p>
 <p>风扇这东西，好像是我这台电脑的通病，总是在闭合情况下打开电脑时，风扇总会发出间断性的噪声，本来以为我是以为是风扇能够检测外侧震动，从而保护自己的一种措施，没想这玩意失控，噪声相当难忍受。</p>
@@ -26,12 +26,12 @@
 <p>今天就先这样了吧。</p>
 ]]></content>
       <categories>
-        <category>随笔</category>
+        <category>diary</category>
       </categories>
   </entry>
   <entry>
     <title>2019冬季PAT考试</title>
-    <url>/2019-winter-PAT-advanced/</url>
+    <url>/post/201912281427.html</url>
     <content><![CDATA[<h3 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h3><p>第一次拿100，留个纪念。</p>
 <p>这是第二次考了， 第一次9月份考的，准备作为考研机试。考前准备复习了十几个小时就上考场了</p>
 <p>第一考的时候心态不太好，看到第一题，心态崩了，搞了好久一个半小时一分没拿，后来心态回了点，把后面三题写完了， 最后没时间写第一题了。</p>
@@ -84,7 +84,7 @@
 <h4 id="解析-3"><a href="#解析-3" class="headerlink" title="解析"></a>解析</h4><p>这题是利用堆的一个中序，生成堆，并且输出它的层序遍历结果。<br>这题也不难，其实和前序中序生成树或者中序后序生成树差不多。为了防止爆数组，我是用map充当数组的作用，递归建树。</p>
 <h4 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution"></a>Solution</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; in;</span><br><span class="line"><span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; tree;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">createTree</span><span class="params">(<span class="keyword">int</span> ind, <span class="keyword">int</span> start, <span class="keyword">int</span> <span class="built_in">end</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(start &gt; <span class="built_in">end</span>) <span class="keyword">return</span> ;</span><br><span class="line">	<span class="keyword">int</span> index = start;</span><br><span class="line">	<span class="keyword">int</span> key = in[start];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = start; i &lt;= <span class="built_in">end</span>; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span>(key &gt; in[i]) &#123;</span><br><span class="line">			key = in[i];</span><br><span class="line">			index = i;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	tree[ind] = key;</span><br><span class="line">	createTree(ind * <span class="number">2</span>, start, index - <span class="number">1</span>);</span><br><span class="line">	createTree(ind * <span class="number">2</span> + <span class="number">1</span>, index + <span class="number">1</span>, <span class="built_in">end</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n, num;</span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; n;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;num);</span><br><span class="line">		in.push_back(num);</span><br><span class="line">	&#125;</span><br><span class="line">	createTree(<span class="number">1</span>, <span class="number">0</span>, n - <span class="number">1</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">auto</span> a = tree.<span class="built_in">begin</span>();</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>, a-&gt;second);</span><br><span class="line">	a++;</span><br><span class="line">	<span class="keyword">for</span>(; a != tree.<span class="built_in">end</span>(); ++a) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">" %d"</span>, a-&gt;second);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>DS</category>
+        <category>diary</category>
       </categories>
       <tags>
         <tag>PAT</tag>
@@ -93,26 +93,26 @@
   </entry>
   <entry>
     <title>随笔</title>
-    <url>/2020-01-14/</url>
+    <url>/post/202001142209.html</url>
     <content><![CDATA[<p>忙了一星期，准备在年前完成实习生工作的寻找，现在已经入职两天了。这还是很紧要的，毕竟我们学校有4个实习的必修学分，实习期必须满3个月。</p>
 <p>找工作唯一的感觉，就是感觉学的不够深入，虽然接触了大部分东西，但大部分都是浅尝辄止。都说今年是互联网企业的寒冬，但是这样也得硬着头皮上了。如果实在找不到的话，就在老师的手下做实习生吧。</p>
 <p>忘了说我的进的是虹软科技，测试开发实习生，可惜没有开发岗位了。</p>
 <p>已经实习两天了，感觉还不错，公司氛围挺好的，其他的以后再说说吧。</p>
 ]]></content>
       <categories>
-        <category>随笔</category>
+        <category>diary</category>
       </categories>
   </entry>
   <entry>
     <title>随笔</title>
-    <url>/2020-01-24/</url>
+    <url>/post/202001242036.html</url>
     <content><![CDATA[<p>大家新年快乐。</p>
 <p>19号坐的的动车回来，还好没赶上疫情爆发的时候。</p>
 <p>这几天舆论发酵的厉害，其实也没必要过度惊慌，武汉1000多万人，就算实际感染的人数有几千人，其实中奖几率也就是万分之一。但是也不能过度放松。必要的带带口罩，勤洗手其实就够了。</p>
 <p>希望一切都会好起来。</p>
 ]]></content>
       <categories>
-        <category>随笔</category>
+        <category>diary</category>
       </categories>
       <tags>
         <tag>新年</tag>
@@ -120,7 +120,7 @@
   </entry>
   <entry>
     <title>随笔</title>
-    <url>/2020-02-26/</url>
+    <url>/post/202002261517.html</url>
     <content><![CDATA[<p>不好意思，差不多一个多月没有更新了。</p>
 <p>因为疫情，没法回杭州了。当然我这边已经开始远程办公了，从2月初就开始了，开始了差不都三星期了。</p>
 <p>基本上每天早上9点起来，吃个早餐，开始工作。晚上打麻将，然后switch 1-2小时。毕设根本不想动……</p>
@@ -136,12 +136,12 @@
 <p>就到这里吧。</p>
 ]]></content>
       <categories>
-        <category>随笔</category>
+        <category>diary</category>
       </categories>
   </entry>
   <entry>
     <title>随笔</title>
-    <url>/2020-03-29/</url>
+    <url>/post/202003291427.html</url>
     <content><![CDATA[<p>不好意思好久没更新了。</p>
 <p>我三月七号回的杭州，在自如上，在公司旁边租了小房子，自我隔离了七天。</p>
 <p>还算是比较贵，6.4平、公共厨房、公共卫生间，一天60。不过也没办法短租不太好找，一个月工资全拿来交房租了(难受</p>
@@ -151,12 +151,12 @@
 <p>今天就到这里吧，尽量每个月都更新一点。</p>
 ]]></content>
       <categories>
-        <category>随笔</category>
+        <category>diary</category>
       </categories>
   </entry>
   <entry>
     <title>2021-辞旧迎新</title>
-    <url>/2020-new-year-brief-2021/</url>
+    <url>/post/202103031439.html</url>
     <content><![CDATA[<p>这篇文章本来应该是在寒假在家的时候写的，可惜因为某些原因拖到现在，才不是因为拖延症（滑稽</p>
 <p>寒假在家基本上打通了 Hades(通关80多次) 和 空洞骑士(switch)。</p>
 <p>不得不说空洞骑士是我买过最值的游戏了，它的游戏体量、内容、完成度和游戏体验不逊色一些3A大作，就是新人不太友好。坐等丝之歌。</p>
@@ -170,13 +170,233 @@
 <p>感叹留给过去，着眼未来大概才是我不会停止脚步的原因吧。</p>
 <p>新的一年希望自己能在专业领域别再迷茫，能有明确的努力方向。</p>
 ]]></content>
+      <categories>
+        <category>diary</category>
+      </categories>
       <tags>
         <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
+    <title>2020年考研感想&amp;一些其他的</title>
+    <url>/post/202005241521.html</url>
+    <content><![CDATA[<h2 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h2><p>好久没更新了，前阵子忙着考研复试，学校开放之后，便从公司请假，回到学校封闭式管理了。</p>
+<p>复试在5月16日，录取名单5月17日就出了，不得不说我浙这个效率真的高。</p>
+<p>本人一战，双非一本本专业，报考的是<code>浙江大学软件学院</code>，运气较好，因为疫情扩招，最终录取到软件工程全日制。分数360+，按未扩招时算的在复试边缘。</p>
+<p>这几天忙着毕设和找导师，更新的较迟，这是一个阶段性总结，等之后生活平稳了才会稳定更新。</p>
+<a id="more"></a>
+<h2 id="学校简介"><a href="#学校简介" class="headerlink" title="学校简介"></a>学校简介</h2><p>浙大计算机还是很强的，全国第三。浙大计算机主要在：CAD/CG、区块链、机器学习方面较为突出。报考浙大的计算机/电子信息主要有三个分院：计算机学院(计算机科学与技术(<code>学硕</code>)、软件工程（<code>学硕</code>）、网络空间安全(<code>学硕</code>)、计算机技术(<code>专硕</code>))、软件学院(软件工程(<code>专硕</code>))、工程师学院(物联网(<code>专硕</code>))</p>
+<p>这三个学院考研科目公共课相同，专业课上：计院、工院都是408、软院878(c+数据结构)</p>
+<p>计院录取人数：<a href="http://www.cs.zju.edu.cn/csen/2020/0430/c27006a2092231/page.htm" target="_blank" rel="noopener">http://www.cs.zju.edu.cn/csen/2020/0430/c27006a2092231/page.htm</a></p>
+<p>软院录取人数：<a href="http://www.cst.zju.edu.cn/2020/0502/c32178a2092359/page.htm" target="_blank" rel="noopener">http://www.cst.zju.edu.cn/2020/0502/c32178a2092359/page.htm</a></p>
+<p>工院录取人数：<a href="http://pi.zju.edu.cn/index.php?c=Index&amp;a=news_detail&amp;id=3308" target="_blank" rel="noopener">http://pi.zju.edu.cn/index.php?c=Index&amp;a=news_detail&amp;id=3308</a></p>
+<p>浙大招得人算是非常多了，相对来说难度比招人数个位数的学校好多了，但是同样会吸引大量大佬来竞争。所以难度不太好评估。</p>
+<p>浙大的复试较为公平，也是相对来说没那么繁杂的。</p>
+<p>总分成绩 = (初试/5) x 0.7 + 复试 x 0.3</p>
+<p>相当于：1分复试=2.1分初试，所以初试不高逆袭也不是不可能</p>
+<p>其他的考研信息最好请关注分院官网，以及研究生招生网。</p>
+<h2 id="个人情况"><a href="#个人情况" class="headerlink" title="个人情况"></a>个人情况</h2><p>我是从7月正式开始复习的，之前断断续续背了一些英语单词就不算进去了。</p>
+<p>7月我觉考浙大可能有点迟了，因为我的高数基础和英语底子可能不算太好，所以在早期我数学一天6个小时，英语一天4个小时，因为我考的是软件学院，专业课最后三个月准备就可以了。所以最好在考研前评估自己的基础怎么样。</p>
+<p>复习方法我就不说了，毕竟考得不高..</p>
+<p>最难受的就是最用心复习的数学和英语并没有考起来，反而没怎复习的政治考得还不错。(难受)</p>
+<p>我主要侧重于对于时间的把握。</p>
+<p>今年因为疫情的关系，取消了上机考试。按照往年，上机也是复试的内容之一，当然pat可以代替上机复试。</p>
+<p>换算公式：2分pat = 1分初试</p>
+<p>可以看到pat还是相当重要的，同时pat和上机成绩只能2选1，就意味着如果你参加了上机考试，pat成绩作废，成绩只能算上机的，同时pat就只有当年的pat成绩有效。比如我考2020的研究生，只有2019年3月、9月、12月的有效。</p>
+<p>这边推荐PAT考试尽量早开始，在3月份拿到高分最后，后面每天可以多出2、3时来复习。</p>
+<p>我七月开始，pat也没考，后面花了比较多的时间复习pat，这部分其实可以提早结束。</p>
+<p>我也写了一个，有兴趣的可以看看</p>
+<p>其他就没什么好说的了</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>考研选择比努力重要，今年软院ai上线就可以录取，相比隔壁的软件工程均分都到了390.</p>
+<p>考985、211或者强势专业请早点开始。</p>
+<p>尽早地评估自己地水平，对症下药。</p>
+<p>我地一个同学因为数学低了2分，补了25分，最终无缘软院。补足短板十分重要。</p>
+<p>最近忙着各种各样的荣誉，有点烦。感觉拿到浙大的录取通知书反而没有特别开心，身上的压力更大了。真是令人头秃。</p>
+<p>过段时间离校，又得找个地方租，跟着导师做项目去了。</p>
+<p>祝愿大家以后前程似锦。</p>
+]]></content>
+      <categories>
+        <category>diary</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>PAT真题目录</title>
+    <url>/post/202003212327.html</url>
+    <content><![CDATA[<h2 id="PAT甲级真题目录（按题型整理）"><a href="#PAT甲级真题目录（按题型整理）" class="headerlink" title="PAT甲级真题目录（按题型整理）"></a>PAT甲级真题目录（按题型整理）</h2><blockquote>
+<p>来自<a href="https://www.liuchuo.net/archives/2502?tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">柳婼 の blog</a></p>
+</blockquote>
+<h3 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h3><p><a href="http://www.liuchuo.net/archives/2359" target="_blank" rel="noopener">1003. Emergency (25)-PAT甲级真题（Dijkstra算法）</a><br><a href="http://www.liuchuo.net/archives/2373" target="_blank" rel="noopener">1018. Public Bike Management (30)-PAT甲级真题（Dijkstra + DFS）</a><br><a href="http://www.liuchuo.net/archives/2369" target="_blank" rel="noopener">1030. Travel Plan (30)-PAT甲级真题（Dijkstra + DFS，输出路径，边权）</a><br><a href="http://www.liuchuo.net/archives/2399" target="_blank" rel="noopener">1087. All Roads Lead to Rome (30)-PAT甲级真题-Dijkstra + DFS</a><br><a href="http://www.liuchuo.net/archives/2407" target="_blank" rel="noopener">1111. Online Map (30)-PAT甲级真题（Dijkstra + DFS）树的遍历</a>  </p>
+<h3 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h3><p><a href="http://www.liuchuo.net/archives/2229" target="_blank" rel="noopener">1004. Counting Leaves (30)-PAT甲级真题(bfs,dfs,树的遍历，层序遍历)</a><br><a href="http://www.liuchuo.net/archives/2100" target="_blank" rel="noopener">1020. Tree Traversals (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2285" target="_blank" rel="noopener">1053. Path of Equal Weight (30)-PAT甲级真题(树的遍历) </a><br><a href="http://www.liuchuo.net/archives/2212" target="_blank" rel="noopener">1079. Total Sales of Supply Chain (25)-PAT甲级真题（dfs,bfs,树的遍历）</a><br><a href="http://www.liuchuo.net/archives/2168" target="_blank" rel="noopener">1086. Tree Traversals Again (25)-PAT甲级真题 </a><br><a href="http://www.liuchuo.net/archives/2465" target="_blank" rel="noopener">1090. Highest Price in Supply Chain (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2223" target="_blank" rel="noopener">1094. The Largest Generation (25)-PAT甲级真题（bfs,dfs,树的遍历）</a><br><a href="http://www.liuchuo.net/archives/2166" target="_blank" rel="noopener">1102. Invert a Binary Tree (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2226" target="_blank" rel="noopener">1106. Lowest Price in Supply Chain (25)-PAT甲级真题(dfs,bfs,树的遍历)</a><br><a href="http://www.liuchuo.net/archives/2235" target="_blank" rel="noopener">1115. Counting Nodes in a BST (30)-PAT甲级真题（二叉树的遍历，dfs）</a><br><a href="http://www.liuchuo.net/archives/2484" target="_blank" rel="noopener">1119. Pre- and Post-order Traversals (30)-PAT甲级真题（前序后序转中序）</a></p>
+<h3 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h3><p><a href="http://www.liuchuo.net/archives/2346" target="_blank" rel="noopener">1013. Battle Over Cities (25)-PAT甲级真题（图的遍历，统计强连通分量的个数，dfs）</a><br><a href="http://www.liuchuo.net/archives/2348" target="_blank" rel="noopener">1021. Deepest Root (25)-PAT甲级真题（图的遍历，dfs，连通分量的个数）</a><br><a href="http://www.liuchuo.net/archives/2331" target="_blank" rel="noopener">1034. Head of a Gang (30)-PAT甲级真题（图的遍历dfs）</a><br><a href="http://www.liuchuo.net/archives/2376" target="_blank" rel="noopener">1072. Gas Station (30)-PAT甲级真题（Dijkstra）</a><br><a href="http://www.liuchuo.net/archives/2334" target="_blank" rel="noopener">1076. Forwards on Weibo (30)-PAT甲级真题（图的遍历bfs）</a>    </p>
+<h3 id="深度优先搜索"><a href="#深度优先搜索" class="headerlink" title="深度优先搜索"></a>深度优先搜索</h3><p><a href="http://www.liuchuo.net/archives/2451" target="_blank" rel="noopener">1103. Integer Factorization (30)-PAT甲级真题（dfs深度优先）</a>  </p>
+<h3 id="广度优先搜索"><a href="#广度优先搜索" class="headerlink" title="广度优先搜索"></a>广度优先搜索</h3><p><a href="http://www.liuchuo.net/archives/2307" target="_blank" rel="noopener">1091. Acute Stroke (30)-PAT甲级真题（广度优先搜索）</a>  </p>
+<h3 id="哈希、散列"><a href="#哈希、散列" class="headerlink" title="哈希、散列"></a>哈希、散列</h3><p><a href="http://www.liuchuo.net/archives/2142" target="_blank" rel="noopener">1048. Find Coins (25)-PAT甲级真题(Hash散列)</a><br><a href="http://www.liuchuo.net/archives/2130" target="_blank" rel="noopener">1050. String Subtraction (20)-PAT甲级真题（哈希）</a><br><a href="http://www.liuchuo.net/archives/1898" target="_blank" rel="noopener">1092. To Buy or Not to Buy (20)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/452" target="_blank" rel="noopener">1084. Broken Keyboard (20)-PAT甲级试题</a>  </p>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p><a href="http://www.liuchuo.net/archives/2207" target="_blank" rel="noopener">1012. The Best Rank (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2350" target="_blank" rel="noopener">1016. Phone Bills (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2180" target="_blank" rel="noopener">1025. PAT Ranking (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2120" target="_blank" rel="noopener">1028. List Sorting (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2255" target="_blank" rel="noopener">1055. The World’s Richest (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2068" target="_blank" rel="noopener">1062. Talent and Virtue (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2260" target="_blank" rel="noopener">1075. PAT Judge (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2453" target="_blank" rel="noopener">1080. Graduate Admission (30)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2128" target="_blank" rel="noopener">1083. List Grades (25)-PAT甲级真题</a>  </p>
+<h3 id="STL的使用"><a href="#STL的使用" class="headerlink" title="STL的使用"></a>STL的使用</h3><p><a href="http://www.liuchuo.net/archives/2295" target="_blank" rel="noopener">1022. Digital Library (30)-PAT甲级真题（map映射）</a><br><a href="http://www.liuchuo.net/archives/2145" target="_blank" rel="noopener">1039. Course List for Student (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2147" target="_blank" rel="noopener">1047. Student List for Course (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2048" target="_blank" rel="noopener">1054. The Dominant Color (20)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2106" target="_blank" rel="noopener">1063. Set Similarity (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2257" target="_blank" rel="noopener">1071. Speech Patterns (25)-PAT甲级真题（map应用）</a><br><a href="http://www.liuchuo.net/archives/1892" target="_blank" rel="noopener">1100. Mars Numbers (20)-PAT甲级真题</a>  </p>
+<h3 id="链表处理"><a href="#链表处理" class="headerlink" title="链表处理"></a>链表处理</h3><p><a href="http://www.liuchuo.net/archives/2113" target="_blank" rel="noopener">1032. Sharing (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2116" target="_blank" rel="noopener">1052. Linked List Sorting (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/1910" target="_blank" rel="noopener">1074. Reversing Linked List (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2118" target="_blank" rel="noopener">1097. Deduplication on a Linked List (25)-PAT甲级真题</a></p>
+<h3 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h3><p><a href="http://www.liuchuo.net/archives/2153" target="_blank" rel="noopener">1043. Is It a Binary Search Tree (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2161" target="_blank" rel="noopener">Complete Binary Search Tree (30)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2173" target="_blank" rel="noopener">1099. Build A Binary Search Tree (30)-PAT甲级真题</a>  </p>
+<h3 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h3><p><a href="http://www.liuchuo.net/archives/2178" target="_blank" rel="noopener">1066. Root of AVL Tree (25)-PAT甲级真题</a></p>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p><a href="http://www.liuchuo.net/archives/2273" target="_blank" rel="noopener">1098. Insertion or Heap Sort (25)-PAT甲级真题（堆排序）</a></p>
+<h3 id="并查集"><a href="#并查集" class="headerlink" title="并查集"></a>并查集</h3><p><a href="http://www.liuchuo.net/archives/2183" target="_blank" rel="noopener">1107. Social Clusters (30)-PAT甲级真题（并查集）</a><br><a href="http://www.liuchuo.net/archives/2201" target="_blank" rel="noopener">1114. Family Property (25)-PAT甲级真题（并查集）</a><br><a href="http://www.liuchuo.net/archives/2482" target="_blank" rel="noopener">1118. Birds in Forest (25)-PAT甲级真题（并查集）</a></p>
+<h3 id="树状数组"><a href="#树状数组" class="headerlink" title="树状数组"></a>树状数组</h3><p><a href="http://www.liuchuo.net/archives/2265" target="_blank" rel="noopener">1057. Stack (30)-PAT甲级真题（树状数组）</a></p>
+]]></content>
+      <categories>
+        <category>diary</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>virtualenvwarpper安装与配置</title>
+    <url>/post/202106031100.html</url>
+    <content><![CDATA[<h1 id="Virtualenvwrapper"><a href="#Virtualenvwrapper" class="headerlink" title="Virtualenvwrapper"></a>Virtualenvwrapper</h1><p><code>virtualenvwarpper</code>一般用作<code>python</code>管理不同的env。把<code>virtualenv</code>拓展之后，用起来更加简单方便</p>
+<ol>
+<li>可以将所有虚拟环境环境放在一个目录下，方便管理</li>
+<li>切换虚拟环境较为方便</li>
+<li>管理虚拟环境比较方便</li>
+</ol>
+<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install virtualenvwrapper</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录用来存放虚拟环境</span></span><br><span class="line">mkdir ~/.virtualenvs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在.bashrc中添加</span></span><br><span class="line"><span class="comment">## 指定PYTHON 版本</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3</span><br><span class="line"><span class="built_in">export</span> WORKON_HOME=~/.virtualenvs</span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/bin/virtualenvwrapper.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+<ul>
+<li>workon [虚拟环境名称]:切换虚拟环境</li>
+<li>lsvirtualenv:列出已有的虚拟环境列表</li>
+<li>mkvirtualenv :新建虚拟环境</li>
+<li>rmvirtualenv :删除虚拟环境</li>
+<li>deactivate: 离开已进入的虚拟环境</li>
+</ul>
+]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>virtualenv</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>wsl2环境配置+docker+wt+vscode</title>
+    <url>/post/202007191528.html</url>
+    <content><![CDATA[<h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>最近新换的电脑又坏了，拿回来还得重新配置环境，还得挨个找教程进行配置。这次就简单地全写一起吧。</p>
+<p>作为<code>wsl</code>的忠实爱好者，我已经使用了<code>wsl</code>两年了，相比虚拟机来说，实在是不要方便太多了，而且配置要求也没这么高。</p>
+<p>之前<code>windows</code> 商店也发布了<code>wt</code>(<code>windows terminal</code>)，相比<code>cmd</code>和<code>powershell</code>以及原本<code>bash</code>漂亮太多了，而且集成了多个窗口，切换很方便。</p>
+<p>这是我现在的界面，大家可以自己定义其他的外观等等。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-overview.png" alt="overview"></p>
+<p>最近看了一下，居然<code>wsl2</code>已经出好久了，还支持<code>docker</code>。我居然才知道，我想了想那时我应该在准备考研，emmm 。好了，废话不多说我们开始配置。</p>
+<p>另外说一句，<code>wsl2</code>还没有推送到正式版的<code>windows 10</code>中，目前还是在<code>windows</code>的测试版中。</p>
+<a id="more"></a>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p><a href="https://docs.microsoft.com/zh-cn/windows/wsl/compare-versions" target="_blank" rel="noopener">比较 WSL 2 和 WSL 1</a></p>
+<p><code>wsl1</code>和<code>wsl2</code>底层架构不同，所以<code>wsl2</code>能相比<code>wsl1</code>更多的实现一些<code>linux</code>内的功能。包括这次的<code>docker</code>，同时在<code>windows 10</code>最新的测试版中已经提供了GPU计算，有兴趣的可以自己升到最新的版本使用。</p>
+<h2 id="开始配置"><a href="#开始配置" class="headerlink" title="开始配置"></a>开始配置</h2><h3 id="更新windows-10"><a href="#更新windows-10" class="headerlink" title="更新windows 10"></a>更新windows 10</h3><p><code>wsl2</code>只有在<code>windows 10</code>版本2004的内部版本19041或者更高的版本中有提供 </p>
+<ul>
+<li>你可以<code>win+R</code>中输入<code>winver</code>中查看windows的版本<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-winver.png" alt="winver"></li>
+</ul>
+</li>
+<li>如果你的版本没有达到要求的话，你可以先试图通过windows 10的系统更新。</li>
+<li>如果依旧没达到版本要求的话：<ul>
+<li>加入微软的<code>windows 预览体院计划</code>，并选择Beta渠道</li>
+<li><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-preview.png" alt="preview"></li>
+<li>进行windows 10的系统更新</li>
+</ul>
+</li>
+</ul>
+<h3 id="系统设置"><a href="#系统设置" class="headerlink" title="系统设置"></a>系统设置</h3><h4 id="如果你没有安装过wsl"><a href="#如果你没有安装过wsl" class="headerlink" title="如果你没有安装过wsl"></a>如果你没有安装过wsl</h4><p>那么，你必须先启用<code>适用于 Linux 的 Windows 子系统</code>功能。</p>
+<p>以管理员身份打开 PowerShell 并运行：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">dism.exe /online /<span class="built_in">enable-feature</span> /featurename:Microsoft<span class="literal">-Windows</span><span class="literal">-Subsystem</span><span class="literal">-Linux</span> /all /norestart</span><br></pre></td></tr></table></figure>
+<p>并重启电脑</p>
+<h4 id="如果你安装过wsl"><a href="#如果你安装过wsl" class="headerlink" title="如果你安装过wsl"></a>如果你安装过wsl</h4><p>安装 WSL 2 之前，必须启用<code>虚拟机平台</code>功能。</p>
+<p>以管理员身份打开 PowerShell 并运行：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">dism.exe /online /<span class="built_in">enable-feature</span> /featurename:VirtualMachinePlatform /all /norestart</span><br></pre></td></tr></table></figure>
+<p>重新启动计算机，以完成 WSL 安装并更新到 WSL 2。</p>
+<h4 id="将wsl2设置为默认版本"><a href="#将wsl2设置为默认版本" class="headerlink" title="将wsl2设置为默认版本"></a>将wsl2设置为默认版本</h4><p>在powershell中输入：<br><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl -<span class="literal">-set</span><span class="literal">-default</span><span class="literal">-version</span> <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>你可能会遇到错误信息：<code>WSL 2 requires an update to its kernel component. For information please visit https://aka.ms/wsl2kernel</code><br>请安装<a href="https://aka.ms/wsl2kernel" target="_blank" rel="noopener">wsl2kernel</a>。</p>
+<h4 id="wsl1-to-wsl2"><a href="#wsl1-to-wsl2" class="headerlink" title="wsl1 to wsl2"></a>wsl1 to wsl2</h4><p>先查看wsl的版本信息<br><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl -<span class="literal">-list</span> -<span class="literal">-verbose</span></span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">wsl <span class="literal">-l</span> <span class="literal">-v</span></span><br></pre></td></tr></table></figure></p>
+<p>如果你是版本1的话，切换至版本2<br><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl -<span class="literal">-set</span><span class="literal">-version</span> &lt;distro<span class="literal">-name</span>&gt; <span class="number">2</span></span><br><span class="line"><span class="comment"># in my case</span></span><br><span class="line">wsl -<span class="literal">-set</span><span class="literal">-version</span> Ubuntu <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>从wsl1切换到wsl2可能会有错误，可能这能够解决<a href="https://docs.microsoft.com/zh-cn/windows/wsl/install-legacy#uninstallingremoving-the-legacy-distro" target="_blank" rel="noopener">卸载并删除任何旧分发</a></p>
+<h3 id="安装-linux-发行版与-windows-terminal"><a href="#安装-linux-发行版与-windows-terminal" class="headerlink" title="安装 linux 发行版与 windows terminal"></a>安装 linux 发行版与 windows terminal</h3><p>在<code>Microsoft Store</code>搜索<code>windows terminal</code>与想要的<code>linux</code> 发行版</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-windows-terminal.png" alt="windows-ternimal"></p>
+<p>你可以搜索你想要的 linux 发行版，基本上都有<br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-disto.png" alt="disto"></p>
+<ul>
+<li>Ubuntu 16.04 LTS</li>
+<li>Ubuntu 18.04 LTS</li>
+<li>Ubuntu 20.04 LTS</li>
+<li>openSUSE Leap 15.1</li>
+<li>SUSE Linux Enterprise Server 12 SP5</li>
+<li>SUSE Linux Enterprise Server 15 SP1</li>
+<li>Kali Linux</li>
+<li>Debian GNU/Linux</li>
+<li>Fedora Remix for WSL</li>
+<li>Pengwin</li>
+<li>Pengwin Enterprise</li>
+<li>Alpine WSL</li>
+</ul>
+<h3 id="linux环境配置"><a href="#linux环境配置" class="headerlink" title="linux环境配置"></a>linux环境配置</h3><p>我安装的是<code>ubuntu18.04</code>，所以接下来的流程都在该发行版下进行。</p>
+<p>在使用<code>wt</code>中使用发行版时，先启动该发行版完成预安装和预配置。完成安装之后便可以通过<code>win+r</code>输入<code>wt</code>，打开<code>windows ternimal</code>点击<code>+</code>号选择你安装的发行版，就可以了，<code>wt</code>的配置我会在后面贴出。</p>
+<h4 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak</span><br><span class="line">sudo vim /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+<p>清空里面所有内容，换入国内源。</p>
+<p>例如阿里源：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<p>更新source包，安装更新，开发基础内容包<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br><span class="line">sudo apt-get install build-essential</span><br></pre></td></tr></table></figure></p>
+<h4 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h4><p>将zsh替代bash<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install zsh <span class="comment"># 安装zsh</span></span><br></pre></td></tr></table></figure></p>
+<p>更改默认的shell<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chsh -s $(<span class="built_in">which</span> zsh)</span><br></pre></td></tr></table></figure></p>
+<p>下次再打开分发版时默认就是zsh</p>
+<h4 id="Oh-My-ZSH"><a href="#Oh-My-ZSH" class="headerlink" title="Oh My ZSH"></a>Oh My ZSH</h4><p><code>oh my zsh</code>是一个开源的社区驱动的框架，用于管理zsh配置。</p>
+<p>下载安装：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;ohmyzsh&#x2F;ohmyzsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;</span><br></pre></td></tr></table></figure></p>
+<p>zsh的配置文件在<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure></p>
+<p>可以更改主题</p>
+<figure class="highlight zsh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认主题</span></span><br><span class="line">ZSH_THEME=<span class="string">"robbyrussell"</span></span><br><span class="line"><span class="comment"># 新主题</span></span><br><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
+<p>可以安装插件<code>Syntax Highlighting</code>, <code>Auto Suggestions</code><br>分别是语法高亮和自动补齐</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir ~/.zsh</span><br><span class="line"><span class="built_in">cd</span> ~/.zsh</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions.git</span><br></pre></td></tr></table></figure>
+<p>同时<code>wt</code>里面文件夹名比较丑，下载<code>dircolors</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;seebi&#x2F;dircolors-solarized&#x2F;master&#x2F;dircolors.ansi-dark --output ~&#x2F;.dircolors</span><br></pre></td></tr></table></figure>
+<p>然后<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.zshrc</span><br></pre></td></tr></table></figure></p>
+<p>在末尾加上<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh</span><br><span class="line"><span class="built_in">source</span> ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh </span><br><span class="line"><span class="built_in">eval</span> `dircolors ~/.dircolors`</span><br></pre></td></tr></table></figure><br>这样的话在每一次开启终端，都会启用插件</p>
+<h4 id="proxychains"><a href="#proxychains" class="headerlink" title="proxychains"></a>proxychains</h4><p>在wsl2中的网络有了新的变化，系统会生成一个虚拟网卡，也就是说，在windows上会多一个网卡，且Ip是变化的。</p>
+<p>所以在linux中它的<code>hosts</code>是自动生成的、沿袭原本windows内容的<code>hosts</code>，<code>nameserver</code>也是一样的。</p>
+<p>所以window上的小飞机是无法直接给<code>wsl2</code>使用的，但是小飞机可以走本地端口代理。</p>
+<p>而proxychains就是这样以一个工具可以利用http协议，走1080端口本地代理。</p>
+<figure class="highlight zsh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install proxychains</span><br></pre></td></tr></table></figure>
+<p>它的配置文件在<br><figure class="highlight zsh"><table><tr><td class="code"><pre><span class="line">cat /etc/proxychains.conf</span><br></pre></td></tr></table></figure></p>
+<p>因为wsl2的ip是变化的，host的ip也是变化的<br>所以要让<code>proxychains.conf</code>的代理信息自动变化</p>
+<figure class="highlight zsh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.zsh</span><br><span class="line">mkdir proxy</span><br><span class="line"><span class="built_in">cd</span> proxy</span><br><span class="line">vim proxy.sh</span><br></pre></td></tr></table></figure>
+<p>输入以下内容</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="built_in">export</span> HOSTIP=$(cat /etc/resolv.conf | grep <span class="string">'nameserver'</span> | cut -f 2 -d <span class="string">' '</span>)</span><br><span class="line"><span class="built_in">export</span> WSLIP=$(ip addr show eth0 | grep <span class="string">'inet '</span> | cut -f 6 -d <span class="string">' '</span> | cut -f 1 -d <span class="string">'/'</span>)</span><br><span class="line"><span class="built_in">echo</span> HOSTIP <span class="variable">$HOSTIP</span></span><br><span class="line"><span class="built_in">echo</span> WSLIP <span class="variable">$WSLIP</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> Your password | sudo -S sed -i <span class="string">"/http/c http\t<span class="variable">$HOSTIP</span> 1080"</span> /etc/proxychains.conf</span><br></pre></td></tr></table></figure>
+<p>保存退出后</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.zshrc</span><br></pre></td></tr></table></figure>
+<p>输入<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zsh/proxy/proxy.sh</span><br></pre></td></tr></table></figure></p>
+<p>以后只要想要下载某些外网内容就可以直接在前面加<code>proxychains</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 例如</span></span><br><span class="line">sudo proxychains apt-get update</span><br><span class="line">sudo proxychains apt-get upgrade </span><br><span class="line">proxychian git <span class="built_in">clone</span> ......</span><br></pre></td></tr></table></figure>
+<h4 id="Nodejs"><a href="#Nodejs" class="headerlink" title="Nodejs"></a>Nodejs</h4><p>方法一：利用n安装nodejs<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install nodejs</span><br><span class="line">sudo apt-get install npm</span><br><span class="line">sudo npm install -g npm</span><br><span class="line">sudo npm install -g n</span><br><span class="line">sudo n stable //稳定版</span><br></pre></td></tr></table></figure></p>
+<p>方法二：利用nvm管理nodejs</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -o- https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;nvm-sh&#x2F;nvm&#x2F;v0.34.0&#x2F;install.sh | bash</span><br></pre></td></tr></table></figure>
+<p>之后重启<code>wt</code></p>
+<p>输入<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">command</span> -v nvm</span><br><span class="line"><span class="comment"># return nvm</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装node</span></span><br><span class="line">nvm install node <span class="comment"># 最新版本</span></span><br><span class="line">nvm use node</span><br></pre></td></tr></table></figure></p>
+<h4 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更新索引包依赖</span></span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install apt-transport-https ca-certificates curl software-properties-common</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加官方的GPG-key</span></span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证</span></span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line"><span class="comment"># 答案 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加 Docker repository </span></span><br><span class="line">sudo add-apt-repository <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu <span class="variable">$(lsb_release -cs)</span> stable"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install docker-ce</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动docker</span></span><br><span class="line">sudo service docker start</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试docker</span></span><br><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
+<h4 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h4><p>docker容器的管理工具。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载当前的稳定发行版并将其放在/usr/local/bin下。</span></span><br><span class="line">sudo curl -L <span class="string">"https://github.com/docker/compose/releases/download/1.24.0/docker-compose-<span class="variable">$(uname -s)</span>-<span class="variable">$(uname -m)</span>"</span> -o /usr/<span class="built_in">local</span>/bin/docker-compose</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改权限</span></span><br><span class="line">sudo chmod +x /usr/<span class="built_in">local</span>/bin/docker-compose</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试</span></span><br><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
+<h4 id="Docker-Desktop"><a href="#Docker-Desktop" class="headerlink" title="Docker Desktop"></a>Docker Desktop</h4><p>在windows上下载<br><a href="https://www.docker.com/products/docker-desktop" target="_blank" rel="noopener">Docker Desktop</a></p>
+<p>提供了docker的gui</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-docker-desktop.png" alt="docker-desktop"></p>
+<h3 id="连接vscode"><a href="#连接vscode" class="headerlink" title="连接vscode"></a>连接vscode</h3><p>请先下载vscode安装插件：<code>remote-wsl</code>和<code>terminal</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-remote-wsl.png" alt="remote-wsl"><br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-terminal-plugin.png" alt="terminal-plugin"></p>
+<p>这样你就可以通过点击<img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-connection.png" alt="">连接wsl</p>
+<p>通过<code>ctrl+p</code>输入terminal，选择打开一个内部的teriminal。就可以了。<br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-vscode-shell.png" alt=""></p>
+<p>修改默认的shell为zsh。</p>
+<h4 id="字体问题"><a href="#字体问题" class="headerlink" title="字体问题"></a>字体问题</h4><p>你可能会遇到某些字无法正常显示。</p>
+<p>下载<a href="https://github.com/powerline/fonts/blob/master/DejaVuSansMono/DejaVu%20Sans%20Mono%20for%20Powerline.ttf" target="_blank" rel="noopener">DejaVuSansMono</a>，并安装。</p>
+<p>同时在vscode的设置中，将terminal的字体选择为这个名字。</p>
+<h3 id="windows-terminal"><a href="#windows-terminal" class="headerlink" title="windows terminal"></a>windows terminal</h3><p>这个是我的配置，不做过多介绍了<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">// This file was initially generated by Windows Terminal 1.0.1401.0</span></span><br><span class="line"><span class="comment">// It should still be usable in newer versions, but newer versions might have additional</span></span><br><span class="line"><span class="comment">// settings, help text, or changes that you will not see unless you clear this file</span></span><br><span class="line"><span class="comment">// and let us generate a new one for you.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// To view the default settings, hold "alt" while clicking on the "Settings" button.</span></span><br><span class="line"><span class="comment">// For documentation on these settings, see: https://aka.ms/terminal-documentation</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"$schema"</span>: <span class="string">"https://aka.ms/terminal-profiles-schema"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="attr">"defaultProfile"</span>: <span class="string">"&#123;c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40&#125;"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// You can add more global application settings here.</span></span><br><span class="line">    <span class="comment">// To learn more about global settings, visit https://aka.ms/terminal-global-settings</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// If enabled, selections are automatically copied to your clipboard.</span></span><br><span class="line">    <span class="attr">"copyOnSelect"</span>: <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If enabled, formatted data is also copied to your clipboard</span></span><br><span class="line">    <span class="attr">"copyFormatting"</span>: <span class="literal">false</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// A profile specifies a command to execute paired with information about how it should look and feel.</span></span><br><span class="line">    <span class="comment">// Each one of them will appear in the 'New Tab' dropdown,</span></span><br><span class="line">    <span class="comment">//   and can be invoked from the commandline with `wt.exe -p xxx`</span></span><br><span class="line">    <span class="comment">// To learn more about profiles, visit https://aka.ms/terminal-profile-settings</span></span><br><span class="line">    <span class="attr">"profiles"</span>:</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"defaults"</span>:</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"fontFace"</span>: <span class="string">"DejaVu Sans Mono for Powerline"</span>,</span><br><span class="line">            <span class="attr">"acrylicOpacity"</span>: <span class="number">0.8</span>, <span class="comment">//背景透明度</span></span><br><span class="line">            <span class="attr">"useAcrylic"</span>: <span class="literal">true</span>, <span class="comment">// 启用毛玻璃</span></span><br><span class="line">            <span class="comment">// "backgroundImage": "D:\\OneDrive\\图片\\stack.jpg", //背景图片</span></span><br><span class="line">            <span class="comment">// "backgroundImageOpacity": 0.5, //图片透明度</span></span><br><span class="line">            <span class="comment">// "backgroundImageStretchMode": "fill", //填充模式</span></span><br><span class="line">            <span class="comment">// "icon": "ms-appx:///ProfileIcons/&#123;9acb9455-ca41-5af7-950f-6bca1bc9722f&#125;.png", //图标</span></span><br><span class="line">            <span class="attr">"fontSize"</span>: <span class="number">10</span>, <span class="comment">//文字大小</span></span><br><span class="line">            <span class="attr">"colorScheme"</span>: <span class="string">"Solarized Dark"</span>, <span class="comment">//主题</span></span><br><span class="line">            <span class="attr">"cursorColor"</span>: <span class="string">"#FFFFFF"</span>, <span class="comment">//光标颜色</span></span><br><span class="line">            <span class="attr">"cursorShape"</span>: <span class="string">"bar"</span> <span class="comment">//光标形状</span></span><br><span class="line">            <span class="comment">// "startingDirectory":"D://Projects//" //起始目录</span></span><br><span class="line">            <span class="comment">// Put settings here that you want to apply to all profiles.</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"list"</span>:</span><br><span class="line">        [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// Make changes here to the powershell.exe profile.</span></span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"&#123;61c54bbd-c2c6-5271-96e7-009a87ff44bf&#125;"</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Windows PowerShell"</span>,</span><br><span class="line">                <span class="attr">"commandline"</span>: <span class="string">"powershell.exe"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// Make changes here to the cmd.exe profile.</span></span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"&#123;0caa0dad-35be-5f56-a8ff-afceeeaa6101&#125;"</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"命令提示符"</span>,</span><br><span class="line">                <span class="attr">"commandline"</span>: <span class="string">"cmd.exe"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"&#123;c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40&#125;"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Ubuntu-18.04"</span>,</span><br><span class="line">                <span class="attr">"source"</span>: <span class="string">"Windows.Terminal.Wsl"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"&#123;b453ae62-4e3d-5e58-b989-0a998ec441b8&#125;"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Azure Cloud Shell"</span>,</span><br><span class="line">                <span class="attr">"source"</span>: <span class="string">"Windows.Terminal.Azure"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"&#123;07b52e3e-de2c-5db4-bd2d-ba144ed6c273&#125;"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Ubuntu-20.04"</span>,</span><br><span class="line">                <span class="attr">"source"</span>: <span class="string">"Windows.Terminal.Wsl"</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add custom color schemes to this array.</span></span><br><span class="line">    <span class="comment">// To learn more about color schemes, visit https://aka.ms/terminal-color-schemes</span></span><br><span class="line">    <span class="attr">"schemes"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Solarized Dark"</span>,</span><br><span class="line">            <span class="attr">"black"</span>: <span class="string">"#002831"</span>,</span><br><span class="line">            <span class="attr">"red"</span>: <span class="string">"#d11c24"</span>,</span><br><span class="line">            <span class="attr">"green"</span>: <span class="string">"#738a05"</span>,</span><br><span class="line">            <span class="attr">"yellow"</span>: <span class="string">"#a57706"</span>,</span><br><span class="line">            <span class="attr">"blue"</span>: <span class="string">"#2176c7"</span>,</span><br><span class="line">            <span class="attr">"purple"</span>: <span class="string">"#c61c6f"</span>,</span><br><span class="line">            <span class="attr">"cyan"</span>: <span class="string">"#259286"</span>,</span><br><span class="line">            <span class="attr">"white"</span>: <span class="string">"#eae3cb"</span>,</span><br><span class="line">            <span class="attr">"brightBlack"</span>: <span class="string">"#475b62"</span>,</span><br><span class="line">            <span class="attr">"brightRed"</span>: <span class="string">"#bd3613"</span>,</span><br><span class="line">            <span class="attr">"brightGreen"</span>: <span class="string">"#475b62"</span>,</span><br><span class="line">            <span class="attr">"brightYellow"</span>: <span class="string">"#536870"</span>,</span><br><span class="line">            <span class="attr">"brightBlue"</span>: <span class="string">"#708284"</span>,</span><br><span class="line">            <span class="attr">"brightPurple"</span>: <span class="string">"#5956ba"</span>,</span><br><span class="line">            <span class="attr">"brightCyan"</span>: <span class="string">"#819090"</span>,</span><br><span class="line">            <span class="attr">"brightWhite"</span>: <span class="string">"#fcf4dc"</span>,</span><br><span class="line">            <span class="attr">"background"</span>: <span class="string">"#001e27"</span>,</span><br><span class="line">            <span class="attr">"foreground"</span>: <span class="string">"#708284"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Solarized Darcula"</span>,</span><br><span class="line">            <span class="attr">"black"</span>: <span class="string">"#25292a"</span>,</span><br><span class="line">            <span class="attr">"red"</span>: <span class="string">"#f24840"</span>,</span><br><span class="line">            <span class="attr">"green"</span>: <span class="string">"#629655"</span>,</span><br><span class="line">            <span class="attr">"yellow"</span>: <span class="string">"#b68800"</span>,</span><br><span class="line">            <span class="attr">"blue"</span>: <span class="string">"#2075c7"</span>,</span><br><span class="line">            <span class="attr">"purple"</span>: <span class="string">"#797fd4"</span>,</span><br><span class="line">            <span class="attr">"cyan"</span>: <span class="string">"#15968d"</span>,</span><br><span class="line">            <span class="attr">"white"</span>: <span class="string">"#d2d8d9"</span>,</span><br><span class="line">            <span class="attr">"brightBlack"</span>: <span class="string">"#25292a"</span>,</span><br><span class="line">            <span class="attr">"brightRed"</span>: <span class="string">"#f24840"</span>,</span><br><span class="line">            <span class="attr">"brightGreen"</span>: <span class="string">"#629655"</span>,</span><br><span class="line">            <span class="attr">"brightYellow"</span>: <span class="string">"#b68800"</span>,</span><br><span class="line">            <span class="attr">"brightBlue"</span>: <span class="string">"#2075c7"</span>,</span><br><span class="line">            <span class="attr">"brightPurple"</span>: <span class="string">"#797fd4"</span>,</span><br><span class="line">            <span class="attr">"brightCyan"</span>: <span class="string">"#15968d"</span>,</span><br><span class="line">            <span class="attr">"brightWhite"</span>: <span class="string">"#d2d8d9"</span>,</span><br><span class="line">            <span class="attr">"background"</span>: <span class="string">"#3d3f41"</span>,</span><br><span class="line">            <span class="attr">"foreground"</span>: <span class="string">"#d2d8d9"</span></span><br><span class="line">          &#125;        </span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add custom keybindings to this array.</span></span><br><span class="line">    <span class="comment">// To unbind a key combination from your defaults.json, set the command to "unbound".</span></span><br><span class="line">    <span class="comment">// To learn more about keybindings, visit https://aka.ms/terminal-keybindings</span></span><br><span class="line">    <span class="attr">"keybindings"</span>:</span><br><span class="line">    [</span><br><span class="line">        <span class="comment">// Copy and paste are bound to Ctrl+Shift+C and Ctrl+Shift+V in your defaults.json.</span></span><br><span class="line">        <span class="comment">// These two lines additionally bind them to Ctrl+C and Ctrl+V.</span></span><br><span class="line">        <span class="comment">// To learn more about selection, visit https://aka.ms/terminal-selection</span></span><br><span class="line">        &#123; <span class="attr">"command"</span>: &#123;<span class="attr">"action"</span>: <span class="string">"copy"</span>, <span class="attr">"singleLine"</span>: <span class="literal">false</span> &#125;, <span class="attr">"keys"</span>: <span class="string">"ctrl+c"</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">"command"</span>: <span class="string">"paste"</span>, <span class="attr">"keys"</span>: <span class="string">"ctrl+v"</span> &#125;,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Press Ctrl+Shift+F to open the search box</span></span><br><span class="line">        &#123; <span class="attr">"command"</span>: <span class="string">"find"</span>, <span class="attr">"keys"</span>: <span class="string">"ctrl+shift+f"</span> &#125;,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Press Alt+Shift+D to open a new pane.</span></span><br><span class="line">        <span class="comment">// - "split": "auto" makes this pane open in the direction that provides the most surface area.</span></span><br><span class="line">        <span class="comment">// - "splitMode": "duplicate" makes the new pane use the focused pane's profile.</span></span><br><span class="line">        <span class="comment">// To learn more about panes, visit https://aka.ms/terminal-panes</span></span><br><span class="line">        &#123; <span class="attr">"command"</span>: &#123; <span class="attr">"action"</span>: <span class="string">"splitPane"</span>, <span class="attr">"split"</span>: <span class="string">"auto"</span>, <span class="attr">"splitMode"</span>: <span class="string">"duplicate"</span> &#125;, <span class="attr">"keys"</span>: <span class="string">"alt+shift+d"</span> &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://nickymeuleman.netlify.app/blog/linux-on-windows-wsl2-zsh-docker#powerline-fonts" target="_blank" rel="noopener">WSL2, zsh, and docker. Linux through Windows.</a><br><a href="https://www.oyohyee.com/post/note_wsl2_net" target="_blank" rel="noopener">WSL2中自动配置Windows IP地址</a><br><a href="https://docs.microsoft.com/zh-cn/windows/wsl/install-win10#update-to-wsl-2" target="_blank" rel="noopener">适用于 Linux 的 Windows 子系统安装指南 (Windows 10)</a></p>
+]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>wsl2</tag>
+        <tag>zsh</tag>
+        <tag>wt</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>[DDIA][第一章]：可靠性、可拓展性、可维护性</title>
-    <url>/DDIA-ch1-reliability-scalability-maintainability/</url>
+    <url>/post/202110282344.html</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>久仰DDIA大名，刚把<code>MIT 6.824</code>做完，之后应该会把DDIA的内容做一个摘录，其中也会夹杂着<code>6.824</code>的论文翻译和<code>lab</code>记录的整理</p>
 <p>原书链接: <a href="https://vonng.gitbooks.io/ddia-cn/content/ch1.html" target="_blank" rel="noopener">Designing Data-Intensive Application</a></p>
 <h1 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h1><h2 id="数据系统"><a href="#数据系统" class="headerlink" title="数据系统"></a>数据系统</h2><p>现今很多应用属于数据密集型 （data-intensive），而非计算密集型（compute-intensive）。主要的问题来自数据量、数据的复杂性以及数据的变更速度。</p>
@@ -277,6 +497,7 @@
 <p>敏捷社区还开发了对在频繁变化的环境中开发软件很有帮助的技术工具和模式，如 测试驱动开发（TDD, test-driven development） 和 重构（refactoring） 。</p>
 ]]></content>
       <categories>
+        <category>book</category>
         <category>DDIA</category>
       </categories>
       <tags>
@@ -288,7 +509,7 @@
   </entry>
   <entry>
     <title>[DDIA][第二章]：数据模型与查询语言</title>
-    <url>/DDIA-ch2-data-model-and-search-language/</url>
+    <url>/post/202111030026.html</url>
     <content><![CDATA[<h1 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h1><h2 id="关系模型与文档模型"><a href="#关系模型与文档模型" class="headerlink" title="关系模型与文档模型"></a>关系模型与文档模型</h2><p>NoSQL(Not Only SQL)，出现的原因：</p>
 <ul>
 <li>需要比关系数据库更好的可扩展性，包括非常大的数据集或非常高的写入吞吐量</li>
@@ -388,6 +609,7 @@
 <p>Datalog的数据模型类似于三元组模式，但进行了一点泛化。把三元组写成谓语（主语，宾语），而不是写三元语（主语，谓语，宾语）</p>
 ]]></content>
       <categories>
+        <category>book</category>
         <category>DDIA</category>
       </categories>
       <tags>
@@ -398,7 +620,7 @@
   </entry>
   <entry>
     <title>[DDIA][第三章]：存储与检索</title>
-    <url>/DDIA-ch3-storage-and-retrieval/</url>
+    <url>/post/202111111656.html</url>
     <content><![CDATA[<h1 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h1><p>这里将会研究两大类存储引擎：<code>日志结构（log-structred）</code>的存储引擎，以及<code>面向页面（page-oriented）</code>的存储引擎（例如B树）。</p>
 <h2 id="驱动数据库的数据结构"><a href="#驱动数据库的数据结构" class="headerlink" title="驱动数据库的数据结构"></a>驱动数据库的数据结构</h2><p>世界上最简单的数据库</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="function"><span class="title">db_set</span></span> () &#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"<span class="variable">$1</span>,<span class="variable">$2</span>"</span> &gt;&gt; database</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">db_get</span></span> () &#123;</span><br><span class="line">    grep <span class="string">"^<span class="variable">$1</span>,"</span> database | sed -e <span class="string">"s/^<span class="variable">$1</span>,//"</span> | tail -n 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -539,6 +761,7 @@
 <h2 id="数据立方体"><a href="#数据立方体" class="headerlink" title="数据立方体"></a>数据立方体</h2><p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/DDIA-ch3-3-12.png" alt=""></p>
 ]]></content>
       <categories>
+        <category>book</category>
         <category>DDIA</category>
       </categories>
       <tags>
@@ -548,7 +771,7 @@
   </entry>
   <entry>
     <title>[DDIA][第四章]：编码与演化</title>
-    <url>/DDIA-ch4-coding-and-evo/</url>
+    <url>/post/202111111656.html</url>
     <content><![CDATA[<h1 id="第四章"><a href="#第四章" class="headerlink" title="第四章"></a>第四章</h1><p>当数据格式（format）或模式（schema）发生变化时，通常需要对应用程序代码进行相应的更改（例如，为记录添加新字段，然后修改程序开始读写该字段）。但在大型应用程序中，代码变更通常不会立即完成。</p>
 <p>这意味着，新旧版本的代码，以及新旧数据格式可能会在系统中同时共处。系统想要继续顺利运行，就需要保持<code>双向兼容性</code>：</p>
 <p><em>向后兼容 (backward compatibility)</em></p>
@@ -650,12 +873,13 @@
 <p>分布式的Actor框架实质上是将消息代理和角色编程模型集成到一个框架中。但是，如果要执行基于角色的应用程序的滚动升级，则仍然需要担心向前和向后兼容性问题，因为消息可能会从运行新版本的节点发送到运行旧版本的节点，反之亦然。</p>
 ]]></content>
       <categories>
+        <category>book</category>
         <category>DDIA</category>
       </categories>
   </entry>
   <entry>
     <title>设计原则</title>
-    <url>/design-principles/</url>
+    <url>/post/202001051214.html</url>
     <content><![CDATA[<h2 id="设计模式：设计原则"><a href="#设计模式：设计原则" class="headerlink" title="设计模式：设计原则"></a>设计模式：设计原则</h2><ol>
 <li><p>找出应用中可能需要变化指出，把它们独立出来，不要和那些不需要变化的代码混在一起。</p>
 </li>
@@ -678,57 +902,39 @@
 </ol>
 ]]></content>
       <categories>
-        <category>设计模式</category>
+        <category>book</category>
+        <category>design-pattern</category>
       </categories>
       <tags>
         <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
-    <title>2020年考研感想&amp;一些其他的</title>
-    <url>/graduation/</url>
-    <content><![CDATA[<h2 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h2><p>好久没更新了，前阵子忙着考研复试，学校开放之后，便从公司请假，回到学校封闭式管理了。</p>
-<p>复试在5月16日，录取名单5月17日就出了，不得不说我浙这个效率真的高。</p>
-<p>本人一战，双非一本本专业，报考的是<code>浙江大学软件学院</code>，运气较好，因为疫情扩招，最终录取到软件工程全日制。分数360+，按未扩招时算的在复试边缘。</p>
-<p>这几天忙着毕设和找导师，更新的较迟，这是一个阶段性总结，等之后生活平稳了才会稳定更新。</p>
-<a id="more"></a>
-<h2 id="学校简介"><a href="#学校简介" class="headerlink" title="学校简介"></a>学校简介</h2><p>浙大计算机还是很强的，全国第三。浙大计算机主要在：CAD/CG、区块链、机器学习方面较为突出。报考浙大的计算机/电子信息主要有三个分院：计算机学院(计算机科学与技术(<code>学硕</code>)、软件工程（<code>学硕</code>）、网络空间安全(<code>学硕</code>)、计算机技术(<code>专硕</code>))、软件学院(软件工程(<code>专硕</code>))、工程师学院(物联网(<code>专硕</code>))</p>
-<p>这三个学院考研科目公共课相同，专业课上：计院、工院都是408、软院878(c+数据结构)</p>
-<p>计院录取人数：<a href="http://www.cs.zju.edu.cn/csen/2020/0430/c27006a2092231/page.htm" target="_blank" rel="noopener">http://www.cs.zju.edu.cn/csen/2020/0430/c27006a2092231/page.htm</a></p>
-<p>软院录取人数：<a href="http://www.cst.zju.edu.cn/2020/0502/c32178a2092359/page.htm" target="_blank" rel="noopener">http://www.cst.zju.edu.cn/2020/0502/c32178a2092359/page.htm</a></p>
-<p>工院录取人数：<a href="http://pi.zju.edu.cn/index.php?c=Index&amp;a=news_detail&amp;id=3308" target="_blank" rel="noopener">http://pi.zju.edu.cn/index.php?c=Index&amp;a=news_detail&amp;id=3308</a></p>
-<p>浙大招得人算是非常多了，相对来说难度比招人数个位数的学校好多了，但是同样会吸引大量大佬来竞争。所以难度不太好评估。</p>
-<p>浙大的复试较为公平，也是相对来说没那么繁杂的。</p>
-<p>总分成绩 = (初试/5) x 0.7 + 复试 x 0.3</p>
-<p>相当于：1分复试=2.1分初试，所以初试不高逆袭也不是不可能</p>
-<p>其他的考研信息最好请关注分院官网，以及研究生招生网。</p>
-<h2 id="个人情况"><a href="#个人情况" class="headerlink" title="个人情况"></a>个人情况</h2><p>我是从7月正式开始复习的，之前断断续续背了一些英语单词就不算进去了。</p>
-<p>7月我觉考浙大可能有点迟了，因为我的高数基础和英语底子可能不算太好，所以在早期我数学一天6个小时，英语一天4个小时，因为我考的是软件学院，专业课最后三个月准备就可以了。所以最好在考研前评估自己的基础怎么样。</p>
-<p>复习方法我就不说了，毕竟考得不高..</p>
-<p>最难受的就是最用心复习的数学和英语并没有考起来，反而没怎复习的政治考得还不错。(难受)</p>
-<p>我主要侧重于对于时间的把握。</p>
-<p>今年因为疫情的关系，取消了上机考试。按照往年，上机也是复试的内容之一，当然pat可以代替上机复试。</p>
-<p>换算公式：2分pat = 1分初试</p>
-<p>可以看到pat还是相当重要的，同时pat和上机成绩只能2选1，就意味着如果你参加了上机考试，pat成绩作废，成绩只能算上机的，同时pat就只有当年的pat成绩有效。比如我考2020的研究生，只有2019年3月、9月、12月的有效。</p>
-<p>这边推荐PAT考试尽量早开始，在3月份拿到高分最后，后面每天可以多出2、3时来复习。</p>
-<p>我七月开始，pat也没考，后面花了比较多的时间复习pat，这部分其实可以提早结束。</p>
-<p>我也写了一个<a href="/strategy-pat/" title="PAT攻略">PAT攻略</a>，有兴趣的可以看看</p>
-<p>其他就没什么好说的了</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>考研选择比努力重要，今年软院ai上线就可以录取，相比隔壁的软件工程均分都到了390.</p>
-<p>考985、211或者强势专业请早点开始。</p>
-<p>尽早地评估自己地水平，对症下药。</p>
-<p>我地一个同学因为数学低了2分，补了25分，最终无缘软院。补足短板十分重要。</p>
-<p>最近忙着各种各样的荣誉，有点烦。感觉拿到浙大的录取通知书反而没有特别开心，身上的压力更大了。真是令人头秃。</p>
-<p>过段时间离校，又得找个地方租，跟着导师做项目去了。</p>
-<p>祝愿大家以后前程似锦。</p>
+    <title>PAT攻略</title>
+    <url>/post/201912290030.html</url>
+    <content><![CDATA[<p>其实我pat准备得很迟，七月中旬才开始准备PAT。</p>
+<p>就刷了甲级100来道题，就去考场了，其他都ac了。可能太过于紧张，第一题就留了半小时，没做出来，拿了80 …… </p>
+<p>第二次把乙级题都刷了一遍，甲级中的20分题以及对照刷题目录把甲级中的经典题型也都重新刷一遍。</p>
+<p>其实pat不需要全刷，有些题是真的恶心，早期各种各样恶心的模拟题，比如臭名昭著的<code>Table tennis</code>。</p>
+<p>我就刷了120多题。<br><a id="more"></a><br>我感觉我这个路线应该可以2个月速成PAT甲级。我的路线：PAT乙级全刷-&gt;<a href="/post/202003212327.html" title="真题目录">真题目录</a>-&gt;甲级1101题往后所有题-&gt;还有有时间的话把甲级20分题都做一下(第一题有时候挺难的)</p>
+<p>IDE： DEV C++(一般这个都有，刷题最好用c++)</p>
+<p>书籍：《算法笔记》俗称晴神宝典</p>
+<p>代码参考：<a href="https://www.liuchuo.net/" target="_blank" rel="noopener">柳神博客</a></p>
+<p>PAT乙级，是帮助你熟悉C++/C，掌握字符串的处理的开始</p>
+<p><a href="/post/202003212327.html" title="真题目录">真题目录</a>：题型分类，里面的题都是非常经典的，值得多做几次。可以从易到难，二点论结合：STL(熟悉stl)-&gt;链表-&gt;排序-&gt;树-&gt;图-&gt;广度、深度-&gt;最短路径-&gt;搜索树、平衡树-&gt;堆-&gt;并查集。其他就不用怎么用看了，基本不考。</p>
+<p>差不多这样就行了吧，一天三个小时，两个月90分没有问题，100分还是需要点实力和运气的。</p>
 ]]></content>
       <categories>
-        <category>随笔</category>
+        <category>book</category>
+        <category>design-pattern</category>
       </categories>
+      <tags>
+        <tag>PAT</tag>
+      </tags>
   </entry>
   <entry>
     <title>八方旅人完结</title>
-    <url>/octopath-traveler/</url>
+    <url>/post/202002291707.html</url>
     <content><![CDATA[<p>八方旅人，一方五十</p>
 <p>第一次全通关一款JRPG，断断续续打了一个月，将近80小时全收集。</p>
 <p>这个主线剧情最终Boss和隐藏Boss难度跨度有点大。</p>
@@ -749,7 +955,8 @@
 <p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/octopath-traveler-boss.jpg" alt=""></p>
 ]]></content>
       <categories>
-        <category>游戏</category>
+        <category>game</category>
+        <category>octopath-traveler</category>
       </categories>
       <tags>
         <tag>八方旅人</tag>
@@ -757,52 +964,8 @@
       </tags>
   </entry>
   <entry>
-    <title>PAT真题目录</title>
-    <url>/pat-advanced-recommend/</url>
-    <content><![CDATA[<h2 id="PAT甲级真题目录（按题型整理）"><a href="#PAT甲级真题目录（按题型整理）" class="headerlink" title="PAT甲级真题目录（按题型整理）"></a>PAT甲级真题目录（按题型整理）</h2><blockquote>
-<p>来自<a href="https://www.liuchuo.net/archives/2502?tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">柳婼 の blog</a></p>
-</blockquote>
-<h3 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h3><p><a href="http://www.liuchuo.net/archives/2359" target="_blank" rel="noopener">1003. Emergency (25)-PAT甲级真题（Dijkstra算法）</a><br><a href="http://www.liuchuo.net/archives/2373" target="_blank" rel="noopener">1018. Public Bike Management (30)-PAT甲级真题（Dijkstra + DFS）</a><br><a href="http://www.liuchuo.net/archives/2369" target="_blank" rel="noopener">1030. Travel Plan (30)-PAT甲级真题（Dijkstra + DFS，输出路径，边权）</a><br><a href="http://www.liuchuo.net/archives/2399" target="_blank" rel="noopener">1087. All Roads Lead to Rome (30)-PAT甲级真题-Dijkstra + DFS</a><br><a href="http://www.liuchuo.net/archives/2407" target="_blank" rel="noopener">1111. Online Map (30)-PAT甲级真题（Dijkstra + DFS）树的遍历</a>  </p>
-<h3 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h3><p><a href="http://www.liuchuo.net/archives/2229" target="_blank" rel="noopener">1004. Counting Leaves (30)-PAT甲级真题(bfs,dfs,树的遍历，层序遍历)</a><br><a href="http://www.liuchuo.net/archives/2100" target="_blank" rel="noopener">1020. Tree Traversals (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2285" target="_blank" rel="noopener">1053. Path of Equal Weight (30)-PAT甲级真题(树的遍历) </a><br><a href="http://www.liuchuo.net/archives/2212" target="_blank" rel="noopener">1079. Total Sales of Supply Chain (25)-PAT甲级真题（dfs,bfs,树的遍历）</a><br><a href="http://www.liuchuo.net/archives/2168" target="_blank" rel="noopener">1086. Tree Traversals Again (25)-PAT甲级真题 </a><br><a href="http://www.liuchuo.net/archives/2465" target="_blank" rel="noopener">1090. Highest Price in Supply Chain (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2223" target="_blank" rel="noopener">1094. The Largest Generation (25)-PAT甲级真题（bfs,dfs,树的遍历）</a><br><a href="http://www.liuchuo.net/archives/2166" target="_blank" rel="noopener">1102. Invert a Binary Tree (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2226" target="_blank" rel="noopener">1106. Lowest Price in Supply Chain (25)-PAT甲级真题(dfs,bfs,树的遍历)</a><br><a href="http://www.liuchuo.net/archives/2235" target="_blank" rel="noopener">1115. Counting Nodes in a BST (30)-PAT甲级真题（二叉树的遍历，dfs）</a><br><a href="http://www.liuchuo.net/archives/2484" target="_blank" rel="noopener">1119. Pre- and Post-order Traversals (30)-PAT甲级真题（前序后序转中序）</a></p>
-<h3 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h3><p><a href="http://www.liuchuo.net/archives/2346" target="_blank" rel="noopener">1013. Battle Over Cities (25)-PAT甲级真题（图的遍历，统计强连通分量的个数，dfs）</a><br><a href="http://www.liuchuo.net/archives/2348" target="_blank" rel="noopener">1021. Deepest Root (25)-PAT甲级真题（图的遍历，dfs，连通分量的个数）</a><br><a href="http://www.liuchuo.net/archives/2331" target="_blank" rel="noopener">1034. Head of a Gang (30)-PAT甲级真题（图的遍历dfs）</a><br><a href="http://www.liuchuo.net/archives/2376" target="_blank" rel="noopener">1072. Gas Station (30)-PAT甲级真题（Dijkstra）</a><br><a href="http://www.liuchuo.net/archives/2334" target="_blank" rel="noopener">1076. Forwards on Weibo (30)-PAT甲级真题（图的遍历bfs）</a>    </p>
-<h3 id="深度优先搜索"><a href="#深度优先搜索" class="headerlink" title="深度优先搜索"></a>深度优先搜索</h3><p><a href="http://www.liuchuo.net/archives/2451" target="_blank" rel="noopener">1103. Integer Factorization (30)-PAT甲级真题（dfs深度优先）</a>  </p>
-<h3 id="广度优先搜索"><a href="#广度优先搜索" class="headerlink" title="广度优先搜索"></a>广度优先搜索</h3><p><a href="http://www.liuchuo.net/archives/2307" target="_blank" rel="noopener">1091. Acute Stroke (30)-PAT甲级真题（广度优先搜索）</a>  </p>
-<h3 id="哈希、散列"><a href="#哈希、散列" class="headerlink" title="哈希、散列"></a>哈希、散列</h3><p><a href="http://www.liuchuo.net/archives/2142" target="_blank" rel="noopener">1048. Find Coins (25)-PAT甲级真题(Hash散列)</a><br><a href="http://www.liuchuo.net/archives/2130" target="_blank" rel="noopener">1050. String Subtraction (20)-PAT甲级真题（哈希）</a><br><a href="http://www.liuchuo.net/archives/1898" target="_blank" rel="noopener">1092. To Buy or Not to Buy (20)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/452" target="_blank" rel="noopener">1084. Broken Keyboard (20)-PAT甲级试题</a>  </p>
-<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p><a href="http://www.liuchuo.net/archives/2207" target="_blank" rel="noopener">1012. The Best Rank (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2350" target="_blank" rel="noopener">1016. Phone Bills (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2180" target="_blank" rel="noopener">1025. PAT Ranking (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2120" target="_blank" rel="noopener">1028. List Sorting (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2255" target="_blank" rel="noopener">1055. The World’s Richest (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2068" target="_blank" rel="noopener">1062. Talent and Virtue (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2260" target="_blank" rel="noopener">1075. PAT Judge (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2453" target="_blank" rel="noopener">1080. Graduate Admission (30)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2128" target="_blank" rel="noopener">1083. List Grades (25)-PAT甲级真题</a>  </p>
-<h3 id="STL的使用"><a href="#STL的使用" class="headerlink" title="STL的使用"></a>STL的使用</h3><p><a href="http://www.liuchuo.net/archives/2295" target="_blank" rel="noopener">1022. Digital Library (30)-PAT甲级真题（map映射）</a><br><a href="http://www.liuchuo.net/archives/2145" target="_blank" rel="noopener">1039. Course List for Student (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2147" target="_blank" rel="noopener">1047. Student List for Course (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2048" target="_blank" rel="noopener">1054. The Dominant Color (20)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2106" target="_blank" rel="noopener">1063. Set Similarity (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2257" target="_blank" rel="noopener">1071. Speech Patterns (25)-PAT甲级真题（map应用）</a><br><a href="http://www.liuchuo.net/archives/1892" target="_blank" rel="noopener">1100. Mars Numbers (20)-PAT甲级真题</a>  </p>
-<h3 id="链表处理"><a href="#链表处理" class="headerlink" title="链表处理"></a>链表处理</h3><p><a href="http://www.liuchuo.net/archives/2113" target="_blank" rel="noopener">1032. Sharing (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2116" target="_blank" rel="noopener">1052. Linked List Sorting (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/1910" target="_blank" rel="noopener">1074. Reversing Linked List (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2118" target="_blank" rel="noopener">1097. Deduplication on a Linked List (25)-PAT甲级真题</a></p>
-<h3 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h3><p><a href="http://www.liuchuo.net/archives/2153" target="_blank" rel="noopener">1043. Is It a Binary Search Tree (25)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2161" target="_blank" rel="noopener">Complete Binary Search Tree (30)-PAT甲级真题</a><br><a href="http://www.liuchuo.net/archives/2173" target="_blank" rel="noopener">1099. Build A Binary Search Tree (30)-PAT甲级真题</a>  </p>
-<h3 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h3><p><a href="http://www.liuchuo.net/archives/2178" target="_blank" rel="noopener">1066. Root of AVL Tree (25)-PAT甲级真题</a></p>
-<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p><a href="http://www.liuchuo.net/archives/2273" target="_blank" rel="noopener">1098. Insertion or Heap Sort (25)-PAT甲级真题（堆排序）</a></p>
-<h3 id="并查集"><a href="#并查集" class="headerlink" title="并查集"></a>并查集</h3><p><a href="http://www.liuchuo.net/archives/2183" target="_blank" rel="noopener">1107. Social Clusters (30)-PAT甲级真题（并查集）</a><br><a href="http://www.liuchuo.net/archives/2201" target="_blank" rel="noopener">1114. Family Property (25)-PAT甲级真题（并查集）</a><br><a href="http://www.liuchuo.net/archives/2482" target="_blank" rel="noopener">1118. Birds in Forest (25)-PAT甲级真题（并查集）</a></p>
-<h3 id="树状数组"><a href="#树状数组" class="headerlink" title="树状数组"></a>树状数组</h3><p><a href="http://www.liuchuo.net/archives/2265" target="_blank" rel="noopener">1057. Stack (30)-PAT甲级真题（树状数组）</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>PAT攻略</title>
-    <url>/strategy-pat/</url>
-    <content><![CDATA[<p>其实我pat准备得很迟，七月中旬才开始准备PAT。</p>
-<p>就刷了甲级100来道题，就去考场了，其他都ac了。可能太过于紧张，第一题就留了半小时，没做出来，拿了80 …… </p>
-<p>第二次把乙级题都刷了一遍，甲级中的20分题以及对照刷题目录把甲级中的经典题型也都重新刷一遍。</p>
-<p>其实pat不需要全刷，有些题是真的恶心，早期各种各样恶心的模拟题，比如臭名昭著的<code>Table tennis</code>。</p>
-<p>我就刷了120多题。<br><a id="more"></a><br>我感觉我这个路线应该可以2个月速成PAT甲级。我的路线：PAT乙级全刷-&gt;<a href="/pat-advanced-recommend/" title="真题目录">真题目录</a>-&gt;甲级1101题往后所有题-&gt;还有有时间的话把甲级20分题都做一下(第一题有时候挺难的)</p>
-<p>IDE： DEV C++(一般这个都有，刷题最好用c++)</p>
-<p>书籍：《算法笔记》俗称晴神宝典</p>
-<p>代码参考：<a href="https://www.liuchuo.net/" target="_blank" rel="noopener">柳神博客</a></p>
-<p>PAT乙级，是帮助你熟悉C++/C，掌握字符串的处理的开始</p>
-<p><a href="/pat-advanced-recommend/" title="真题目录">真题目录</a>：题型分类，里面的题都是非常经典的，值得多做几次。可以从易到难，二点论结合：STL(熟悉stl)-&gt;链表-&gt;排序-&gt;树-&gt;图-&gt;广度、深度-&gt;最短路径-&gt;搜索树、平衡树-&gt;堆-&gt;并查集。其他就不用怎么用看了，基本不考。</p>
-<p>差不多这样就行了吧，一天三个小时，两个月90分没有问题，100分还是需要点实力和运气的。</p>
-]]></content>
-      <categories>
-        <category>DS</category>
-      </categories>
-      <tags>
-        <tag>PAT</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Talent plan Tinykv | project1 | Standalone KV</title>
-    <url>/talent-plan-tinykv-project1/</url>
+    <url>/post/202201100059.html</url>
     <content><![CDATA[<p><a href="https://asktug.com/t/topic/242996" target="_blank" rel="noopener">Talent Plan 2021 KV 学习营信息总览</a></p>
 <p>前一阵子看见P社在微信群推了这个活动，前一阵子刚学了6.824并写完了lab3，所以兴冲冲想去试试，在群里拉了一个小伙伴去试试。</p>
 <p>总体收获还是挺大的，tinykv也是挺难的，主要难在文档其实描述并没有那么清楚，很多地方都需要自己淌坑。同时debug比较痛苦。但是确实是一个比较好的工程项目。</p>
@@ -828,7 +991,8 @@
 </ul>
 ]]></content>
       <categories>
-        <category>分布式</category>
+        <category>project</category>
+        <category>tinykv</category>
       </categories>
       <tags>
         <tag>tinykv</tag>
@@ -837,7 +1001,7 @@
   </entry>
   <entry>
     <title>Talent plan Tinykv | project2 | Raft KV</title>
-    <url>/talent-plan-tinykv-project2/</url>
+    <url>/post/202201100059.html</url>
     <content><![CDATA[<h1 id="Project2"><a href="#Project2" class="headerlink" title="Project2"></a>Project2</h1><h2 id="Project2a"><a href="#Project2a" class="headerlink" title="Project2a"></a>Project2a</h2><p>实验中整体代码逻辑</p>
 <p>tick 触发事件 -&gt; 发送请求至step（不经过Msgs）-&gt; step采取对应方法，调用sendxx方法发送request至Msgs（RPC) -&gt; 接收端通过step处理request，调用handlexx方法，返回response至Msgs（RPC）-&gt; 发送端通过step处理response，调用handlexx方法处理</p>
 <h3 id="Project2aa"><a href="#Project2aa" class="headerlink" title="Project2aa"></a>Project2aa</h3><h4 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h4><ol>
@@ -1017,7 +1181,8 @@
 </ul>
 ]]></content>
       <categories>
-        <category>分布式</category>
+        <category>project</category>
+        <category>tinykv</category>
       </categories>
       <tags>
         <tag>tinykv</tag>
@@ -1026,7 +1191,7 @@
   </entry>
   <entry>
     <title>Talent plan Tinykv | project3 | Multi-raft KV</title>
-    <url>/talent-plan-tinykv-project3/</url>
+    <url>/post/202201100059.html</url>
     <content><![CDATA[<h1 id="project3"><a href="#project3" class="headerlink" title="project3"></a>project3</h1><h2 id="project3a"><a href="#project3a" class="headerlink" title="project3a"></a>project3a</h2><h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><ol>
 <li>实现leader的转移</li>
 <li>实现conf的切换</li>
@@ -1083,7 +1248,8 @@
 </ol>
 ]]></content>
       <categories>
-        <category>分布式</category>
+        <category>project</category>
+        <category>tinykv</category>
       </categories>
       <tags>
         <tag>tinykv</tag>
@@ -1092,7 +1258,7 @@
   </entry>
   <entry>
     <title>Talent plan Tinykv | project4 | Transaction</title>
-    <url>/talent-plan-tinykv-project4/</url>
+    <url>/post/202201100100.html</url>
     <content><![CDATA[<h1 id="Project4"><a href="#Project4" class="headerlink" title="Project4"></a>Project4</h1><h2 id="Project4a"><a href="#Project4a" class="headerlink" title="Project4a"></a>Project4a</h2><h4 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h4><p>实现多版本并发控制</p>
 <h4 id="实验思路"><a href="#实验思路" class="headerlink" title="实验思路"></a>实验思路</h4><p>本部分实现一个多版本并发控制(MVCC)，简单来说，就是在底层DB存储多个版本的KV。</p>
 <p>在本次实验中，底层有三个列族，<code>default</code>保存数据，<code>lock</code>存储锁，<code>write</code>记录更改的操作。<code>lock</code>使用key访问，<code>default</code>利用key和被写入的事务的时间戳访问，<code>write</code>利用key和事务被提交时写入的时间戳访问。</p>
@@ -1115,161 +1281,12 @@
 <p><code>KvResolveLock</code>首先检查key的lock是否存在，然后按照请求，调用<code>KvBatchRollback</code>或<code>KvCommit</code>函数完成回滚或commit操作。</p>
 ]]></content>
       <categories>
-        <category>分布式</category>
+        <category>project</category>
+        <category>tinykv</category>
       </categories>
       <tags>
         <tag>tinykv</tag>
         <tag>raft</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>virtualenvwarpper安装与配置</title>
-    <url>/virtualenvwrapper/</url>
-    <content><![CDATA[<h1 id="Virtualenvwrapper"><a href="#Virtualenvwrapper" class="headerlink" title="Virtualenvwrapper"></a>Virtualenvwrapper</h1><p><code>virtualenvwarpper</code>一般用作<code>python</code>管理不同的env。把<code>virtualenv</code>拓展之后，用起来更加简单方便</p>
-<ol>
-<li>可以将所有虚拟环境环境放在一个目录下，方便管理</li>
-<li>切换虚拟环境较为方便</li>
-<li>管理虚拟环境比较方便</li>
-</ol>
-<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install virtualenvwrapper</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录用来存放虚拟环境</span></span><br><span class="line">mkdir ~/.virtualenvs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在.bashrc中添加</span></span><br><span class="line"><span class="comment">## 指定PYTHON 版本</span></span><br><span class="line">VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3</span><br><span class="line"><span class="built_in">export</span> WORKON_HOME=~/.virtualenvs</span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/bin/virtualenvwrapper.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
-<ul>
-<li>workon [虚拟环境名称]:切换虚拟环境</li>
-<li>lsvirtualenv:列出已有的虚拟环境列表</li>
-<li>mkvirtualenv :新建虚拟环境</li>
-<li>rmvirtualenv :删除虚拟环境</li>
-<li>deactivate: 离开已进入的虚拟环境</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>virtualenv</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>wsl2环境配置+docker+wt+vscode</title>
-    <url>/wsl2-wt-zsh-docker/</url>
-    <content><![CDATA[<h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>最近新换的电脑又坏了，拿回来还得重新配置环境，还得挨个找教程进行配置。这次就简单地全写一起吧。</p>
-<p>作为<code>wsl</code>的忠实爱好者，我已经使用了<code>wsl</code>两年了，相比虚拟机来说，实在是不要方便太多了，而且配置要求也没这么高。</p>
-<p>之前<code>windows</code> 商店也发布了<code>wt</code>(<code>windows terminal</code>)，相比<code>cmd</code>和<code>powershell</code>以及原本<code>bash</code>漂亮太多了，而且集成了多个窗口，切换很方便。</p>
-<p>这是我现在的界面，大家可以自己定义其他的外观等等。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-overview.png" alt="overview"></p>
-<p>最近看了一下，居然<code>wsl2</code>已经出好久了，还支持<code>docker</code>。我居然才知道，我想了想那时我应该在准备考研，emmm 。好了，废话不多说我们开始配置。</p>
-<p>另外说一句，<code>wsl2</code>还没有推送到正式版的<code>windows 10</code>中，目前还是在<code>windows</code>的测试版中。</p>
-<a id="more"></a>
-<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p><a href="https://docs.microsoft.com/zh-cn/windows/wsl/compare-versions" target="_blank" rel="noopener">比较 WSL 2 和 WSL 1</a></p>
-<p><code>wsl1</code>和<code>wsl2</code>底层架构不同，所以<code>wsl2</code>能相比<code>wsl1</code>更多的实现一些<code>linux</code>内的功能。包括这次的<code>docker</code>，同时在<code>windows 10</code>最新的测试版中已经提供了GPU计算，有兴趣的可以自己升到最新的版本使用。</p>
-<h2 id="开始配置"><a href="#开始配置" class="headerlink" title="开始配置"></a>开始配置</h2><h3 id="更新windows-10"><a href="#更新windows-10" class="headerlink" title="更新windows 10"></a>更新windows 10</h3><p><code>wsl2</code>只有在<code>windows 10</code>版本2004的内部版本19041或者更高的版本中有提供 </p>
-<ul>
-<li>你可以<code>win+R</code>中输入<code>winver</code>中查看windows的版本<ul>
-<li><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-winver.png" alt="winver"></li>
-</ul>
-</li>
-<li>如果你的版本没有达到要求的话，你可以先试图通过windows 10的系统更新。</li>
-<li>如果依旧没达到版本要求的话：<ul>
-<li>加入微软的<code>windows 预览体院计划</code>，并选择Beta渠道</li>
-<li><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-preview.png" alt="preview"></li>
-<li>进行windows 10的系统更新</li>
-</ul>
-</li>
-</ul>
-<h3 id="系统设置"><a href="#系统设置" class="headerlink" title="系统设置"></a>系统设置</h3><h4 id="如果你没有安装过wsl"><a href="#如果你没有安装过wsl" class="headerlink" title="如果你没有安装过wsl"></a>如果你没有安装过wsl</h4><p>那么，你必须先启用<code>适用于 Linux 的 Windows 子系统</code>功能。</p>
-<p>以管理员身份打开 PowerShell 并运行：</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">dism.exe /online /<span class="built_in">enable-feature</span> /featurename:Microsoft<span class="literal">-Windows</span><span class="literal">-Subsystem</span><span class="literal">-Linux</span> /all /norestart</span><br></pre></td></tr></table></figure>
-<p>并重启电脑</p>
-<h4 id="如果你安装过wsl"><a href="#如果你安装过wsl" class="headerlink" title="如果你安装过wsl"></a>如果你安装过wsl</h4><p>安装 WSL 2 之前，必须启用<code>虚拟机平台</code>功能。</p>
-<p>以管理员身份打开 PowerShell 并运行：</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">dism.exe /online /<span class="built_in">enable-feature</span> /featurename:VirtualMachinePlatform /all /norestart</span><br></pre></td></tr></table></figure>
-<p>重新启动计算机，以完成 WSL 安装并更新到 WSL 2。</p>
-<h4 id="将wsl2设置为默认版本"><a href="#将wsl2设置为默认版本" class="headerlink" title="将wsl2设置为默认版本"></a>将wsl2设置为默认版本</h4><p>在powershell中输入：<br><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl -<span class="literal">-set</span><span class="literal">-default</span><span class="literal">-version</span> <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
-<p>你可能会遇到错误信息：<code>WSL 2 requires an update to its kernel component. For information please visit https://aka.ms/wsl2kernel</code><br>请安装<a href="https://aka.ms/wsl2kernel" target="_blank" rel="noopener">wsl2kernel</a>。</p>
-<h4 id="wsl1-to-wsl2"><a href="#wsl1-to-wsl2" class="headerlink" title="wsl1 to wsl2"></a>wsl1 to wsl2</h4><p>先查看wsl的版本信息<br><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl -<span class="literal">-list</span> -<span class="literal">-verbose</span></span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">wsl <span class="literal">-l</span> <span class="literal">-v</span></span><br></pre></td></tr></table></figure></p>
-<p>如果你是版本1的话，切换至版本2<br><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl -<span class="literal">-set</span><span class="literal">-version</span> &lt;distro<span class="literal">-name</span>&gt; <span class="number">2</span></span><br><span class="line"><span class="comment"># in my case</span></span><br><span class="line">wsl -<span class="literal">-set</span><span class="literal">-version</span> Ubuntu <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
-<p>从wsl1切换到wsl2可能会有错误，可能这能够解决<a href="https://docs.microsoft.com/zh-cn/windows/wsl/install-legacy#uninstallingremoving-the-legacy-distro" target="_blank" rel="noopener">卸载并删除任何旧分发</a></p>
-<h3 id="安装-linux-发行版与-windows-terminal"><a href="#安装-linux-发行版与-windows-terminal" class="headerlink" title="安装 linux 发行版与 windows terminal"></a>安装 linux 发行版与 windows terminal</h3><p>在<code>Microsoft Store</code>搜索<code>windows terminal</code>与想要的<code>linux</code> 发行版</p>
-<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-windows-terminal.png" alt="windows-ternimal"></p>
-<p>你可以搜索你想要的 linux 发行版，基本上都有<br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-disto.png" alt="disto"></p>
-<ul>
-<li>Ubuntu 16.04 LTS</li>
-<li>Ubuntu 18.04 LTS</li>
-<li>Ubuntu 20.04 LTS</li>
-<li>openSUSE Leap 15.1</li>
-<li>SUSE Linux Enterprise Server 12 SP5</li>
-<li>SUSE Linux Enterprise Server 15 SP1</li>
-<li>Kali Linux</li>
-<li>Debian GNU/Linux</li>
-<li>Fedora Remix for WSL</li>
-<li>Pengwin</li>
-<li>Pengwin Enterprise</li>
-<li>Alpine WSL</li>
-</ul>
-<h3 id="linux环境配置"><a href="#linux环境配置" class="headerlink" title="linux环境配置"></a>linux环境配置</h3><p>我安装的是<code>ubuntu18.04</code>，所以接下来的流程都在该发行版下进行。</p>
-<p>在使用<code>wt</code>中使用发行版时，先启动该发行版完成预安装和预配置。完成安装之后便可以通过<code>win+r</code>输入<code>wt</code>，打开<code>windows ternimal</code>点击<code>+</code>号选择你安装的发行版，就可以了，<code>wt</code>的配置我会在后面贴出。</p>
-<h4 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak</span><br><span class="line">sudo vim /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
-<p>清空里面所有内容，换入国内源。</p>
-<p>例如阿里源：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-security main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-updates main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-proposed main restricted universe multiverse</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;ubuntu&#x2F; bionic-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
-<p>更新source包，安装更新，开发基础内容包<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br><span class="line">sudo apt-get install build-essential</span><br></pre></td></tr></table></figure></p>
-<h4 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h4><p>将zsh替代bash<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install zsh <span class="comment"># 安装zsh</span></span><br></pre></td></tr></table></figure></p>
-<p>更改默认的shell<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chsh -s $(<span class="built_in">which</span> zsh)</span><br></pre></td></tr></table></figure></p>
-<p>下次再打开分发版时默认就是zsh</p>
-<h4 id="Oh-My-ZSH"><a href="#Oh-My-ZSH" class="headerlink" title="Oh My ZSH"></a>Oh My ZSH</h4><p><code>oh my zsh</code>是一个开源的社区驱动的框架，用于管理zsh配置。</p>
-<p>下载安装：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;ohmyzsh&#x2F;ohmyzsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;</span><br></pre></td></tr></table></figure></p>
-<p>zsh的配置文件在<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure></p>
-<p>可以更改主题</p>
-<figure class="highlight zsh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认主题</span></span><br><span class="line">ZSH_THEME=<span class="string">"robbyrussell"</span></span><br><span class="line"><span class="comment"># 新主题</span></span><br><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
-<p>可以安装插件<code>Syntax Highlighting</code>, <code>Auto Suggestions</code><br>分别是语法高亮和自动补齐</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir ~/.zsh</span><br><span class="line"><span class="built_in">cd</span> ~/.zsh</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions.git</span><br></pre></td></tr></table></figure>
-<p>同时<code>wt</code>里面文件夹名比较丑，下载<code>dircolors</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;seebi&#x2F;dircolors-solarized&#x2F;master&#x2F;dircolors.ansi-dark --output ~&#x2F;.dircolors</span><br></pre></td></tr></table></figure>
-<p>然后<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.zshrc</span><br></pre></td></tr></table></figure></p>
-<p>在末尾加上<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh</span><br><span class="line"><span class="built_in">source</span> ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh </span><br><span class="line"><span class="built_in">eval</span> `dircolors ~/.dircolors`</span><br></pre></td></tr></table></figure><br>这样的话在每一次开启终端，都会启用插件</p>
-<h4 id="proxychains"><a href="#proxychains" class="headerlink" title="proxychains"></a>proxychains</h4><p>在wsl2中的网络有了新的变化，系统会生成一个虚拟网卡，也就是说，在windows上会多一个网卡，且Ip是变化的。</p>
-<p>所以在linux中它的<code>hosts</code>是自动生成的、沿袭原本windows内容的<code>hosts</code>，<code>nameserver</code>也是一样的。</p>
-<p>所以window上的小飞机是无法直接给<code>wsl2</code>使用的，但是小飞机可以走本地端口代理。</p>
-<p>而proxychains就是这样以一个工具可以利用http协议，走1080端口本地代理。</p>
-<figure class="highlight zsh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install proxychains</span><br></pre></td></tr></table></figure>
-<p>它的配置文件在<br><figure class="highlight zsh"><table><tr><td class="code"><pre><span class="line">cat /etc/proxychains.conf</span><br></pre></td></tr></table></figure></p>
-<p>因为wsl2的ip是变化的，host的ip也是变化的<br>所以要让<code>proxychains.conf</code>的代理信息自动变化</p>
-<figure class="highlight zsh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.zsh</span><br><span class="line">mkdir proxy</span><br><span class="line"><span class="built_in">cd</span> proxy</span><br><span class="line">vim proxy.sh</span><br></pre></td></tr></table></figure>
-<p>输入以下内容</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="built_in">export</span> HOSTIP=$(cat /etc/resolv.conf | grep <span class="string">'nameserver'</span> | cut -f 2 -d <span class="string">' '</span>)</span><br><span class="line"><span class="built_in">export</span> WSLIP=$(ip addr show eth0 | grep <span class="string">'inet '</span> | cut -f 6 -d <span class="string">' '</span> | cut -f 1 -d <span class="string">'/'</span>)</span><br><span class="line"><span class="built_in">echo</span> HOSTIP <span class="variable">$HOSTIP</span></span><br><span class="line"><span class="built_in">echo</span> WSLIP <span class="variable">$WSLIP</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> Your password | sudo -S sed -i <span class="string">"/http/c http\t<span class="variable">$HOSTIP</span> 1080"</span> /etc/proxychains.conf</span><br></pre></td></tr></table></figure>
-<p>保存退出后</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.zshrc</span><br></pre></td></tr></table></figure>
-<p>输入<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zsh/proxy/proxy.sh</span><br></pre></td></tr></table></figure></p>
-<p>以后只要想要下载某些外网内容就可以直接在前面加<code>proxychains</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 例如</span></span><br><span class="line">sudo proxychains apt-get update</span><br><span class="line">sudo proxychains apt-get upgrade </span><br><span class="line">proxychian git <span class="built_in">clone</span> ......</span><br></pre></td></tr></table></figure>
-<h4 id="Nodejs"><a href="#Nodejs" class="headerlink" title="Nodejs"></a>Nodejs</h4><p>方法一：利用n安装nodejs<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install nodejs</span><br><span class="line">sudo apt-get install npm</span><br><span class="line">sudo npm install -g npm</span><br><span class="line">sudo npm install -g n</span><br><span class="line">sudo n stable //稳定版</span><br></pre></td></tr></table></figure></p>
-<p>方法二：利用nvm管理nodejs</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -o- https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;nvm-sh&#x2F;nvm&#x2F;v0.34.0&#x2F;install.sh | bash</span><br></pre></td></tr></table></figure>
-<p>之后重启<code>wt</code></p>
-<p>输入<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">command</span> -v nvm</span><br><span class="line"><span class="comment"># return nvm</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装node</span></span><br><span class="line">nvm install node <span class="comment"># 最新版本</span></span><br><span class="line">nvm use node</span><br></pre></td></tr></table></figure></p>
-<h4 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更新索引包依赖</span></span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install apt-transport-https ca-certificates curl software-properties-common</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加官方的GPG-key</span></span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证</span></span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line"><span class="comment"># 答案 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加 Docker repository </span></span><br><span class="line">sudo add-apt-repository <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu <span class="variable">$(lsb_release -cs)</span> stable"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install docker-ce</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动docker</span></span><br><span class="line">sudo service docker start</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试docker</span></span><br><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
-<h4 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h4><p>docker容器的管理工具。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载当前的稳定发行版并将其放在/usr/local/bin下。</span></span><br><span class="line">sudo curl -L <span class="string">"https://github.com/docker/compose/releases/download/1.24.0/docker-compose-<span class="variable">$(uname -s)</span>-<span class="variable">$(uname -m)</span>"</span> -o /usr/<span class="built_in">local</span>/bin/docker-compose</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改权限</span></span><br><span class="line">sudo chmod +x /usr/<span class="built_in">local</span>/bin/docker-compose</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试</span></span><br><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
-<h4 id="Docker-Desktop"><a href="#Docker-Desktop" class="headerlink" title="Docker Desktop"></a>Docker Desktop</h4><p>在windows上下载<br><a href="https://www.docker.com/products/docker-desktop" target="_blank" rel="noopener">Docker Desktop</a></p>
-<p>提供了docker的gui</p>
-<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-docker-desktop.png" alt="docker-desktop"></p>
-<h3 id="连接vscode"><a href="#连接vscode" class="headerlink" title="连接vscode"></a>连接vscode</h3><p>请先下载vscode安装插件：<code>remote-wsl</code>和<code>terminal</code>。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-remote-wsl.png" alt="remote-wsl"><br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-terminal-plugin.png" alt="terminal-plugin"></p>
-<p>这样你就可以通过点击<img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-connection.png" alt="">连接wsl</p>
-<p>通过<code>ctrl+p</code>输入terminal，选择打开一个内部的teriminal。就可以了。<br><img src="https://cdn.jsdelivr.net/gh/charstal/images/hexo/wsl2-wt-zsh-docker-vscode-shell.png" alt=""></p>
-<p>修改默认的shell为zsh。</p>
-<h4 id="字体问题"><a href="#字体问题" class="headerlink" title="字体问题"></a>字体问题</h4><p>你可能会遇到某些字无法正常显示。</p>
-<p>下载<a href="https://github.com/powerline/fonts/blob/master/DejaVuSansMono/DejaVu%20Sans%20Mono%20for%20Powerline.ttf" target="_blank" rel="noopener">DejaVuSansMono</a>，并安装。</p>
-<p>同时在vscode的设置中，将terminal的字体选择为这个名字。</p>
-<h3 id="windows-terminal"><a href="#windows-terminal" class="headerlink" title="windows terminal"></a>windows terminal</h3><p>这个是我的配置，不做过多介绍了<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">// This file was initially generated by Windows Terminal 1.0.1401.0</span></span><br><span class="line"><span class="comment">// It should still be usable in newer versions, but newer versions might have additional</span></span><br><span class="line"><span class="comment">// settings, help text, or changes that you will not see unless you clear this file</span></span><br><span class="line"><span class="comment">// and let us generate a new one for you.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// To view the default settings, hold "alt" while clicking on the "Settings" button.</span></span><br><span class="line"><span class="comment">// For documentation on these settings, see: https://aka.ms/terminal-documentation</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"$schema"</span>: <span class="string">"https://aka.ms/terminal-profiles-schema"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="attr">"defaultProfile"</span>: <span class="string">"&#123;c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40&#125;"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// You can add more global application settings here.</span></span><br><span class="line">    <span class="comment">// To learn more about global settings, visit https://aka.ms/terminal-global-settings</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// If enabled, selections are automatically copied to your clipboard.</span></span><br><span class="line">    <span class="attr">"copyOnSelect"</span>: <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If enabled, formatted data is also copied to your clipboard</span></span><br><span class="line">    <span class="attr">"copyFormatting"</span>: <span class="literal">false</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// A profile specifies a command to execute paired with information about how it should look and feel.</span></span><br><span class="line">    <span class="comment">// Each one of them will appear in the 'New Tab' dropdown,</span></span><br><span class="line">    <span class="comment">//   and can be invoked from the commandline with `wt.exe -p xxx`</span></span><br><span class="line">    <span class="comment">// To learn more about profiles, visit https://aka.ms/terminal-profile-settings</span></span><br><span class="line">    <span class="attr">"profiles"</span>:</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"defaults"</span>:</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"fontFace"</span>: <span class="string">"DejaVu Sans Mono for Powerline"</span>,</span><br><span class="line">            <span class="attr">"acrylicOpacity"</span>: <span class="number">0.8</span>, <span class="comment">//背景透明度</span></span><br><span class="line">            <span class="attr">"useAcrylic"</span>: <span class="literal">true</span>, <span class="comment">// 启用毛玻璃</span></span><br><span class="line">            <span class="comment">// "backgroundImage": "D:\\OneDrive\\图片\\stack.jpg", //背景图片</span></span><br><span class="line">            <span class="comment">// "backgroundImageOpacity": 0.5, //图片透明度</span></span><br><span class="line">            <span class="comment">// "backgroundImageStretchMode": "fill", //填充模式</span></span><br><span class="line">            <span class="comment">// "icon": "ms-appx:///ProfileIcons/&#123;9acb9455-ca41-5af7-950f-6bca1bc9722f&#125;.png", //图标</span></span><br><span class="line">            <span class="attr">"fontSize"</span>: <span class="number">10</span>, <span class="comment">//文字大小</span></span><br><span class="line">            <span class="attr">"colorScheme"</span>: <span class="string">"Solarized Dark"</span>, <span class="comment">//主题</span></span><br><span class="line">            <span class="attr">"cursorColor"</span>: <span class="string">"#FFFFFF"</span>, <span class="comment">//光标颜色</span></span><br><span class="line">            <span class="attr">"cursorShape"</span>: <span class="string">"bar"</span> <span class="comment">//光标形状</span></span><br><span class="line">            <span class="comment">// "startingDirectory":"D://Projects//" //起始目录</span></span><br><span class="line">            <span class="comment">// Put settings here that you want to apply to all profiles.</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"list"</span>:</span><br><span class="line">        [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// Make changes here to the powershell.exe profile.</span></span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"&#123;61c54bbd-c2c6-5271-96e7-009a87ff44bf&#125;"</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Windows PowerShell"</span>,</span><br><span class="line">                <span class="attr">"commandline"</span>: <span class="string">"powershell.exe"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// Make changes here to the cmd.exe profile.</span></span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"&#123;0caa0dad-35be-5f56-a8ff-afceeeaa6101&#125;"</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"命令提示符"</span>,</span><br><span class="line">                <span class="attr">"commandline"</span>: <span class="string">"cmd.exe"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"&#123;c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40&#125;"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Ubuntu-18.04"</span>,</span><br><span class="line">                <span class="attr">"source"</span>: <span class="string">"Windows.Terminal.Wsl"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"&#123;b453ae62-4e3d-5e58-b989-0a998ec441b8&#125;"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Azure Cloud Shell"</span>,</span><br><span class="line">                <span class="attr">"source"</span>: <span class="string">"Windows.Terminal.Azure"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"guid"</span>: <span class="string">"&#123;07b52e3e-de2c-5db4-bd2d-ba144ed6c273&#125;"</span>,</span><br><span class="line">                <span class="attr">"hidden"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"Ubuntu-20.04"</span>,</span><br><span class="line">                <span class="attr">"source"</span>: <span class="string">"Windows.Terminal.Wsl"</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add custom color schemes to this array.</span></span><br><span class="line">    <span class="comment">// To learn more about color schemes, visit https://aka.ms/terminal-color-schemes</span></span><br><span class="line">    <span class="attr">"schemes"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Solarized Dark"</span>,</span><br><span class="line">            <span class="attr">"black"</span>: <span class="string">"#002831"</span>,</span><br><span class="line">            <span class="attr">"red"</span>: <span class="string">"#d11c24"</span>,</span><br><span class="line">            <span class="attr">"green"</span>: <span class="string">"#738a05"</span>,</span><br><span class="line">            <span class="attr">"yellow"</span>: <span class="string">"#a57706"</span>,</span><br><span class="line">            <span class="attr">"blue"</span>: <span class="string">"#2176c7"</span>,</span><br><span class="line">            <span class="attr">"purple"</span>: <span class="string">"#c61c6f"</span>,</span><br><span class="line">            <span class="attr">"cyan"</span>: <span class="string">"#259286"</span>,</span><br><span class="line">            <span class="attr">"white"</span>: <span class="string">"#eae3cb"</span>,</span><br><span class="line">            <span class="attr">"brightBlack"</span>: <span class="string">"#475b62"</span>,</span><br><span class="line">            <span class="attr">"brightRed"</span>: <span class="string">"#bd3613"</span>,</span><br><span class="line">            <span class="attr">"brightGreen"</span>: <span class="string">"#475b62"</span>,</span><br><span class="line">            <span class="attr">"brightYellow"</span>: <span class="string">"#536870"</span>,</span><br><span class="line">            <span class="attr">"brightBlue"</span>: <span class="string">"#708284"</span>,</span><br><span class="line">            <span class="attr">"brightPurple"</span>: <span class="string">"#5956ba"</span>,</span><br><span class="line">            <span class="attr">"brightCyan"</span>: <span class="string">"#819090"</span>,</span><br><span class="line">            <span class="attr">"brightWhite"</span>: <span class="string">"#fcf4dc"</span>,</span><br><span class="line">            <span class="attr">"background"</span>: <span class="string">"#001e27"</span>,</span><br><span class="line">            <span class="attr">"foreground"</span>: <span class="string">"#708284"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Solarized Darcula"</span>,</span><br><span class="line">            <span class="attr">"black"</span>: <span class="string">"#25292a"</span>,</span><br><span class="line">            <span class="attr">"red"</span>: <span class="string">"#f24840"</span>,</span><br><span class="line">            <span class="attr">"green"</span>: <span class="string">"#629655"</span>,</span><br><span class="line">            <span class="attr">"yellow"</span>: <span class="string">"#b68800"</span>,</span><br><span class="line">            <span class="attr">"blue"</span>: <span class="string">"#2075c7"</span>,</span><br><span class="line">            <span class="attr">"purple"</span>: <span class="string">"#797fd4"</span>,</span><br><span class="line">            <span class="attr">"cyan"</span>: <span class="string">"#15968d"</span>,</span><br><span class="line">            <span class="attr">"white"</span>: <span class="string">"#d2d8d9"</span>,</span><br><span class="line">            <span class="attr">"brightBlack"</span>: <span class="string">"#25292a"</span>,</span><br><span class="line">            <span class="attr">"brightRed"</span>: <span class="string">"#f24840"</span>,</span><br><span class="line">            <span class="attr">"brightGreen"</span>: <span class="string">"#629655"</span>,</span><br><span class="line">            <span class="attr">"brightYellow"</span>: <span class="string">"#b68800"</span>,</span><br><span class="line">            <span class="attr">"brightBlue"</span>: <span class="string">"#2075c7"</span>,</span><br><span class="line">            <span class="attr">"brightPurple"</span>: <span class="string">"#797fd4"</span>,</span><br><span class="line">            <span class="attr">"brightCyan"</span>: <span class="string">"#15968d"</span>,</span><br><span class="line">            <span class="attr">"brightWhite"</span>: <span class="string">"#d2d8d9"</span>,</span><br><span class="line">            <span class="attr">"background"</span>: <span class="string">"#3d3f41"</span>,</span><br><span class="line">            <span class="attr">"foreground"</span>: <span class="string">"#d2d8d9"</span></span><br><span class="line">          &#125;        </span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add custom keybindings to this array.</span></span><br><span class="line">    <span class="comment">// To unbind a key combination from your defaults.json, set the command to "unbound".</span></span><br><span class="line">    <span class="comment">// To learn more about keybindings, visit https://aka.ms/terminal-keybindings</span></span><br><span class="line">    <span class="attr">"keybindings"</span>:</span><br><span class="line">    [</span><br><span class="line">        <span class="comment">// Copy and paste are bound to Ctrl+Shift+C and Ctrl+Shift+V in your defaults.json.</span></span><br><span class="line">        <span class="comment">// These two lines additionally bind them to Ctrl+C and Ctrl+V.</span></span><br><span class="line">        <span class="comment">// To learn more about selection, visit https://aka.ms/terminal-selection</span></span><br><span class="line">        &#123; <span class="attr">"command"</span>: &#123;<span class="attr">"action"</span>: <span class="string">"copy"</span>, <span class="attr">"singleLine"</span>: <span class="literal">false</span> &#125;, <span class="attr">"keys"</span>: <span class="string">"ctrl+c"</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">"command"</span>: <span class="string">"paste"</span>, <span class="attr">"keys"</span>: <span class="string">"ctrl+v"</span> &#125;,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Press Ctrl+Shift+F to open the search box</span></span><br><span class="line">        &#123; <span class="attr">"command"</span>: <span class="string">"find"</span>, <span class="attr">"keys"</span>: <span class="string">"ctrl+shift+f"</span> &#125;,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Press Alt+Shift+D to open a new pane.</span></span><br><span class="line">        <span class="comment">// - "split": "auto" makes this pane open in the direction that provides the most surface area.</span></span><br><span class="line">        <span class="comment">// - "splitMode": "duplicate" makes the new pane use the focused pane's profile.</span></span><br><span class="line">        <span class="comment">// To learn more about panes, visit https://aka.ms/terminal-panes</span></span><br><span class="line">        &#123; <span class="attr">"command"</span>: &#123; <span class="attr">"action"</span>: <span class="string">"splitPane"</span>, <span class="attr">"split"</span>: <span class="string">"auto"</span>, <span class="attr">"splitMode"</span>: <span class="string">"duplicate"</span> &#125;, <span class="attr">"keys"</span>: <span class="string">"alt+shift+d"</span> &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://nickymeuleman.netlify.app/blog/linux-on-windows-wsl2-zsh-docker#powerline-fonts" target="_blank" rel="noopener">WSL2, zsh, and docker. Linux through Windows.</a><br><a href="https://www.oyohyee.com/post/note_wsl2_net" target="_blank" rel="noopener">WSL2中自动配置Windows IP地址</a><br><a href="https://docs.microsoft.com/zh-cn/windows/wsl/install-win10#update-to-wsl-2" target="_blank" rel="noopener">适用于 Linux 的 Windows 子系统安装指南 (Windows 10)</a></p>
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>wsl2</tag>
-        <tag>zsh</tag>
-        <tag>wt</tag>
       </tags>
   </entry>
 </search>
