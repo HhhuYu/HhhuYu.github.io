@@ -1,7 +1,8 @@
 ---
 title: Talent plan Tinykv | project1 | Standalone KV
 categories:
-  - 分布式
+  - project
+  - tinykv
 tags:
   - tinykv
   - raft

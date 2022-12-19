@@ -1,6 +1,7 @@
 ---
 title: '[DDIA][第一章]：可靠性、可拓展性、可维护性'
 categories:
+  - book
   - DDIA
 tags:
   - 分布式

@@ -14,6 +14,7 @@
   "dependencies": {
     "hexo": "^4.2.1",
     "hexo-asset-image-fixed": "0.0.6",
+    "hexo-auto-category": "^0.2.1",
     "hexo-deployer-git": "^3.0.0",
     "hexo-douban": "^1.1.3",
     "hexo-generator-archive": "^1.0.0",

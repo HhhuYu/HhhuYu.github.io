@@ -1,9 +1,12 @@
 ---
 title: 2019冬季PAT考试
-date: 2019-12-28 14:27:39
-tags: [PAT, C++]
-categories: DS
+tags:
+  - PAT
+  - C++
+categories:
+  - diary
 mathjax: true
+date: 2019-12-28 14:27:39
 ---
 
 ### 感想

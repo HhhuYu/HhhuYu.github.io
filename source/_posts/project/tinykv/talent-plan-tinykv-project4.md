@@ -1,7 +1,8 @@
 ---
 title: Talent plan Tinykv | project4 | Transaction
 categories:
-  - 分布式
+  - project
+  - tinykv
 tags:
   - tinykv
   - raft

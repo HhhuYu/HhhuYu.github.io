@@ -4,7 +4,8 @@ tags:
   - 八方旅人
   - SE
 categories:
-  - 游戏
+  - game
+  - octopath-traveler
 date: 2020-02-29 17:07:01
 ---
 

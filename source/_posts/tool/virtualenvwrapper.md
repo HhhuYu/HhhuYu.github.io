@@ -1,6 +1,7 @@
 ---
 title: virtualenvwarpper安装与配置
-categories: python
+categories:
+  - tool
 tags: virtualenv
 mathjax: false
 date: 2021-06-03 11:00:50

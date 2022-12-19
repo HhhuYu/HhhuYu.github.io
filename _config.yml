@@ -15,7 +15,7 @@ timezone: ""
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: https://www.charstal.com
 root: /
-permalink: :title/
+permalink: :layout/:year:month:day:hour:minute.html
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -32,7 +32,7 @@ i18n_dir: :lang
 skip_render:
 
 # Writing
-new_post_name: :title.md # File name of new posts
+new_post_name: :category/:title # File name of new posts
 default_layout: draft
 titlecase: false # Transform title into titlecase
 external_link:
@@ -105,42 +105,10 @@ search:
   field: post
   format: html
   limit: 10000
-# symbols_count_time:
-#   # 文章内是否显示
-#   symbols: true
-#   time: true
-#   # 网页底部是否显示
-#   total_symbols: true
-#   total_time: true
 
-# Markdown config
-# markdown_it_plus:
-#   render:
-#     html: true
-#     xhtmlOut: false
-#     breaks: true
-#     linkify: true
-#     typographer: true
-#     quotes: '“”‘’'
-#   plugins:
-#   anchors:
-#     level: 2
-#     collisionSuffix: 'v'
-#     permalink: true
-#     permalinkClass: header-anchor
-#     permalinkSide: 'left'
-#     permalinkSymbol: ¶
-
-# douban:
-#   user: 227426821
-#   builtin: true
-#   book:
-#     title: 'Books'
-#     quote: '没看过却想看一次的书'
-#   movie:
-#     title: 'Video'
-#     quote: '看过一次还想看下一次的动漫'
-#   game:
-#     title: 'Games'
-#     quote: '玩过一次可能不会玩下一次的游戏'
-#   timeout: 10000
+# Generate categories from directory-tree
+# Dependencies: https://github.com/xu-song/hexo-auto-category
+# depth: the max_depth of directory-tree you want to generate, should > 0
+auto_category:
+ enable: true
+ depth: 

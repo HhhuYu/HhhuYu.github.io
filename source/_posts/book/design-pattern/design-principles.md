@@ -1,8 +1,11 @@
 ---
 title: 设计原则
+tags:
+  - 设计模式
+categories:
+  - book
+  - design-pattern
 date: 2020-01-05 12:14:39
-tags: [设计模式]
-categories: [设计模式]
 ---
 
 

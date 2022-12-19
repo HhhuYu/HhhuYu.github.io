@@ -1,7 +1,7 @@
 ---
 title: wsl2环境配置+docker+wt+vscode
 categories:
-  - 工具
+  - tool
 tags:
   - docker
   - wsl2

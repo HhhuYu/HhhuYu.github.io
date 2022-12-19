@@ -1,8 +1,10 @@
 ---
 title: PAT攻略
-date: 2019-12-29 00:30:18
 tags: PAT
-categories: DS
+categories:
+  - book
+  - design-pattern
+date: 2019-12-29 00:30:18
 ---
 
 

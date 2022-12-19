@@ -1,6 +1,7 @@
 ---
 title: '[DDIA][第三章]：存储与检索'
 categories:
+  - book
   - DDIA
 tags:
   - 存储

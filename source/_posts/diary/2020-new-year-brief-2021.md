@@ -2,8 +2,9 @@
 title: 2021-辞旧迎新
 tags: 随笔
 mathjax: false
-date: 2021-03-03 14:39:53
 categories:
+  - diary
+date: 2021-03-03 14:39:53
 ---
 
 

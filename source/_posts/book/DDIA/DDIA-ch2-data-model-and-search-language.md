@@ -1,6 +1,7 @@
 ---
 title: '[DDIA][第二章]：数据模型与查询语言'
 categories:
+  - book
   - DDIA
 tags:
   - 分布式

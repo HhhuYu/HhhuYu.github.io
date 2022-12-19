@@ -1,5 +1,7 @@
 ---
 title: PAT真题目录
+categories:
+  - diary
 date: 2020-03-21 23:27:54
 ---
 
