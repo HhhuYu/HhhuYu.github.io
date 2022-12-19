@@ -4,18 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "a3191ce917c237cc",
+        "id": "06ebd32288ac4e9f",
         "type": "tabs",
         "children": [
           {
-            "id": "2b5529e02492b384",
+            "id": "0a9fb847a9e5a6b3",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "diff-view",
               "state": {
-                "file": "source/_posts/test.md",
-                "mode": "source",
-                "source": false
+                "file": ".obsidian/app.json",
+                "staged": false
               }
             }
           }
@@ -85,7 +84,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "source/_posts/test.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +100,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "source/_posts/test.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +121,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "source/_posts/test.md"
-              }
+              "state": {}
             }
           },
           {
@@ -144,17 +139,17 @@
     "direction": "horizontal",
     "width": 300
   },
-  "active": "2b5529e02492b384",
+  "active": "0a9fb847a9e5a6b3",
   "lastOpenFiles": [
     "source/_obsidian/template/note.md",
     "source/_posts/test.md",
+    "scaffolds/draft.md",
+    "scaffolds/page.md",
     "source/_posts/diary/2019-winter-PAT-advanced.md",
     "source/_posts/diary/2020-01-14.md",
     "source/_posts/diary/2019-12-29.md",
     "source/_posts/diary/2019-12-28.md",
     "scaffolds/post.md",
-    "scaffolds/draft.md",
-    "scaffolds/page.md",
     "source/_posts/tool/virtualenvwrapper.md"
   ]
 }

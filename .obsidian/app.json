@@ -4,9 +4,10 @@
     "themes/",
     "source/search/",
     "source/tags/",
-    "source/categories/"
+    "source/categories/",
+    "scaffolds/"
   ],
   "showUnsupportedFiles": false,
   "newFileLocation": "folder",
-  "newFileFolderPath": "source/_obsidian"
+  "newFileFolderPath": "source/_obsidian/draft"
 }
