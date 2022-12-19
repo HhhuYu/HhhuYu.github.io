@@ -6,6 +6,7 @@ tags:
 categories:
   - game
   - octopath-traveler
+abbrlink: 2574678648
 date: 2020-02-29 17:07:01
 ---
 

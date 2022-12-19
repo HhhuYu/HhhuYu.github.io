@@ -4,6 +4,7 @@ tags: PAT
 categories:
   - book
   - design-pattern
+abbrlink: 2386101702
 date: 2019-12-29 00:30:18
 ---
 

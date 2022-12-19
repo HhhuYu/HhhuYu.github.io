@@ -3,6 +3,7 @@ title: 2020年考研感想&一些其他的
 categories:
   - diary
 mathjax: false
+abbrlink: 1996876469
 date: 2020-05-24 15:21:15
 tags:
 ---

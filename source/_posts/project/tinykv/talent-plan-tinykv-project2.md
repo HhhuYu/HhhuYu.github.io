@@ -7,6 +7,7 @@ tags:
   - tinykv
   - raft
 mathjax: false
+abbrlink: 2941366906
 date: 2022-01-10 00:59:57
 ---
 

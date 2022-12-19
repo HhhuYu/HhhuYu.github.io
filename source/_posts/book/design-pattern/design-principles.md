@@ -5,6 +5,7 @@ tags:
 categories:
   - book
   - design-pattern
+abbrlink: 2706491890
 date: 2020-01-05 12:14:39
 ---
 

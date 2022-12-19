@@ -15,7 +15,7 @@ timezone: ""
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: https://www.charstal.com
 root: /
-permalink: :layout/:year:month:day:hour:minute.html
+permalink: :layout/:abbrlink.html
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -112,3 +112,7 @@ search:
 auto_category:
  enable: true
  depth: 
+
+abbrlink:
+    alg: crc32   #算法： crc16(default) and crc32
+    rep: dec     #进制： dec(default) and hex

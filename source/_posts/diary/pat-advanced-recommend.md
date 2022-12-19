@@ -2,6 +2,7 @@
 title: PAT真题目录
 categories:
   - diary
+abbrlink: 1337061191
 date: 2020-03-21 23:27:54
 ---
 
