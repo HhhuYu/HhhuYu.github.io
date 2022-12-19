@@ -1,0 +1,12 @@
+{
+  "showFrontmatter": true,
+  "userIgnoreFilters": [
+    "themes/",
+    "source/search/",
+    "source/tags/",
+    "source/categories/"
+  ],
+  "showUnsupportedFiles": false,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "source/_obsidian"
+}
