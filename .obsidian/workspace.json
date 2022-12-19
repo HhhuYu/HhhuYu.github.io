@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "source/_obsidian/test.md",
+                "file": "source/_posts/test.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "source/_obsidian/test.md",
+                "file": "source/_posts/test.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "source/_obsidian/test.md",
+                "file": "source/_posts/test.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "source/_obsidian/test.md"
+                "file": "source/_posts/test.md"
               }
             }
           },
@@ -147,7 +147,7 @@
   "active": "2b5529e02492b384",
   "lastOpenFiles": [
     "source/_obsidian/template/note.md",
-    "source/_obsidian/test.md",
+    "source/_posts/test.md",
     "source/_posts/diary/2019-winter-PAT-advanced.md",
     "source/_posts/diary/2020-01-14.md",
     "source/_posts/diary/2019-12-29.md",
