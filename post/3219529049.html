@@ -14,7 +14,7 @@
 <meta property="og:description" content="Project4Project4a实验目的实现多版本并发控制 实验思路本部分实现一个多版本并发控制(MVCC)，简单来说，就是在底层DB存储多个版本的KV。 在本次实验中，底层有三个列族，default保存数据，lock存储锁，write记录更改的操作。lock使用key访问，default利用key和被写入的事务的时间戳访问，write利用key和事务被提交时写入的时间戳访问。 在本次实验中，我">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-01-10T01:00:01.000Z">
-<meta property="article:modified_time" content="2022-12-19T04:24:59.091Z">
+<meta property="article:modified_time" content="2022-12-19T04:34:50.323Z">
 <meta property="article:author" content="charstal">
 <meta property="article:tag" content="tinykv">
 <meta property="article:tag" content="raft">
@@ -88,8 +88,6 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="Previous post" href="/post/2185937872.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
         
         <li><a class="icon" aria-label="Next post" href="/post/4001488024.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -145,7 +143,7 @@
       
         <time datetime="2022-01-10T01:00:01.000Z" itemprop="datePublished">2022-01-10</time>
         
-        (Updated: <time datetime="2022-12-19T04:24:59.091Z" itemprop="dateModified">2022-12-19</time>)
+        (Updated: <time datetime="2022-12-19T04:34:50.323Z" itemprop="dateModified">2022-12-19</time>)
         
       
     </div>
