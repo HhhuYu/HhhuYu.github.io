@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.charstal.com/post/3632233996.html</loc>
-    
-    <lastmod>2022-12-19</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://www.charstal.com/post/1999622911.html</loc>
     
     <lastmod>2022-12-19</lastmod>
@@ -17,13 +10,6 @@
   
   <url>
     <loc>https://www.charstal.com/post/4258143485.html</loc>
-    
-    <lastmod>2022-12-19</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/post/2574678648.html</loc>
     
     <lastmod>2022-12-19</lastmod>
     
@@ -100,6 +86,13 @@
   </url>
   
   <url>
+    <loc>https://www.charstal.com/post/3855630166.html</loc>
+    
+    <lastmod>2022-12-19</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.charstal.com/post/4151840938.html</loc>
     
     <lastmod>2022-12-19</lastmod>
@@ -149,13 +142,6 @@
   </url>
   
   <url>
-    <loc>https://www.charstal.com/post/3855630166.html</loc>
-    
-    <lastmod>2022-12-19</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://www.charstal.com/post/3372083996.html</loc>
     
     <lastmod>2022-12-19</lastmod>
@@ -197,6 +183,13 @@
     
   </url>
   
+  <url>
+    <loc>https://www.charstal.com/post/2574678648.html</loc>
+    
+    <lastmod>2022-12-19</lastmod>
+    
+  </url>
+  
 
   <url>
     <loc>https://www.charstal.com/</loc>
@@ -205,6 +198,20 @@
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>https://www.charstal.com/tags/PAT/</loc>
+    <lastmod>2022-12-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.charstal.com/tags/C/</loc>
+    <lastmod>2022-12-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
   
   <url>
     <loc>https://www.charstal.com/tags/%E6%96%B0%E5%B9%B4/</loc>
@@ -250,20 +257,6 @@
   
   <url>
     <loc>https://www.charstal.com/tags/wt/</loc>
-    <lastmod>2022-12-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/tags/PAT/</loc>
-    <lastmod>2022-12-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.charstal.com/tags/C/</loc>
     <lastmod>2022-12-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
