@@ -4,17 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "89c13ad2d8f7474b",
+        "id": "a3191ce917c237cc",
         "type": "tabs",
         "children": [
           {
-            "id": "08c0e2d14bcc2f6d",
+            "id": "2b5529e02492b384",
             "type": "leaf",
             "state": {
-              "type": "diff-view",
+              "type": "markdown",
               "state": {
-                "file": "source/categories/index.md",
-                "staged": false
+                "file": "source/_obsidian/test.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -84,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "source/_obsidian/test.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "source/_obsidian/test.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -121,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "source/_obsidian/test.md"
+              }
             }
           },
           {
@@ -139,11 +144,17 @@
     "direction": "horizontal",
     "width": 300
   },
-  "active": "08c0e2d14bcc2f6d",
+  "active": "2b5529e02492b384",
   "lastOpenFiles": [
-    "source/_posts/test.md",
-    "未命名.md",
-    "source/about/index.md",
-    "source/categories/index.md"
+    "source/_obsidian/template/note.md",
+    "source/_obsidian/test.md",
+    "source/_posts/diary/2019-winter-PAT-advanced.md",
+    "source/_posts/diary/2020-01-14.md",
+    "source/_posts/diary/2019-12-29.md",
+    "source/_posts/diary/2019-12-28.md",
+    "scaffolds/post.md",
+    "scaffolds/draft.md",
+    "scaffolds/page.md",
+    "source/_posts/tool/virtualenvwrapper.md"
   ]
 }
